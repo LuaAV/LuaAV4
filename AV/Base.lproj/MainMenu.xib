@@ -220,7 +220,7 @@
             </items>
         </menu>
         <customObject id="419" customClass="NSFontManager"/>
-        <customObject id="BkZ-hT-Maq" customClass="luaavAppDelegate">
+        <customObject id="BkZ-hT-Maq" customClass="luaavApp">
             <connections>
                 <outlet property="logView" destination="cn7-mR-Bwu" id="ylT-ms-gaZ"/>
                 <outlet property="window" destination="DfT-yR-BiD" id="SS5-jR-f2c"/>

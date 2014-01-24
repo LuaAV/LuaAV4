@@ -11,7 +11,12 @@
 
 #import "luaavLog.h"
 
-@interface luaavAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
+#include "lua.h"
+#include "lualib.h"
+#include "luajit.h"
+#include "lauxlib.h"
+
+@interface luaavApp : NSObject <NSApplicationDelegate, NSWindowDelegate> {
 @public
 	IBOutlet NSWindow * window;
 	//IBOutlet WebView * webView;
@@ -24,6 +29,9 @@
 	
 	NSDictionary * attributeStdOut;
 	NSDictionary * attributeStdErr;
+	
+	// this is the lua_State for the application itself
+	lua_State * L;
 }
 -(IBAction)logClear:(id)sender;
 -(IBAction)logScrolling:(id)sender;

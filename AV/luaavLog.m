@@ -14,8 +14,8 @@
 {
 	if (self = [super init])
 	{
-		pipe = [NSPipe pipe] ;
-		pipeReadHandle = [pipe fileHandleForReading];
+		pipe = [[NSPipe pipe] retain];
+		pipeReadHandle = [[pipe fileHandleForReading] retain];
 		stream = file;
 		
 		/*
@@ -39,6 +39,13 @@
 		[self poll];
 	}
 	return self;
+}
+
+-(void) dealloc
+{
+	[pipe release];
+	[pipeReadHandle release];
+	[super dealloc];
 }
 
 
