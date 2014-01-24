@@ -317,7 +317,6 @@
 				INFOPLIST_FILE = "AV/AV-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = osx10.6;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -332,7 +331,6 @@
 				INFOPLIST_FILE = "AV/AV-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = osx10.6;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
