@@ -1,5 +1,10 @@
 # Build notes
 
+Run this first to pull in all the submodules:
+
+git submodule update --init --recursive 
+git submodule update --recursive
+
 ## OSX
 
 ### Dependencies
@@ -17,5 +22,21 @@ If you have Xcode 4 or 5, you'll need to copy the 10.6 SDK into your Xcode.app. 
 Otherwise you could just switch the base SDK to 10.whatever you have, but don't check that change in please.
 
 
+
+
+## Windows
+
+
+
+### Build luajit:
+
+Open a VS command prompt & force 32-bit mode:
+
+	vcvarsall.bat x86
+
+Navigate to the luajit-2.0/src folder:
+
+	msvcbuild
+	
 
 
