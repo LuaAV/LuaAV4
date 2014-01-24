@@ -1,13 +1,23 @@
-# Compiled Object files
+
 *.slo
 *.lo
 *.o
-
-# Compiled Dynamic libraries
+*.obj
+*.lib
+*.exp
 *.so
 *.dylib
-
-# Compiled Static libraries
+*.dll
 *.lai
 *.la
 *.a
+*.exe
+
+*.DS_Store
+*.pbxuser
+*.perspectivev3
+*.xcuserdatad
+
+bin
+build
+DerivedData
