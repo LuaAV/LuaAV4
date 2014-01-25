@@ -18,9 +18,9 @@
 		363DBC7D1890EAB400603068 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 363DBC7C1890EAB400603068 /* icon.icns */; };
 		363DBC8D1890F86800603068 /* luaavApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 363DBC8C1890F86800603068 /* luaavApp.m */; };
 		363DBC8F189105A400603068 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363DBC8E189105A400603068 /* WebKit.framework */; };
+		3687AA1E18937F1600A906BB /* modules in Resources */ = {isa = PBXBuildFile; fileRef = 3687AA1D18937F1600A906BB /* modules */; };
 		36B2602618912BBD00BCB3CE /* luaavLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B2602518912BBD00BCB3CE /* luaavLog.m */; };
 		36B6A5CB189268A200869769 /* libluajit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B6A5C91892689100869769 /* libluajit.a */; };
-		36B6A5D41892746000869769 /* developer.md in Resources */ = {isa = PBXBuildFile; fileRef = 36B6A5D31892746000869769 /* developer.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +43,8 @@
 		363DBC8B1890F86800603068 /* luaavApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = luaavApp.h; sourceTree = "<group>"; };
 		363DBC8C1890F86800603068 /* luaavApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = luaavApp.m; sourceTree = "<group>"; };
 		363DBC8E189105A400603068 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		3687AA1D18937F1600A906BB /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; path = modules; sourceTree = "<group>"; };
+		3687AA1F18937F6500A906BB /* example.lua */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lua; path = example.lua; sourceTree = "<group>"; };
 		36B2602418912BBD00BCB3CE /* luaavLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = luaavLog.h; sourceTree = "<group>"; };
 		36B2602518912BBD00BCB3CE /* luaavLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = luaavLog.m; sourceTree = "<group>"; };
 		36B6A5C11892689100869769 /* luajit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = luajit; sourceTree = "<group>"; };
@@ -73,6 +75,8 @@
 		363DBC391890EA3500603068 = {
 			isa = PBXGroup;
 			children = (
+				3687AA1F18937F6500A906BB /* example.lua */,
+				3687AA1D18937F1600A906BB /* modules */,
 				36B6A5D31892746000869769 /* developer.md */,
 				363DBC4B1890EA3500603068 /* AV */,
 				363DBC441890EA3500603068 /* Frameworks */,
@@ -248,13 +252,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36B6A5D41892746000869769 /* developer.md in Resources */,
 				363DBC501890EA3500603068 /* InfoPlist.strings in Resources */,
 				363DBC611890EA3600603068 /* Images.xcassets in Resources */,
 				363DBC7D1890EAB400603068 /* icon.icns in Resources */,
 				363DBC561890EA3500603068 /* Credits.rtf in Resources */,
 				363DBC5C1890EA3500603068 /* luaavDocument.xib in Resources */,
 				363DBC5F1890EA3600603068 /* MainMenu.xib in Resources */,
+				3687AA1E18937F1600A906BB /* modules in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +495,7 @@
 				36B6A5CF189269E100869769 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

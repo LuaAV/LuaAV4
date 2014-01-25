@@ -7,7 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "luaavApp.h"
 
 @interface luaavDocument : NSDocument
+{
+	NSString * posix_path;
+	const char * posix_path_cstr;
+	
+	lua_State * L;
+}
 
 @end

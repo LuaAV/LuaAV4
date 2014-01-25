@@ -31,7 +31,7 @@
 		oldstream = fdopen(oldfileno, "w");
 		
 		dup2([[pipe fileHandleForWriting] fileDescriptor], fileno(file));
-
+		
 		[[NSNotificationCenter defaultCenter]	addObserver: observer
 												selector: selector
 												name: NSFileHandleReadCompletionNotification
@@ -55,6 +55,7 @@
 }
 
 -(void) poll {
+	
 	fflush(stream);
 	[pipeReadHandle readInBackgroundAndNotify];
 }

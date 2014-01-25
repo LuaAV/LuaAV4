@@ -8,16 +8,105 @@
 
 #import "luaavDocument.h"
 
+static void l_message(const char *pname, const char *msg)
+{
+	if (pname) fprintf(stderr, "%s: ", pname);
+	fprintf(stderr, "%s\n", msg);
+	fflush(stderr);
+}
+
+static int traceback(lua_State *L)
+{
+	if (!lua_isstring(L, 1)) { /* Non-string error object? Try metamethod. */
+		if (lua_isnoneornil(L, 1) ||
+			!luaL_callmeta(L, 1, "__tostring") ||
+			!lua_isstring(L, -1))
+			return 1;  /* Return non-string error object. */
+		lua_remove(L, 1);  /* Replace object by result of __tostring metamethod. */
+	}
+	luaL_traceback(L, L, lua_tostring(L, 1), 1);
+	return 1;
+}
+
+static int docall(lua_State *L, int narg, int clear)
+{
+	int status;
+	int base = lua_gettop(L) - narg;  /* function index */
+	lua_pushcfunction(L, traceback);  /* push traceback function */
+	lua_insert(L, base);  /* put it under chunk and args */
+	
+	status = lua_pcall(L, narg, (clear ? 0 : LUA_MULTRET), base);
+	
+	lua_remove(L, base);  /* remove traceback function */
+	/* force a complete garbage collection in case of errors */
+	if (status != 0) lua_gc(L, LUA_GCCOLLECT, 0);
+	return status;
+}
+
 @implementation luaavDocument
+
+- (int) report: (int) status
+{
+	if (status && !lua_isnil(L, -1)) {
+		const char *msg = lua_tostring(L, -1);
+		if (msg == NULL) msg = "(error object is not a string)";
+		l_message(posix_path_cstr, msg);
+		lua_pop(L, 1);
+	}
+	return status;
+}
+
+- (int)dofile
+{
+	int status = luaL_loadfile(L, posix_path_cstr) || docall(L, 0, 1);
+	return [self report: status];
+}
 
 - (id)init
 {
     self = [super init];
     if (self) {
-		// Add your subclass-specific initialization here.
-		NSLog(@"luaav document init");
+		posix_path = NULL;
+		L = NULL;
     }
     return self;
+}
+
+- (void) dealloc
+{
+	[self clear];
+	[super dealloc];
+}
+
+- (void) clear
+{
+	if (L) lua_close(L);
+	if (posix_path) [posix_path release];
+}
+
+- (void) run
+{
+	// run it!
+	L = [[luaavApp singleton] createLuaState];
+	if (L) {
+		
+		
+		/*
+		 //possibility of running scripts as a subprocess?
+		 // http://cocoadev.com/UsingAuxiliaryExecutableInBundle
+		 // http://www.raywenderlich.com/36537/nstask-tutorial
+		 NSTask *task = [[NSTask alloc] init];
+		 task.launchPath = @"/usr/bin/say";					// path to luajit
+		 task.arguments = @[@"-v", @"vicki", @"hello"];		// path to script + args
+		 [task launch];
+		 [myTask setCurrentDirectoryPath:@"/Library/Eref/"];
+		 // TODO: pipe stdout/stderr into an NSTextView...
+		 //[task waitUntilExit];
+		 */
+
+		
+		int status = [self dofile];
+    }
 }
 
 - (NSString *)windowNibName
@@ -31,31 +120,28 @@
 {
 	[super windowControllerDidLoadNib:aController];
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
-	NSLog(@"luaav nib loaded");
+	//NSLog(@"luaav nib loaded");
 }
 
-+ (BOOL)autosavesInPlace
-{
+- (id)initWithType:(NSString *)typeName error:(NSError **)outError {
+	NSLog(@"init with type");
+	[self init];
+	[self setFileType:typeName];
+	
+	return self;
+}
+
+- (BOOL)readFromURL:(NSURL *)inAbsoluteURL ofType:(NSString *)inTypeName error:(NSError **)outError {
+	[self clear];
+	
+	posix_path = [[inAbsoluteURL path] retain];
+	posix_path_cstr = [posix_path cStringUsingEncoding:NSASCIIStringEncoding];
+	NSLog(@"%@", posix_path);
+	
+	// TODO: add to filewatcher
+	
+	[self run];
+	
     return YES;
 }
-
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
-{
-	// Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
-	// You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-	//NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-	//@throw exception;
-	return nil;
-}
-
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
-{
-	// Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
-	// You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
-	// If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-	//NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-	//@throw exception;
-	return YES;
-}
-
 @end

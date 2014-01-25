@@ -32,8 +32,17 @@
 	
 	// this is the lua_State for the application itself
 	lua_State * L;
+	
+	
+	NSPipe * outputPipe;
+	NSFileHandle * outputPipeReadHandle;
 }
+
++ (luaavApp *)singleton;
+
 -(IBAction)logClear:(id)sender;
 -(IBAction)logScrolling:(id)sender;
 -(IBAction)help:(id)sender;
+
+- (lua_State *)createLuaState;
 @end
