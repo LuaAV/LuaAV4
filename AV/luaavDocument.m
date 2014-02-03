@@ -43,6 +43,15 @@ static int docall(lua_State *L, int narg, int clear)
 	return status;
 }
 
+void MyRunLoopObserver(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void* info)
+{
+    luaavDocument* me = (luaavDocument*)info;
+    
+    //printf("idle %p\n", info);
+ 
+    // Perform your tasks here.
+}
+
 @implementation luaavDocument
 
 - (int) report: (int) status
@@ -68,6 +77,12 @@ static int docall(lua_State *L, int narg, int clear)
     if (self) {
 		posix_path = NULL;
 		L = NULL;
+		runLoopObserver = NULL;
+		
+		task = NULL;
+		pipe = NULL;
+		
+		//[self installRunLoopObserver];
     }
     return self;
 }
@@ -80,9 +95,40 @@ static int docall(lua_State *L, int narg, int clear)
 
 - (void) clear
 {
-	if (L) lua_close(L);
-	if (posix_path) [posix_path release];
+	if (task) {
+			[task terminate];
+		[task release];
+		task = NULL;
+	}
+	if (pipe) { [pipe release]; pipe = NULL; }
+	
+	if (L) { lua_close(L); L = NULL; }
+	if (posix_path) { [posix_path release]; posix_path = NULL; }
 }
+
+- (void) installRunLoopObserver
+{
+    printf("adding self %p\n", self);
+	
+	CFRunLoopObserverContext context;
+	memset (&context, 0, sizeof (context));
+	context.info = self;
+    
+	// Create the observer reference.
+    runLoopObserver = CFRunLoopObserverCreate(NULL,
+                            kCFRunLoopEntry, //kCFRunLoopBeforeTimers | kCFRunLoopBeforeWaiting,
+                            YES,        /* repeat */
+                            0,
+                            &MyRunLoopObserver,
+                            &context);
+ 
+    if (runLoopObserver)
+    {
+        // Now add it to the current run loop
+        CFRunLoopAddObserver(CFRunLoopGetCurrent(), runLoopObserver, kCFRunLoopCommonModes);
+    }
+}
+
 
 - (void) run
 {
@@ -140,8 +186,62 @@ static int docall(lua_State *L, int narg, int clear)
 	
 	// TODO: add to filewatcher
 	
-	[self run];
+	//[self run];
 	
+	// run luajit from the resources folder:
+	task = [[NSTask alloc] init];
+	pipe = [[NSPipe alloc] init];
+	
+	[task setLaunchPath: [NSString stringWithFormat:@"%@/modules/luajit", [[NSBundle mainBundle] resourcePath]]];
+	//[task setLaunchPath: [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"luajit"]];
+	[task setArguments: [NSArray arrayWithObjects: [NSString stringWithFormat:@"%@/start.lua", [[NSBundle mainBundle] resourcePath]], posix_path, nil]];
+	
+	// set cwd to the source script?
+	//[task setCurrentDirectoryPath:[posix_path stringByDeletingLastPathComponent]];
+	
+	// [task setEnvironment
+	
+	//[task setStandardOutput: pipe];
+	//[task setStandardError: pipe];
+	
+	[task launch]; //launch the task
+	
+	// [task setStandardInput:[NSFileHandle fileHandleForReadingAtPath:@"inputfile.text"]];
+	
+	/*
+	 http://www.cocoabuilder.com/archive/cocoa/170680-using-nstask-and-nspipe-to-perform-shell-script.html
+	 
+	 NSPipe *writePipe = [NSPipe pipe];
+	 NSFileHandle *writeHandle = [writePipe
+	 fileHandleForWriting];
+	 
+	 
+	 [task setStandardOutput: readPipe];
+	 [task setStandardError: errorPipe];
+	 [task setStandardInput: writePipe];
+	 
+	 [writeHandle writeData:[NSData
+	 dataWithContentsOfFile:@"/users/keithblount/Markdown/readme.markdown"]];
+	 [writeHandle closeFile];
+	 
+	 NSData *readData;
+	 
+	 while ((readData = [readHandle availableData])
+	 && [readData length]) {
+	 [data appendData: readData];
+	 }
+	*/
+	
+	// NSPipe *readPipe = [NSPipe pipe];
+	// NSFileHandle *readHandle = [readPipe fileHandleForReading];
+
+	/*
+	// periodic:
+	NSData * data = [[pipe fileHandleForReading] readDataToEndOfFile];
+	NSString *string = [[NSString alloc] initWithData: data encoding:
+						NSASCIIStringEncoding];
+	[string release];
+	*/
     return YES;
 }
 @end

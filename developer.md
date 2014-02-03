@@ -19,10 +19,7 @@ If you have Xcode 4 or 5, you'll need to copy the 10.6 SDK into your Xcode.app. 
 	cd /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs
 	sudo cp -rf /Developer-old/SDKs/MacOSX10.6.sdk .
 
-Otherwise you could just switch the base SDK to 10.whatever you have, but don't check that change in please.
-
-
-
+Otherwise you could just switch the base SDK to whatever you have, but don't check that change in please.
 
 ## Windows
 
@@ -38,5 +35,22 @@ Navigate to the luajit-2.0/src folder:
 
 	msvcbuild
 	
+
+
+## Modules
+
+### Search paths
+
+LuaAV uses the default Lua search paths for modules. 
+
+In addition, LuaAV.app adds the folder in which the LuaAV.app resides, as well as the /modules folder inside the LuaAV.app/Contents/Resources/modules
+
+
+
+
+
+## Notes
+
+LuaAV.app (OSX) is simply a platform-specific wrapper of the LuaJIT interpreter, with console output.  
 
 

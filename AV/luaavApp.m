@@ -20,7 +20,9 @@ void script_addtosearchpath(lua_State * L, char * path) {
 			package.path = path .. 'modules/?.lua;' .. package.path \
 			package.path = path .. 'modules/?/init.lua;' .. package.path \
 			package.cpath = path .. 'modules/?.so;' .. package.cpath \
-			end", path);
+			local ffipath = path .. 'modules/lib?.dylib' \
+			package.ffipath = package.ffipath and (ffipath .. ';' .. package.ffipath) or ffipath \
+		end", path);
 	if (luaL_dostring(L, code)) {
 		printf("%s\n", lua_tostring(L, -1));
 		return;
@@ -74,9 +76,6 @@ void script_addtosearchpath(lua_State * L, char * path) {
 	
 	//[webView setMainFrameURL:@"http://www.google.com/"];
 	//[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]]];
-	
-	
-	//[self openPath:@"/Users/grahamwakefield/code/libluaav/libluaav/ina.lua"];
 }
 
 

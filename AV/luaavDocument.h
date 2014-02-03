@@ -14,7 +14,13 @@
 	NSString * posix_path;
 	const char * posix_path_cstr;
 	
+	NSTask * task;
+	NSPipe * pipe;
+	
 	lua_State * L;
+	
+	
+	CFRunLoopObserverRef runLoopObserver;
 }
 
 @end
