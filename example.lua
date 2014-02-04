@@ -1,7 +1,3 @@
-for i = 1, 100 do
-	print("i", i)
-end
-
 local vec2 = require "vec2"
 
 local glfw = require "glfw"

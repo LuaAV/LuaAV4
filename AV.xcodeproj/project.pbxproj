@@ -20,7 +20,6 @@
 		363DBC8F189105A400603068 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363DBC8E189105A400603068 /* WebKit.framework */; };
 		3676F1FD189D088E00E19E84 /* av.lua in Resources */ = {isa = PBXBuildFile; fileRef = 3676F1FC189D087500E19E84 /* av.lua */; };
 		3687AA1E18937F1600A906BB /* modules in Resources */ = {isa = PBXBuildFile; fileRef = 3687AA1D18937F1600A906BB /* modules */; };
-		36B6A5CB189268A200869769 /* libluajit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B6A5C91892689100869769 /* libluajit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,7 +63,6 @@
 			files = (
 				363DBC8F189105A400603068 /* WebKit.framework in Frameworks */,
 				363DBC461890EA3500603068 /* Cocoa.framework in Frameworks */,
-				36B6A5CB189268A200869769 /* libluajit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,16 +181,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		36B6A5CC189269E100869769 /* libluajit.a */ = {
+		36B6A5CC189269E100869769 /* LuaJIT */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = 36B6A5CD189269E100869769 /* Build configuration list for PBXLegacyTarget "libluajit.a" */;
+			buildConfigurationList = 36B6A5CD189269E100869769 /* Build configuration list for PBXLegacyTarget "LuaJIT" */;
 			buildPhases = (
 			);
 			buildToolPath = ./build_luajit_osx.sh;
 			dependencies = (
 			);
-			name = libluajit.a;
+			name = LuaJIT;
 			passBuildSettingsInEnvironment = 1;
 			productName = libluajit.a;
 		};
@@ -240,7 +238,7 @@
 			projectRoot = "";
 			targets = (
 				363DBC411890EA3500603068 /* LuaAV */,
-				36B6A5CC189269E100869769 /* libluajit.a */,
+				36B6A5CC189269E100869769 /* LuaJIT */,
 			);
 		};
 /* End PBXProject section */
@@ -488,7 +486,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		36B6A5CD189269E100869769 /* Build configuration list for PBXLegacyTarget "libluajit.a" */ = {
+		36B6A5CD189269E100869769 /* Build configuration list for PBXLegacyTarget "LuaJIT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				36B6A5CE189269E100869769 /* Debug */,

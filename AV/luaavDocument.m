@@ -8,6 +8,11 @@
 
 #import "luaavDocument.h"
 
+#include <sys/event.h>
+#include <sys/time.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 @implementation luaavDocument
 
@@ -16,9 +21,11 @@
     self = [super init];
     if (self) {
 		posix_path = NULL;
+		posix_path_cstr = 0;
 		task = NULL;
 		outpipe = NULL;
 		errpipe = NULL;
+		watchThread = NULL;
 		
 		consoleViewScrolling = TRUE;
 		
@@ -27,6 +34,14 @@
 							 NSForegroundColorAttributeName: [NSColor whiteColor]} retain];
 		attributeStdErr = [@{NSFontAttributeName: font,
 							 NSForegroundColorAttributeName: [NSColor orangeColor]} retain];
+		
+		fildes = 0;
+		kq = kqueue();
+		
+		[[NSNotificationCenter defaultCenter]	addObserver: self
+												 selector: @selector(appWillTerminateNotification:)
+													 name: NSApplicationWillTerminateNotification
+												   object: nil];
     }
     return self;
 }
@@ -35,6 +50,8 @@
 {
 	[self clear];
 	if (posix_path) { [posix_path release]; posix_path = NULL; }
+	if (watchThread) { [watchThread cancel]; [watchThread release]; }
+	
 	[super dealloc];
 }
 
@@ -75,12 +92,15 @@
 }
 
 -(IBAction)reload:(id)sender {
-	[self clear];
 	[self startRunning];
 }
 
 -(IBAction)edit:(id)sender {
-	
+	char cmd[4096];
+	//printf("edit %s\n", [posix_path cStringUsingEncoding:NSASCIIStringEncoding]);
+	sprintf(cmd, "open %s\n", [posix_path cStringUsingEncoding:NSASCIIStringEncoding]);
+	printf("%s\n", cmd);
+	system(cmd);
 }
 
 // currently disabled (no close button on main window).
@@ -101,9 +121,46 @@
 	
 	posix_path = [[inAbsoluteURL path] retain];
 	posix_path_cstr = [posix_path cStringUsingEncoding:NSASCIIStringEncoding];
-	NSLog(@"reading %@", posix_path);
+	
+	watchThread = [[NSThread alloc] initWithTarget:self selector:@selector(watchInBackground) object:nil];
+	[watchThread start];
+	
+	printf("opened %s\n", posix_path_cstr);
 	
 	return YES;
+}
+
+- (void)watchInBackground
+{
+	int status;
+	struct kevent change;
+	struct kevent event;
+	
+	fildes = open(posix_path_cstr, O_EVTONLY); //O_RDONLY);
+	if(fildes <= 0) {
+		printf("No such file %s...\n", posix_path_cstr);
+		return;
+	}
+	
+	EV_SET(&change, fildes, EVFILT_VNODE,
+		   EV_ADD | EV_ENABLE | EV_CLEAR, //ONESHOT,
+		   NOTE_WRITE, // | NOTE_DELETE | NOTE_EXTEND | NOTE_ATTRIB,
+		   0, 0);
+	
+	status = kevent(kq, &change, 1, &event, 1, NULL);
+	while (status > 0) {
+		
+		printf("file event %s\n", posix_path_cstr);
+		
+		[self performSelectorOnMainThread:@selector(startRunning) withObject:self waitUntilDone:YES];
+		
+		status = kevent(kq, &change, 1, &event, 1, NULL);
+	}
+	
+	printf("watching complete\n");
+	
+	close(kq);
+	close(fildes);
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
@@ -117,8 +174,9 @@
 
 - (void)startRunning
 {
+	[self clear];
+	
 	printf("------------------------------\n");
-	NSLog(@"path %@", posix_path);
 	
 	//NSAttributedString * attr = [[NSAttributedString alloc] initWithString:posix_path attributes:attributeStdOut];
 	//[[consoleView textStorage] appendAttributedString:attr];
@@ -187,7 +245,7 @@
 	// run luajit from the resources folder:
 	task = [[NSTask alloc] init];
 	
-	[task setLaunchPath: [NSString stringWithFormat:@"%@/modules/luajit", [[NSBundle mainBundle] resourcePath]]];
+	[task setLaunchPath: [NSString stringWithFormat:@"%@/modules/osx/luajit", [[NSBundle mainBundle] resourcePath]]];
 	//[task setLaunchPath: [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"luajit"]];
 	[task setArguments: [NSArray arrayWithObjects: [NSString stringWithFormat:@"%@/av.lua", [[NSBundle mainBundle] resourcePath]], posix_path, nil]];
 	
@@ -250,6 +308,7 @@
 	}
 }
 
+// this is the notification when the script terminates itself (by error or natural end)
 - (void)terminateNotification:(NSNotification *)notification
 {
 	// do we also need to flush the pipes here?
@@ -257,8 +316,24 @@
 	//NSLog(@"err %p %@", str, str);
 	
 	[[consoleView textStorage] appendAttributedString:attr];
-	if (consoleViewScrolling)
+	if (consoleViewScrolling) {
 		[consoleView scrollRangeToVisible:NSMakeRange([[consoleView string] length], 0)];
+	}
+	
+	[self clear];
+}
+
+// this is the notification when the application quits:
+- (void) appWillTerminateNotification:(NSNotification *)notification
+{
+	[self clear];
+}
+
+// this seems to be the best way to be notified when the document window is closed:
+- (void) canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo;
+{
+	[self clear];
+	[super canCloseDocumentWithDelegate:delegate shouldCloseSelector: shouldCloseSelector contextInfo: contextInfo];
 }
 
 @end
