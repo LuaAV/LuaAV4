@@ -11,16 +11,18 @@ local is_module = argc == 1 and modulename == "av"
 -- else if loaded by executing av.lua, the script name is arg[1]:
 local script_filename = arg[is_module and 0 or 1]
 
+print(script_filename, arg[0], unpack(arg))
+
 --------------------------------------------------------------------------------
 -- utilities
 --------------------------------------------------------------------------------
 
 local ffi = require "ffi"
 
-local path_sep = ffi.os == "Winows" and "\\" or "/"
+local path_sep = ffi.os == "Windows" and "\\" or "/"
 
 -- extend the search paths:
-local path_default = ffi.os == "Winows" and "" or "./"
+local path_default = ffi.os == "Windows" and "" or "./"
 local module_extension = ffi.os == "Windows" and "dll" or "so"
 local lib_extension = ffi.os == "Windows" and "dll" or (ffi.os == "OSX" and "dylib" or "so")
 local function add_module_path(path)
@@ -92,6 +94,9 @@ else
 	av.script.path, av.script.name = path_from_filename(script_filename)
 	-- also add this to package path:
 	add_module_path(av.script.path)
+	
+	print(av.path, av.script.path)
+	print(package.path)
 end
 
 --------------------------------------------------------------------------------
@@ -143,10 +148,11 @@ else
 	-- indicate that av is already loaded
 	-- so that require "av" now simply returns the local av:
 	package.loaded.av = av
+	print(arg[0], unpack(arg))
 	
 	-- modify the global arg table to trim off av.lua
 	-- (so that launching a script via luajit av.lua or ./av.lua or via hashbang is consistent)
-	for i = 0, argc do arg[i] = arg[i+1] end
+	for i = 0, argc+1 do arg[i] = arg[i+1] end
 
 	-- TODO pre-load LuaAV globals
 
@@ -160,10 +166,12 @@ else
 		os.exit(-1)
 	end
 	
+	print(arg[0], unpack(arg))
+	
 	-- schedule this script to run as a coroutine, as soon as av.run() begins:
 	-- (passing arg as ... is strictly speaking redundant; should it be removed?)
 	--go(scriptfunc, unpack(arg))
-	pcall(scriptfunc, unpack(arg))
+	scriptfunc(unpack(arg))
 	
 	-- Note that the script may try to call av.run(); we need a flag to suppress double-calls
 	-- start the main loop:
