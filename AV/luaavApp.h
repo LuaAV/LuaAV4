@@ -9,8 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
-#import "luaavLog.h"
-
 #include "lua.h"
 #include "lualib.h"
 #include "luajit.h"
@@ -20,29 +18,7 @@
 @public
 	IBOutlet NSWindow * window;
 	//IBOutlet WebView * webView;
-	IBOutlet NSTextView * logView;
-	
-	BOOL logViewScrolling;
-	
-	luaavLog * redirectStdOut;
-	luaavLog * redirectStdErr;
-	
-	NSDictionary * attributeStdOut;
-	NSDictionary * attributeStdErr;
-	
-	// this is the lua_State for the application itself
-	lua_State * L;
-	
-	
-	NSPipe * outputPipe;
-	NSFileHandle * outputPipeReadHandle;
 }
 
 + (luaavApp *)singleton;
-
--(IBAction)logClear:(id)sender;
--(IBAction)logScrolling:(id)sender;
--(IBAction)help:(id)sender;
-
-- (lua_State *)createLuaState;
 @end

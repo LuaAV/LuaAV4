@@ -18,9 +18,8 @@
 		363DBC7D1890EAB400603068 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 363DBC7C1890EAB400603068 /* icon.icns */; };
 		363DBC8D1890F86800603068 /* luaavApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 363DBC8C1890F86800603068 /* luaavApp.m */; };
 		363DBC8F189105A400603068 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363DBC8E189105A400603068 /* WebKit.framework */; };
-		3676F1FD189D088E00E19E84 /* start.lua in Resources */ = {isa = PBXBuildFile; fileRef = 3676F1FC189D087500E19E84 /* start.lua */; };
+		3676F1FD189D088E00E19E84 /* av.lua in Resources */ = {isa = PBXBuildFile; fileRef = 3676F1FC189D087500E19E84 /* av.lua */; };
 		3687AA1E18937F1600A906BB /* modules in Resources */ = {isa = PBXBuildFile; fileRef = 3687AA1D18937F1600A906BB /* modules */; };
-		36B2602618912BBD00BCB3CE /* luaavLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B2602518912BBD00BCB3CE /* luaavLog.m */; };
 		36B6A5CB189268A200869769 /* libluajit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36B6A5C91892689100869769 /* libluajit.a */; };
 /* End PBXBuildFile section */
 
@@ -44,11 +43,9 @@
 		363DBC8B1890F86800603068 /* luaavApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = luaavApp.h; sourceTree = "<group>"; };
 		363DBC8C1890F86800603068 /* luaavApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = luaavApp.m; sourceTree = "<group>"; };
 		363DBC8E189105A400603068 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		3676F1FC189D087500E19E84 /* start.lua */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lua; name = start.lua; path = AV/start.lua; sourceTree = "<group>"; };
+		3676F1FC189D087500E19E84 /* av.lua */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lua; name = av.lua; path = AV/av.lua; sourceTree = "<group>"; };
 		3687AA1D18937F1600A906BB /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; path = modules; sourceTree = "<group>"; };
 		3687AA1F18937F6500A906BB /* example.lua */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lua; path = example.lua; sourceTree = "<group>"; };
-		36B2602418912BBD00BCB3CE /* luaavLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = luaavLog.h; sourceTree = "<group>"; };
-		36B2602518912BBD00BCB3CE /* luaavLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = luaavLog.m; sourceTree = "<group>"; };
 		36B6A5C11892689100869769 /* luajit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = luajit; sourceTree = "<group>"; };
 		36B6A5C31892689100869769 /* lauxlib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lauxlib.h; sourceTree = "<group>"; };
 		36B6A5C41892689100869769 /* lua.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lua.h; sourceTree = "<group>"; };
@@ -78,7 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				3687AA1F18937F6500A906BB /* example.lua */,
-				3676F1FC189D087500E19E84 /* start.lua */,
+				3676F1FC189D087500E19E84 /* av.lua */,
 				3687AA1D18937F1600A906BB /* modules */,
 				36B6A5D31892746000869769 /* developer.md */,
 				363DBC4B1890EA3500603068 /* AV */,
@@ -120,13 +117,11 @@
 		363DBC4B1890EA3500603068 /* AV */ = {
 			isa = PBXGroup;
 			children = (
-				36B2602418912BBD00BCB3CE /* luaavLog.h */,
-				36B2602518912BBD00BCB3CE /* luaavLog.m */,
-				363DBC8B1890F86800603068 /* luaavApp.h */,
-				363DBC8C1890F86800603068 /* luaavApp.m */,
 				363DBC571890EA3500603068 /* luaavDocument.h */,
 				363DBC581890EA3500603068 /* luaavDocument.m */,
 				363DBC5A1890EA3500603068 /* luaavDocument.xib */,
+				363DBC8B1890F86800603068 /* luaavApp.h */,
+				363DBC8C1890F86800603068 /* luaavApp.m */,
 				363DBC5D1890EA3600603068 /* MainMenu.xib */,
 				363DBC601890EA3600603068 /* Images.xcassets */,
 				363DBC4C1890EA3500603068 /* Supporting Files */,
@@ -261,7 +256,7 @@
 				363DBC561890EA3500603068 /* Credits.rtf in Resources */,
 				363DBC5C1890EA3500603068 /* luaavDocument.xib in Resources */,
 				363DBC5F1890EA3600603068 /* MainMenu.xib in Resources */,
-				3676F1FD189D088E00E19E84 /* start.lua in Resources */,
+				3676F1FD189D088E00E19E84 /* av.lua in Resources */,
 				3687AA1E18937F1600A906BB /* modules in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,7 +269,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				363DBC591890EA3500603068 /* luaavDocument.m in Sources */,
-				36B2602618912BBD00BCB3CE /* luaavLog.m in Sources */,
 				363DBC8D1890F86800603068 /* luaavApp.m in Sources */,
 				363DBC521890EA3500603068 /* main.m in Sources */,
 			);

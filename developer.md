@@ -51,6 +51,6 @@ In addition, LuaAV.app adds the folder in which the LuaAV.app resides, as well a
 
 ## Notes
 
-LuaAV.app (OSX) is simply a platform-specific wrapper of the LuaJIT interpreter, with console output.  
+LuaAV.app (OSX) is simply a platform-specific wrapper of the LuaJIT interpreter, with console output. It uses Cocoa document-based application structure for the benefits of native user experience. Each cocoa document however simply launches luajit as an NSTask and routes output back to the document window console.  
 
 

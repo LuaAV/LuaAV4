@@ -3,7 +3,8 @@ local ffi = require "ffi"
 local lib
 if package.ffipath then
 	-- try some other options before the OS default:
-	lib = ffi.load( package.searchpath("glfw", package.ffipath))
+	local libpath = assert(package.searchpath("glfw", package.ffipath))
+	lib = ffi.load(libpath)
 else
 	lib = ffi.load("glfw")
 end

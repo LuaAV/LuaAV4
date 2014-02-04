@@ -222,82 +222,17 @@
         <customObject id="419" customClass="NSFontManager"/>
         <customObject id="BkZ-hT-Maq" customClass="luaavApp">
             <connections>
-                <outlet property="logView" destination="cn7-mR-Bwu" id="ylT-ms-gaZ"/>
                 <outlet property="window" destination="DfT-yR-BiD" id="SS5-jR-f2c"/>
             </connections>
         </customObject>
-        <window title="LuaAV" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" wantsToBeColor="NO" animationBehavior="default" id="DfT-yR-BiD">
-            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
+        <window title="LuaAV" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="DfT-yR-BiD">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="0.0" y="0.0" width="559" height="420"/>
+            <rect key="contentRect" x="0.0" y="0.0" width="203" height="56"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="jUM-ig-zRg">
-                <rect key="frame" x="0.0" y="0.0" width="559" height="420"/>
+                <rect key="frame" x="0.0" y="0.0" width="203" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="pzg-Xh-rut">
-                        <rect key="frame" x="-1" y="29" width="561" height="392"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <clipView key="contentView" copiesOnScroll="NO" id="5qD-iZ-aNF">
-                            <rect key="frame" x="1" y="1" width="559" height="390"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <textView editable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" findStyle="panel" verticallyResizable="YES" allowsNonContiguousLayout="YES" spellingCorrection="YES" id="cn7-mR-Bwu">
-                                    <rect key="frame" x="0.0" y="0.0" width="559" height="390"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="559" height="390"/>
-                                    <size key="maxSize" width="574" height="10000000"/>
-                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="559" height="390"/>
-                                    <size key="maxSize" width="574" height="10000000"/>
-                                </textView>
-                            </subviews>
-                            <color key="backgroundColor" white="0.29999999999999999" alpha="1" colorSpace="calibratedWhite"/>
-                        </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="OUv-wZ-i0P">
-                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="gvo-Lt-rhj">
-                            <rect key="frame" x="544" y="1" width="16" height="390"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                    </scrollView>
-                    <button verticalHuggingPriority="750" id="N84-EY-UDb">
-                        <rect key="frame" x="424" y="5" width="34" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="squareTextured" title="Clear" bezelStyle="texturedSquare" imagePosition="overlaps" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nt4-pe-BEp">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="smallSystem"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="logClear:" target="BkZ-hT-Maq" id="7uW-p4-GOZ"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" id="RTn-Gj-jeP">
-                        <rect key="frame" x="466" y="5" width="59" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="roundTextured" title="Scrolling" bezelStyle="texturedRounded" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BYf-XF-79t">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                            <font key="font" metaFont="smallSystem"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="logScrolling:" target="BkZ-hT-Maq" id="KPY-mA-fS0"/>
-                        </connections>
-                    </button>
-                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="aLS-zb-fSC">
-                        <rect key="frame" x="531" y="2" width="25" height="25"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Dh-RO-Xwp">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="smallSystem"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="help:" target="BkZ-hT-Maq" id="7b4-XQ-efw"/>
-                        </connections>
-                    </button>
-                </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="BkZ-hT-Maq" id="3pf-DT-etJ"/>

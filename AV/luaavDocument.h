@@ -15,12 +15,30 @@
 	const char * posix_path_cstr;
 	
 	NSTask * task;
-	NSPipe * pipe;
+	NSPipe * outpipe;
+	NSPipe * errpipe;
+	NSFileHandle * outpipeReadHandle;
+	NSFileHandle * errpipeReadHandle;
+	NSDictionary * attributeStdOut;
+	NSDictionary * attributeStdErr;
 	
 	lua_State * L;
 	
-	
 	CFRunLoopObserverRef runLoopObserver;
+	
+	
+	IBOutlet NSWindow * window;
+	IBOutlet NSTextView * consoleView;
+	
+	BOOL consoleViewScrolling;
 }
+
+-(IBAction)stop:(id)sender;
+-(IBAction)reload:(id)sender;
+-(IBAction)edit:(id)sender;
+
+-(IBAction)logClear:(id)sender;
+-(IBAction)logScrolling:(id)sender;
+-(IBAction)help:(id)sender;
 
 @end
