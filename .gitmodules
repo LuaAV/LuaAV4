@@ -4,3 +4,6 @@
 [submodule "libluaav"]
 	path = libluaav
 	url = https://github.com/LuaAV/libluaav.git
+[submodule "web"]
+	path = web
+	url = git@github.com:LuaAV/LuaAV4.git
