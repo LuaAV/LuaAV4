@@ -271,7 +271,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	luaL_openlibs(L);
 	
 	lua_createtable(L, __argc, 0);
-	for (int i=0; i<__argc; i++) {
+	lua_pushstring(L, av_lua); lua_rawseti(L, -2, 0);
+	for (int i=1; i<__argc; i++) {
 		lua_pushstring(L, __argv[i]); lua_rawseti(L, -2, i);
 	}
 	lua_setglobal(L, "arg");

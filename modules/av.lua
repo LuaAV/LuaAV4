@@ -86,6 +86,8 @@ else
 	-- add this to search paths:
 	add_module_path(av.path)
 	
+	print(arg[0], av.path)
+	
 	-- now extract path from filename
 	assert(script_filename, "missing argument (path of script to run)")
 	-- extract path from filename
