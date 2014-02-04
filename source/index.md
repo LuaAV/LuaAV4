@@ -10,7 +10,7 @@ LuaAV is a real-time audiovisual scripting environment based around the Lua scri
 - Multimedia development research
 - Scientific visualization
 
-The new development version of LuaAV is hosted [here](https://github.com/LuaAV/libluaav); the previous stable version of LuaAV can be found at [http://lua-av.mat.ucsb.edu/blog/](http://lua-av.mat.ucsb.edu/blog/).
+The new development version of LuaAV is hosted [here](https://github.com/LuaAV/LuaAV4); the previous stable version of LuaAV can be found at [http://lua-av.mat.ucsb.edu/blog/](http://lua-av.mat.ucsb.edu/blog/).
 
 ## Who
 
