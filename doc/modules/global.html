@@ -1,0 +1,903 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>AV</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/audio.html">audio</a></li>
+  <li><a href="../modules/audio.html">audio</a></li>
+  <li><a href="../modules/audio.buffer.html">audio.buffer</a></li>
+  <li><a href="../modules/audio.buffer.html">audio.buffer</a></li>
+  <li><a href="../modules/coroutine.html">coroutine</a></li>
+  <li><a href="../modules/coroutine.html">coroutine</a></li>
+  <li><a href="../modules/debug.html">debug</a></li>
+  <li><a href="../modules/debug.html">debug</a></li>
+  <li><a href="../modules/displaylist.html">displaylist</a></li>
+  <li><a href="../modules/draw2D.html">draw2D</a></li>
+  <li><a href="../modules/gl.html">gl</a></li>
+  <li><strong>global</strong></li>
+  <li><strong>global</strong></li>
+  <li><a href="../modules/io.html">io</a></li>
+  <li><a href="../modules/io.html">io</a></li>
+  <li><a href="../modules/math.html">math</a></li>
+  <li><a href="../modules/math.html">math</a></li>
+  <li><a href="../modules/os.html">os</a></li>
+  <li><a href="../modules/os.html">os</a></li>
+  <li><a href="../modules/package.html">package</a></li>
+  <li><a href="../modules/package.html">package</a></li>
+  <li><a href="../modules/string.html">string</a></li>
+  <li><a href="../modules/string.html">string</a></li>
+  <li><a href="../modules/table.html">table</a></li>
+  <li><a href="../modules/table.html">table</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>global</code></h1>
+
+<p>Lua global functions.</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#assert">assert&nbsp;(v, message)</a></td>
+	<td class="summary">Issues an error when the value of its argument `v` is false (i.e.,
+ nil or false); otherwise, returns all its arguments.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#collectgarbage">collectgarbage&nbsp;(opt, arg)</a></td>
+	<td class="summary">This function is a generic interface to the garbage collector.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dofile">dofile&nbsp;(filename)</a></td>
+	<td class="summary">Opens the named file and executes its contents as a Lua chunk.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#error">error&nbsp;(message, level)</a></td>
+	<td class="summary">Terminates the last protected function called and returns `message`
+ as the error message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getfenv">getfenv&nbsp;(f)</a></td>
+	<td class="summary">Returns the current environment in use by the function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getmetatable">getmetatable&nbsp;(object)</a></td>
+	<td class="summary">If `object` does not have a metatable, returns nil.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ipairs">ipairs&nbsp;(t)</a></td>
+	<td class="summary">Returns three values: an iterator function, the table `t`, and 0,
+ so that the construction
+   for i,v in ipairs(t) do *body* end
+ will iterate over the pairs (`1,t[1]`), (`2,t[2]`), ..., up to the
+ first integer key absent from the table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#load">load&nbsp;(func, chunkname)</a></td>
+	<td class="summary">Loads a chunk using function `func` to get its pieces.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loadfile">loadfile&nbsp;(filename)</a></td>
+	<td class="summary">Similar to `load`, but gets the chunk from file `filename` or from the
+ standard input, if no file name is given.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#loadstring">loadstring&nbsp;(string, chunkname)</a></td>
+	<td class="summary">Similar to `load`, but gets the chunk from the given string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#next">next&nbsp;(table, index)</a></td>
+	<td class="summary">Allows a program to traverse all fields of a table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pairs">pairs&nbsp;(t)</a></td>
+	<td class="summary">Returns three values: the `next` function, the table `t`, and nil,
+ so that the construction
+   for k,v in pairs(t) do *body* end
+ will iterate over all key–value pairs of table `t`.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pcall">pcall&nbsp;(f, arg1, ...)</a></td>
+	<td class="summary">Calls function `f` with the given arguments in *protected mode*.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#print">print&nbsp;(...)</a></td>
+	<td class="summary">Receives any number of arguments, and prints their values to `stdout`,
+ using the `tostring` function to convert them to strings.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rawequal">rawequal&nbsp;(v1, v2)</a></td>
+	<td class="summary">Checks whether `v1` is equal to `v2`, without invoking any
+ metamethod.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rawget">rawget&nbsp;(table, index)</a></td>
+	<td class="summary">Gets the real value of `table[index]`, without invoking any
+ metamethod.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#rawset">rawset&nbsp;(table, index, value)</a></td>
+	<td class="summary">Sets the real value of `table[index]` to `value`, without invoking any
+ metamethod.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#select">select&nbsp;(index, ...)</a></td>
+	<td class="summary">If `index` is a number, returns all arguments after argument number
+ `index`.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setfenv">setfenv&nbsp;(f, table)</a></td>
+	<td class="summary">Sets the environment to be used by the given function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setmetatable">setmetatable&nbsp;(table, metatable)</a></td>
+	<td class="summary">Sets the metatable for the given table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tonumber">tonumber&nbsp;(e, base)</a></td>
+	<td class="summary">Tries to convert its argument to a number.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tostring">tostring&nbsp;(e)</a></td>
+	<td class="summary">Receives an argument of any type and converts it to a string in a
+ reasonable format.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#type">type&nbsp;(v)</a></td>
+	<td class="summary">Returns the type of its only argument, coded as a string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#unpack">unpack&nbsp;(list, i, j)</a></td>
+	<td class="summary">Returns the elements from the given table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpcall">xpcall&nbsp;(f, err)</a></td>
+	<td class="summary">This function is similar to `pcall`, except that you can set a new
+ error handler.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#module">module&nbsp;(name, ...)</a></td>
+	<td class="summary">Creates a module.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#require">require&nbsp;(modname)</a></td>
+	<td class="summary">Loads the given module.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+    <dl class="function">
+    <dt>
+    <a name = "assert"></a>
+    <strong>assert&nbsp;(v, message)</strong>
+    </dt>
+    <dd>
+    Issues an error when the value of its argument `v` is false (i.e.,
+ nil or false); otherwise, returns all its arguments.  `message` is an error
+ message; when absent, it defaults to "assertion failed!"
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">v</span>
+        </li>
+        <li><span class="parameter">message</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "collectgarbage"></a>
+    <strong>collectgarbage&nbsp;(opt, arg)</strong>
+    </dt>
+    <dd>
+    This function is a generic interface to the garbage collector.  It
+ performs different functions according to its first argument, `opt`:
+<p>   * "stop": stops the garbage collector.
+   * "restart": restarts the garbage collector.
+   * "collect": performs a full garbage-collection cycle.
+   * "count": returns the total memory in use by Lua (in Kbytes).
+   * "step": performs a garbage-collection step. The step "size" is controlled
+   by `arg` (larger values mean more steps) in a non-specified way. If you
+   want to control the step size you must experimentally tune the value of
+   * "arg". Returns true if the step finished a collection cycle.
+   * "setpause": sets `arg` as the new value for the *pause* of the collector
+   (see §2.10). Returns the previous value for *pause*.
+   * "setstepmul": sets `arg` as the new value for the *step multiplier*
+   of the collector (see §2.10). Returns the previous value for *step*.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">opt</span>
+        </li>
+        <li><span class="parameter">arg</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "dofile"></a>
+    <strong>dofile&nbsp;(filename)</strong>
+    </dt>
+    <dd>
+    Opens the named file and executes its contents as a Lua chunk.  When
+ called without arguments,
+ `dofile` executes the contents of the standard input (`stdin`). Returns
+ all values returned by the chunk. In case of errors, `dofile` propagates
+ the error to its caller (that is, `dofile` does not run in protected mode).
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filename</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "error"></a>
+    <strong>error&nbsp;(message, level)</strong>
+    </dt>
+    <dd>
+    Terminates the last protected function called and returns `message`
+ as the error message.  Function `error` never returns.
+ Usually, `error` adds some information about the error position at the
+ beginning of the message. The `level` argument specifies how to get the
+ error position. With level 1 (the default), the error position is where the
+ `error` function was called. Level 2 points the error to where the function
+ that called `error` was called; and so on. Passing a level 0 avoids the
+ addition of error position information to the message.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message</span>
+        </li>
+        <li><span class="parameter">level</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getfenv"></a>
+    <strong>getfenv&nbsp;(f)</strong>
+    </dt>
+    <dd>
+    Returns the current environment in use by the function.
+ `f` can be a Lua function or a number that specifies the function at that
+ stack level: Level 1 is the function calling `getfenv`. If the given
+ function is not a Lua function, or if `f` is 0, `getfenv` returns the
+ global environment. The default for `f` is 1.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">f</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getmetatable"></a>
+    <strong>getmetatable&nbsp;(object)</strong>
+    </dt>
+    <dd>
+    If `object` does not have a metatable, returns nil.  Otherwise, if the
+ object's metatable has a `"__metatable"` field, returns the associated
+ value. Otherwise, returns the metatable of the given object.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ipairs"></a>
+    <strong>ipairs&nbsp;(t)</strong>
+    </dt>
+    <dd>
+    Returns three values: an iterator function, the table `t`, and 0,
+ so that the construction
+   for i,v in ipairs(t) do *body* end
+ will iterate over the pairs (`1,t[1]`), (`2,t[2]`), ..., up to the
+ first integer key absent from the table.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "load"></a>
+    <strong>load&nbsp;(func, chunkname)</strong>
+    </dt>
+    <dd>
+    Loads a chunk using function `func` to get its pieces.  Each call to
+ `func` must return a string that concatenates with previous results. A
+ return of an empty string, nil, or no value signals the end of the chunk.
+ If there are no errors, returns the compiled chunk as a function; otherwise,
+ returns nil plus the error message. The environment of the returned function
+ is the global environment.
+ `chunkname` is used as the chunk name for error messages and debug
+ information. When absent, it defaults to "`=(load)`".
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+        </li>
+        <li><span class="parameter">chunkname</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loadfile"></a>
+    <strong>loadfile&nbsp;(filename)</strong>
+    </dt>
+    <dd>
+    Similar to `load`, but gets the chunk from file `filename` or from the
+ standard input, if no file name is given.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filename</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "loadstring"></a>
+    <strong>loadstring&nbsp;(string, chunkname)</strong>
+    </dt>
+    <dd>
+    Similar to `load`, but gets the chunk from the given string.
+ To load and run a given string, use the idiom
+   assert(loadstring(s))()
+ When absent, `chunkname` defaults to the given string.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">string</span>
+        </li>
+        <li><span class="parameter">chunkname</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "next"></a>
+    <strong>next&nbsp;(table, index)</strong>
+    </dt>
+    <dd>
+    Allows a program to traverse all fields of a table.  Its first argument is
+ a table and its second argument is an index in this table. `next` returns
+ the next index of the table and its associated value.
+<p> When called with nil
+ as its second argument, `next` returns an initial index and its associated
+ value. When called with the last index, or with nil in an empty table, `next`
+ returns nil.
+<p> If the second argument is absent, then it is interpreted as
+ nil. In particular, you can use `next(t)` to check whether a table is empty.
+ The order in which the indices are enumerated is not specified, *even for
+ numeric indices*. (To traverse a table in numeric order, use a numerical
+ for or the `ipairs` function.)
+<p> The behavior of `next` is *undefined* if, during the traversal, you assign
+ any value to a non-existent field in the table. You may however modify
+ existing fields. In particular, you may clear existing fields.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+        </li>
+        <li><span class="parameter">index</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "pairs"></a>
+    <strong>pairs&nbsp;(t)</strong>
+    </dt>
+    <dd>
+    Returns three values: the `next` function, the table `t`, and nil,
+ so that the construction
+   for k,v in pairs(t) do *body* end
+ will iterate over all key–value pairs of table `t`.
+ See function `next` for the caveats of modifying the table during its
+ traversal.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">t</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "pcall"></a>
+    <strong>pcall&nbsp;(f, arg1, ...)</strong>
+    </dt>
+    <dd>
+    Calls function `f` with the given arguments in *protected mode*.  This
+ means that any error inside `f` is not propagated; instead, `pcall` catches
+ the error and returns a status code. Its first result is the status code (a
+ boolean), which is true if the call succeeds without errors. In such case,
+ `pcall` also returns all results from the call, after this first result. In
+ case of any error, `pcall` returns false plus the error message.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">f</span>
+        </li>
+        <li><span class="parameter">arg1</span>
+        </li>
+        <li><span class="parameter">...</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "print"></a>
+    <strong>print&nbsp;(...)</strong>
+    </dt>
+    <dd>
+    Receives any number of arguments, and prints their values to `stdout`,
+ using the `tostring` function to convert them to strings.  `print` is not
+ intended for formatted output, but only as a quick way to show a value,
+ typically for debugging. For formatted output, use `string.format`.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "rawequal"></a>
+    <strong>rawequal&nbsp;(v1, v2)</strong>
+    </dt>
+    <dd>
+    Checks whether `v1` is equal to `v2`, without invoking any
+ metamethod.  Returns a boolean.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">v1</span>
+        </li>
+        <li><span class="parameter">v2</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "rawget"></a>
+    <strong>rawget&nbsp;(table, index)</strong>
+    </dt>
+    <dd>
+    Gets the real value of `table[index]`, without invoking any
+ metamethod.  `table` must be a table; `index` may be any value.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+        </li>
+        <li><span class="parameter">index</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "rawset"></a>
+    <strong>rawset&nbsp;(table, index, value)</strong>
+    </dt>
+    <dd>
+    Sets the real value of `table[index]` to `value`, without invoking any
+ metamethod.  `table` must be a table, `index` any value different from nil,
+ and `value` any Lua value.
+ This function returns `table`.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+        </li>
+        <li><span class="parameter">index</span>
+        </li>
+        <li><span class="parameter">value</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "select"></a>
+    <strong>select&nbsp;(index, ...)</strong>
+    </dt>
+    <dd>
+    If `index` is a number, returns all arguments after argument number
+ `index`.  Otherwise, `index` must be the string `"#"`, and `select` returns
+ the total number of extra arguments it received.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+        </li>
+        <li><span class="parameter">...</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setfenv"></a>
+    <strong>setfenv&nbsp;(f, table)</strong>
+    </dt>
+    <dd>
+    Sets the environment to be used by the given function.  `f` can be a Lua
+ function or a number that specifies the function at that stack level: Level
+ 1 is the function calling `setfenv`. `setfenv` returns the given function.
+ As a special case, when `f` is 0 `setfenv` changes the environment of the
+ running thread. In this case, `setfenv` returns no values.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">f</span>
+        </li>
+        <li><span class="parameter">table</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setmetatable"></a>
+    <strong>setmetatable&nbsp;(table, metatable)</strong>
+    </dt>
+    <dd>
+    Sets the metatable for the given table.  (You cannot change the metatable
+ of other types from Lua, only from C.) If `metatable` is nil, removes the
+ metatable of the given table. If the original metatable has a `"__metatable"`
+ field, raises an error.
+ This function returns `table`.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+        </li>
+        <li><span class="parameter">metatable</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tonumber"></a>
+    <strong>tonumber&nbsp;(e, base)</strong>
+    </dt>
+    <dd>
+    Tries to convert its argument to a number.  If the argument is already
+ a number or a string convertible to a number, then `tonumber` returns this
+ number; otherwise, it returns nil.
+ An optional argument specifies the base to interpret the numeral. The base
+ may be any integer between 2 and 36, inclusive. In bases above 10, the
+ letter '`A`' (in either upper or lower case) represents 10, '`B`' represents
+ 11, and so forth, with '`Z`' representing 35. In base 10 (the default),
+ the number can have a decimal part, as well as an optional exponent part
+ (see §2.1). In other bases, only unsigned integers are accepted.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">e</span>
+        </li>
+        <li><span class="parameter">base</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "tostring"></a>
+    <strong>tostring&nbsp;(e)</strong>
+    </dt>
+    <dd>
+    Receives an argument of any type and converts it to a string in a
+ reasonable format.  For complete control of how numbers are converted, use
+ `string.format`.
+ If the metatable of `e` has a `"__tostring"` field, then `tostring` calls
+ the corresponding value with `e` as argument, and uses the result of the
+ call as its result.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">e</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "type"></a>
+    <strong>type&nbsp;(v)</strong>
+    </dt>
+    <dd>
+    Returns the type of its only argument, coded as a string.  The possible
+ results of this function are "
+ `nil`" (a string, not the value nil), "`number`", "`string`", "`boolean`",
+ "`table`", "`function`", "`thread`", and "`userdata`".
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">v</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "unpack"></a>
+    <strong>unpack&nbsp;(list, i, j)</strong>
+    </dt>
+    <dd>
+    Returns the elements from the given table.  This function is equivalent to
+   return list[i], list[i+1], ..., list[j]
+ except that the above code can be written only for a fixed number of
+ elements. By default, `i` is 1 and `j` is the length of the list, as
+ defined by the length operator (see §2.5.5).
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">list</span>
+        </li>
+        <li><span class="parameter">i</span>
+        </li>
+        <li><span class="parameter">j</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpcall"></a>
+    <strong>xpcall&nbsp;(f, err)</strong>
+    </dt>
+    <dd>
+    This function is similar to `pcall`, except that you can set a new
+ error handler.
+ `xpcall` calls function `f` in protected mode, using `err` as the error
+ handler. Any error inside `f` is not propagated; instead, `xpcall` catches
+ the error, calls the `err` function with the original error object, and
+ returns a status code. Its first result is the status code (a boolean),
+ which is true if the call succeeds without errors. In this case, `xpcall`
+ also returns all results from the call, after this first result. In case
+ of any error, `xpcall` returns false plus the result from `err`.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">f</span>
+        </li>
+        <li><span class="parameter">err</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "module"></a>
+    <strong>module&nbsp;(name, ...)</strong>
+    </dt>
+    <dd>
+    Creates a module.  If there is a table in `package.loaded[name]`,
+ this table is the module. Otherwise, if there is a global table `t`
+ with the given name, this table is the module. Otherwise creates a new
+ table `t` and sets it as the value of the global `name` and the value of
+ `package.loaded[name]`. This function also initializes `t._NAME` with the
+ given name, `t._M` with the module (`t` itself), and `t._PACKAGE` with the
+ package name (the full module name minus last component; see below). Finally,
+ `module` sets `t` as the new environment of the current function and the
+ new value of `package.loaded[name]`, so that `require` returns `t`.
+ If `name` is a compound name (that is, one with components separated by
+ dots), `module` creates (or reuses, if they already exist) tables for each
+ component. For instance, if `name` is `a.b.c`, then `module` stores the
+ module table in field `c` of field `b` of global `a`.
+ This function can receive optional *options* after the module name, where
+ each option is a function to be applied over the module.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+        </li>
+        <li><span class="parameter">...</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "require"></a>
+    <strong>require&nbsp;(modname)</strong>
+    </dt>
+    <dd>
+    Loads the given module.  The function starts by looking into the
+ `package.loaded` table to determine whether `modname` is already
+ loaded. If it is, then `require` returns the value stored at
+ `package.loaded[modname]`. Otherwise, it tries to find a *loader* for
+ the module.
+ To find a loader, `require` is guided by the `package.loaders` array. By
+ changing this array, we can change how `require` looks for a module. The
+ following explanation is based on the default configuration for
+ `package.loaders`.
+ First `require` queries `package.preload[modname]`. If it has a value,
+ this value (which should be a function) is the loader. Otherwise `require`
+ searches for a Lua loader using the path stored in `package.path`. If
+ that also fails, it searches for a C loader using the path stored in
+ `package.cpath`. If that also fails, it tries an *all-in-one* loader (see
+ `package.loaders`).
+ Once a loader is found, `require` calls the loader with a single argument,
+ `modname`. If the loader returns any value, `require` assigns the returned
+ value to `package.loaded[modname]`. If the loader returns no value and
+ has not assigned any value to `package.loaded[modname]`, then `require`
+ assigns true to this entry. In any case, `require` returns the final value
+ of `package.loaded[modname]`.
+ If there is any error loading or running the module, or if it cannot find
+ any loader for the module, then `require` signals an error.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">modname</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

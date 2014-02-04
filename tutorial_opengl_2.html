@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_opengl_2</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h2>OpenGL 2 pipeline</h2>
+
+<p>The typical task of an OpenGL program is to take as input some 3D geometry and other parameters, and render it by setting the color value for each pixel in the application window. This involves a series of transformations between <a href="http://grrrwaaa.github.io/gct633/space.html">spaces</a>, and different kinds of programming tasks at each stage of the transformation. Some of the earlier steps of these operations occur on the computer&rsquo;s CPU, while the later operations occur on the graphics hardware (GPU). The flow of data through this process is almost always unidirectional, hence it is sometimes called the &lsquo;rendering pipeline&rsquo;. </p>
+
+<p><a href="http://duriansoftware.com/joe/An-intro-to-modern-OpenGL.-Chapter-1:-The-Graphics-Pipeline.html"><img src="http://duriansoftware.com/joe/media/gl1-pipeline-01.png" alt="Duran Software image of pipeline" /></a></p>
+
+<p>The host program fills OpenGL-managed memory buffers with arrays of vertices; these vertices are projected into screen space, assembled into triangles, and rasterized into pixel-sized fragments; finally, the fragments are assigned color values and drawn to the framebuffer. Modern GPUs get their flexibility by delegating the &ldquo;project into screen space&rdquo; and &ldquo;assign color values&rdquo; stages to uploadable programs called shaders. </p>
+
+<h2><a name="shader_program"></a>Shader program</h2>
+
+<p>At any time the GPU may have one shader program bound. Typically the shader program will contain a vertex shader and a fragment shader. These allow us to insert our own code into the rendering pipeline at the vertex transformation and fragment coloring stages.</p>
+
+<blockquote><p>Note that shaders can also be used in combination with <a href="tutorial_opengl_1.html">OpenGL 1 immediate mode geometry</a>, though there is less flexibility regarding vertex attributes.</p></blockquote>
+
+<h2><a name="vertex_shader"></a>Vertex shader</h2>
+
+<p>Each vertex in the vertex array is sent through the vertex program. The vertex program determines how to modify each vertex. At minimum, it must compute the actual position of the vertex in screen space (by setting the <strong>gl_Position</strong> variable). </p>
+
+<p>Here is a simple vertex shader:</p>
+
+<pre><span class="symbol">/</span><span class="symbol">/</span> <span class="identifier">the</span> <span class="identifier">input</span> <span class="identifier">position</span> <span class="identifier">of</span> <span class="identifier">the</span> <span class="identifier">vertex</span><span class="symbol">:</span>
+<span class="identifier">attribute</span> <span class="identifier">vec3</span> <span class="identifier">position</span><span class="symbol">;</span>
+
+<span class="identifier">void</span> <span class="identifier">main</span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol">{</span>
+    <span class="identifier">gl_Position</span> <span class="symbol">=</span> <span class="identifier">vec4</span><span class="symbol">(</span><span class="identifier">position.x</span>, <span class="identifier">position.y</span>, <span class="number">0.</span>, <span class="number">1.</span><span class="symbol">)</span><span class="symbol">;</span>
+<span class="symbol">}</span>
+</pre>
+
+
+<p>Vertex shaders may make use of <strong>attributes</strong>, values that are set for each input vertex. Typical vertex attributes are position, color, normal (surface direction), texture coordinate (for applying texture mapping).</p>
+
+<p>Note that the GLSL language provides support for vector types (vec2, vec3, vec4) and matrix types (mat2, mat3, mat4) in the language itself, since these are so fundamental to graphics programming. </p>
+
+<h2><a name="fragment_shader"></a>Fragment shader</h2>
+
+<p>For each pixel of a rendered triangle, the fragment shader is run to compute the pixel color (by setting the <strong>gl_FragColor</strong> variable). Here is a simple fragment shader:</p>
+
+<pre><span class="identifier">uniform</span> <span class="identifier">vec3</span> <span class="identifier">lightcolor</span><span class="symbol">;</span>
+
+<span class="identifier">void</span> <span class="identifier">main</span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol">{</span>
+    <span class="symbol">/</span><span class="symbol">/</span> <span class="identifier">paint</span> <span class="identifier">all</span> <span class="identifier">pixels</span> <span class="identifier">opaque</span> <span class="identifier">red</span><span class="symbol">:</span>
+    <span class="identifier">vec3</span> <span class="identifier">red</span> <span class="symbol">=</span> <span class="identifier">vec3</span><span class="symbol">(</span><span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span><span class="symbol">)</span><span class="symbol">;</span>
+    <span class="symbol">/</span><span class="symbol">/</span> <span class="identifier">compute</span> <span class="identifier">pixel</span> <span class="identifier">color</span> <span class="identifier">by</span> <span class="identifier">multiplying</span> <span class="identifier">with</span> <span class="identifier">the</span> <span class="identifier">light</span> <span class="identifier">color</span><span class="symbol">:</span>
+    <span class="identifier">vec3</span> <span class="identifier">color</span> <span class="symbol">=</span> <span class="identifier">lightcolor</span> <span class="symbol">*</span> <span class="identifier">red</span><span class="symbol">;</span>
+    <span class="symbol">/</span><span class="symbol">/</span> <span class="identifier">store</span> <span class="identifier">that</span> <span class="identifier">as</span> <span class="identifier">the</span> <span class="identifier">result</span>, <span class="identifier">with</span> <span class="identifier">an</span> <span class="identifier">alpha</span> <span class="symbol">(</span><span class="identifier">opacity</span><span class="symbol">)</span> <span class="identifier">value</span> <span class="identifier">of</span> <span class="number">1</span><span class="symbol">:</span>
+    <span class="identifier">gl_FragColor</span> <span class="symbol">=</span> <span class="identifier">vec4</span><span class="symbol">(</span><span class="identifier">color</span>, <span class="number">1</span><span class="symbol">)</span><span class="symbol">;</span>
+<span class="symbol">}</span>
+</pre>
+
+
+<p>A <strong>uniform</strong> is a way to pass data from the CPU to either vertex or fragment shader. Uniform data has the same value for all vertices/fragments, but can change in successive renders. References to textures are also passed as uniforms (of type <strong>sampler2D</strong>).</p>
+
+<p>Loading, compiling, linking and using shaders requires some fiddly OpenGL code, which we have abstracted into the <span class="identifier">shader</span> module (you can take a look inside it to see how it works):</p>
+
+<pre><span class="comment">-- load in the shader utility module:</span>
+<span class="keyword">local</span> <span class="identifier">shader</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"shader"</span>
+
+<span class="comment">-- write the GLSL code:</span>
+<span class="keyword">local</span> <span class="identifier">vertex_code</span> <span class="symbol">=</span> <span class="string">[[
+    // the input position of the vertex:
+    attribute vec3 position;
+
+    void main() {
+        gl_Position = vec4(position.x, position.y, 0., 1.);
+    }
+]]</span>
+<span class="keyword">local</span> <span class="identifier">fragment_code</span> <span class="symbol">=</span> <span class="string">[[
+    uniform vec3 lightcolor;
+
+    void main() {
+        // paint all pixels opaque red:
+        vec3 red = vec3(1, 0, 0);
+        // compute pixel color by multiplying with the light color:
+        vec3 color = lightcolor * red;
+        // store that as the result, with an alpha (opacity) value of 1:
+        gl_FragColor = vec4(color, 1);
+    }
+]]</span>
+
+<span class="comment">-- use this GLSL code to create a new shader program:</span>
+<span class="keyword">local</span> <span class="identifier">myshaderprogram</span> <span class="symbol">=</span> <span class="identifier">shader</span><span class="symbol">(</span><span class="identifier">vertex_code</span>, <span class="identifier">fragment_code</span><span class="symbol">)</span>
+
+<span class="comment">-- the rendering callback:</span>
+<span class="keyword">function</span> <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- start using the shader:</span>
+    <span class="identifier">myshaderprogram</span><span class="symbol">:</span><span class="identifier">bind</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- set a shader uniform:</span>
+    <span class="identifier">myshaderprogram</span><span class="symbol">:</span><span class="identifier">uniform</span><span class="symbol">(</span><span class="string">"lightcolor"</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span><span class="symbol">)</span>
+    
+    <span class="comment">-- RENDER VERTICES HERE</span>
+    
+    <span class="comment">-- done using the shader:</span>
+    <span class="identifier">myshaderprogram</span><span class="symbol">:</span><span class="identifier">unbind</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<h2><a name="vertex_buffers"></a>Vertex buffers</h2>
+
+<p>To make use of the shader we must send some vertices. Each vertex may have a number of attributes, including location, normal, color, texture coordainates, etc. All these together make the vertex buffer.</p>
+
+<blockquote><p>We can also supply an additional <em>element array</em>, which is an array of indices into the vertex buffer specifying the order to render them. This allows us to use one vertex more than once, or even skip a vertex we don&rsquo;t want to use. It determines how the vertices become triangles.</p></blockquote>
+
+<p>Creating and using vertex buffers requires some fiddly OpenGL code, because it can be very generic. We have abstracted the most common case into the <span class="identifier">vbo</span> module:</p>
+
+<pre><span class="comment">-- load in the utility module for vertex buffer objects</span>
+<span class="keyword">local</span> <span class="identifier">vbo</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"vbo"</span>
+
+<span class="comment">-- create a VBO object to store vertex position and color data</span>
+<span class="comment">-- this vbo contains 3 vertices (1 triangle):</span>
+<span class="keyword">local</span> <span class="identifier">vertices</span> <span class="symbol">=</span> <span class="identifier">vbo</span><span class="symbol">(</span><span class="number">15</span><span class="symbol">)</span>
+
+<span class="comment">-- set the vertex positions:</span>
+<span class="identifier">vertices</span>[<span class="number">0</span><span class="symbol">]</span><span class="symbol">.</span><span class="identifier">position</span><span class="symbol">:</span><span class="identifier">set</span><span class="symbol">(</span><span class="symbol">-</span><span class="number">1</span>, <span class="symbol">-</span><span class="number">1</span>, <span class="number">0</span><span class="symbol">)</span>
+<span class="identifier">vertices</span>[<span class="number">0</span><span class="symbol">]</span><span class="symbol">.</span><span class="identifier">position</span><span class="symbol">:</span><span class="identifier">set</span><span class="symbol">(</span> <span class="number">1</span>, <span class="symbol">-</span><span class="number">1</span>, <span class="number">0</span><span class="symbol">)</span>
+<span class="identifier">vertices</span>[<span class="number">0</span><span class="symbol">]</span><span class="symbol">.</span><span class="identifier">position</span><span class="symbol">:</span><span class="identifier">set</span><span class="symbol">(</span> <span class="number">0</span>,  <span class="number">1</span>, <span class="number">0</span><span class="symbol">)</span>
+
+
+<span class="keyword">function</span> <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- start using the shader:</span>
+    <span class="identifier">myshaderprogram</span><span class="symbol">:</span><span class="identifier">bind</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- set a shader uniform:</span>
+    <span class="identifier">myshaderprogram</span><span class="symbol">:</span><span class="identifier">uniform</span><span class="symbol">(</span><span class="string">"lightcolor"</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span><span class="symbol">)</span>
+    
+    <span class="comment">-- tell the shader_program where to find the </span>
+    <span class="comment">-- 'position' attributes</span>
+    <span class="comment">-- when looking in the vertices VBO:</span>
+    <span class="identifier">vertices</span><span class="symbol">:</span><span class="identifier">enable_position_attribute</span><span class="symbol">(</span><span class="identifier">myshaderprogram</span><span class="symbol">)</span>
+    
+    <span class="comment">-- render using the data in the VBO:</span>
+    <span class="identifier">vertices</span><span class="symbol">:</span><span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span>
+    
+    <span class="comment">-- detach the shader_program attributes:</span>
+    <span class="identifier">vertices</span><span class="symbol">:</span><span class="identifier">disable_position_attribute</span><span class="symbol">(</span><span class="identifier">myshaderprogram</span><span class="symbol">)</span>
+    
+    <span class="comment">-- detach the shader:</span>
+    <span class="identifier">myshaderprogram</span><span class="symbol">:</span><span class="identifier">unbind</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

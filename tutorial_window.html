@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_window</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1><a name="window__keyboard_and_mouse"></a>Window, keyboard and mouse</h1>
+
+<p>Loading the module is necessary when used from a console command line, but is not needed when used within LuaaV. Similarly, from a console command line your script should end with <span class="identifier">av.run</span><span class="symbol">(</span><span class="symbol">)</span>, but this is not necessary when run from the LuaAV application:</p>
+
+<pre><span class="comment">-- these lines are not needed when run from the LuaAV application:</span>
+<span class="keyword">local</span> <span class="identifier">av</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"av"</span>
+<span class="keyword">local</span> <span class="identifier">Window</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"av.Window"</span>
+
+<span class="comment">-- PUT YOUR SCRIPT CODE HERE</span>
+
+<span class="comment">-- this lines is not needed when run from the LuaAV application:</span>
+<span class="identifier">av.run</span><span class="symbol">(</span><span class="symbol">)</span>
+</pre>
+
+
+<h2><a name="create_open_a_window"></a>Create/open a window</h2>
+
+<pre><span class="comment">-- create and open a new window:</span>
+<span class="keyword">local</span> <span class="identifier">win</span> <span class="symbol">=</span> <span class="identifier">Window</span><span class="symbol">(</span><span class="symbol">)</span>
+</pre>
+
+
+<p>Every window has an associated <a href="tutorial_opengl.html">OpenGL</a> context with which we can render graphics. It also handles mouse and keyboard interactions.</p>
+
+<h2><a name="window_callbacks"></a>Window callbacks</h2>
+
+<p>When certain events occur, such as resizing a window, moving the mouse, pressing a key, or simply the succession of frames over time, the window manager may <strong><em>call back</em></strong> into your script to notify you, and let your script decide how to handle the event. </p>
+
+<p>You can handle these events either by defining a global function with a specific name (which will handle the corresponding event type for all windows), or by adding a function with that name to a specific window object. The callback names and their meanings are listed below.</p>
+
+<h3><a name="the____draw______callback"></a>The <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span> callback</h3>
+
+<p>The <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span> function (or <span class="identifier">win</span><span class="symbol">:</span><span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span> method) handles requests to re-draw the window content. That means, this is the function to put all of your rendering code into. </p>
+
+<pre><span class="comment">-- define a rendering handler for all windows:</span>
+<span class="keyword">function</span> <span class="identifier">draw</span><span class="symbol">(</span><span class="identifier">dt</span><span class="symbol">)</span>
+    <span class="comment">-- the "dt" argument is the time (in seconds) since the last draw()</span>
+    <span class="comment">-- (so 1/dt gives an estimate of the actual frame rate)</span>
+    
+    <span class="comment">-- if you don't use the "dt" argument, </span>
+    <span class="comment">-- you don't need to include it in the definition of "draw()".</span>
+
+    <span class="comment">-- all rendering code should go here</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- define a rendering handler for one specific window:</span>
+<span class="comment">-- (note that the argument implicit "self" in the "object:method" syntax is the window)</span>
+<span class="keyword">function</span> <span class="identifier">win</span><span class="symbol">:</span><span class="identifier">draw</span><span class="symbol">(</span><span class="identifier">dt</span><span class="symbol">)</span>
+    <span class="comment">-- drawing code goes here</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<blockquote><p>Note that the default coordinate system of <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span> runs from x == -1 (left side) to x == 1 (right side), and y == -1 (bottom) to y == 1 (top). However this can be changed by means of <span class="identifier">gl</span> matrix transformations (or <span class="identifier">draw2D</span> transformations). </p></blockquote>
+
+<h3><a name="the____resize______callback"></a>The <span class="identifier">resize</span><span class="symbol">(</span><span class="symbol">)</span> callback</h3>
+
+<p>The <span class="identifier">resize</span><span class="symbol">(</span><span class="symbol">)</span> callback happens whenever the window is resized:</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">win</span><span class="symbol">:</span><span class="identifier">resize</span><span class="symbol">(</span><span class="identifier">width</span>, <span class="identifier">height</span><span class="symbol">)</span>
+    <span class="comment">-- width and height are in pixels</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<h3><a name="the____mouse______callback"></a>The <span class="identifier">mouse</span><span class="symbol">(</span><span class="symbol">)</span> callback</h3>
+
+<p>Several types of event can trigger a call to <span class="identifier">mouse</span><span class="symbol">(</span><span class="symbol">)</span>:</p>
+
+<ul>
+<li><strong>down</strong>: a mouse button was pressed</li>
+<li><strong>up</strong>: a mouse button was released</li>
+<li><strong>move</strong>: the mouse was moved</li>
+<li><strong>drag</strong>: the mouse was moved with a button held down</li>
+<li><strong>scroll</strong>: the mouse scroll wheel was moved</li>
+</ul>
+
+
+<pre><span class="keyword">function</span> <span class="identifier">win</span><span class="symbol">:</span><span class="identifier">mouse</span><span class="symbol">(</span><span class="identifier">event</span>, <span class="identifier">button</span>, <span class="identifier">x</span>, <span class="identifier">y</span>, <span class="identifier">dx</span>, <span class="identifier">dy</span><span class="symbol">)</span>
+    <span class="comment">-- event is a string, e.g. "down", "up", etc.</span>
+    <span class="comment">-- button is "left", "right" or "middle"</span>
+    <span class="comment">-- x and y are the mouse location (in pixels)</span>
+    <span class="comment">-- dx and dy are the delta positions (for "drag" and "move" events) or scroll delta (for "scroll" event)</span>
+    
+    <span class="comment">-- for example:</span>
+    <span class="keyword">if</span> <span class="identifier">event</span> <span class="symbol">==</span> <span class="string">"down"</span> <span class="keyword">then</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"click at"</span>, <span class="identifier">x</span>, <span class="identifier">y</span><span class="symbol">)</span>
+    <span class="keyword">elseif</span> <span class="identifier">event</span> <span class="symbol">==</span> <span class="string">"scroll"</span> <span class="keyword">then</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"scroll by"</span>, <span class="identifier">dx</span>, <span class="identifier">dy</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<blockquote><p>Note that mouse positions are in pixel coordinates, which may need to be changed to match the coordinate system of rendering.</p></blockquote>
+
+<h3><a name="the____key______callback"></a>The <span class="identifier">key</span><span class="symbol">(</span><span class="symbol">)</span> callback</h3>
+
+<p>These callbacks handle keyboard events. Modifiers are special &ldquo;meta&rdquo; keys shift, ctrl, alt and cmd. </p>
+
+<pre><span class="keyword">function</span> <span class="identifier">win</span><span class="symbol">:</span><span class="identifier">key</span><span class="symbol">(</span><span class="identifier">event</span>, <span class="identifier">k</span><span class="symbol">)</span>
+    <span class="comment">-- event is either "down" for a keypress, or "up" for key release</span>
+    <span class="comment">-- k is either a modifier string (one of "shift", "ctrl", "alt" or "cmd"),</span>
+    <span class="comment">-- or an ASCII/unicode character number</span>
+    <span class="comment">-- (keycodes can be converted to strings via string.char(keycode))</span>
+    
+    <span class="comment">-- for example:</span>
+    <span class="keyword">if</span> <span class="identifier">event</span> <span class="symbol">==</span> <span class="string">"down"</span> <span class="keyword">and</span> <span class="identifier">k</span> <span class="symbol">==</span> <span class="string">"shift"</span> <span class="keyword">then</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"shift key pressed"</span><span class="symbol">)</span>
+    <span class="keyword">elseif</span> <span class="identifier">event</span> <span class="symbol">==</span> <span class="string">"up"</span> <span class="keyword">and</span> <span class="identifier">k</span> <span class="symbol">==</span> <span class="number">32</span> <span class="keyword">then</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"spacebar released"</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<blockquote><p>Note that keycodes for some special keys might not be consistent between different operating systems.</p></blockquote>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

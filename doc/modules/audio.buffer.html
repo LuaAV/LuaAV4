@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>AV</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Class_audio_buffer">Class audio_buffer </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/audio.html">audio</a></li>
+  <li><a href="../modules/audio.html">audio</a></li>
+  <li><strong>audio.buffer</strong></li>
+  <li><strong>audio.buffer</strong></li>
+  <li><a href="../modules/coroutine.html">coroutine</a></li>
+  <li><a href="../modules/coroutine.html">coroutine</a></li>
+  <li><a href="../modules/debug.html">debug</a></li>
+  <li><a href="../modules/debug.html">debug</a></li>
+  <li><a href="../modules/displaylist.html">displaylist</a></li>
+  <li><a href="../modules/draw2D.html">draw2D</a></li>
+  <li><a href="../modules/gl.html">gl</a></li>
+  <li><a href="../modules/global.html">global</a></li>
+  <li><a href="../modules/global.html">global</a></li>
+  <li><a href="../modules/io.html">io</a></li>
+  <li><a href="../modules/io.html">io</a></li>
+  <li><a href="../modules/math.html">math</a></li>
+  <li><a href="../modules/math.html">math</a></li>
+  <li><a href="../modules/os.html">os</a></li>
+  <li><a href="../modules/os.html">os</a></li>
+  <li><a href="../modules/package.html">package</a></li>
+  <li><a href="../modules/package.html">package</a></li>
+  <li><a href="../modules/string.html">string</a></li>
+  <li><a href="../modules/string.html">string</a></li>
+  <li><a href="../modules/table.html">table</a></li>
+  <li><a href="../modules/table.html">table</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>audio.buffer</code></h1>
+
+<p>Generic container for audio signal data.</p>
+<p>
+ The module can also be called directly as a function, e.g.: mybuf = audio.buffer(1024, 2)</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#create">create&nbsp;(frames, channels, samples)</a></td>
+	<td class="summary">Create a new audio_buffer filled with silence.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#load">load&nbsp;(filename)</a></td>
+	<td class="summary">Create a new audio_buffer from an audio file on disk.</td>
+	</tr>
+</table>
+<h2><a href="#Class_audio_buffer">Class audio_buffer </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#buffer:write">buffer:write&nbsp;(func, start, dur)</a></td>
+	<td class="summary">Write values into a buffer</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+    <dl class="function">
+    <dt>
+    <a name = "create"></a>
+    <strong>create&nbsp;(frames, channels, samples)</strong>
+    </dt>
+    <dd>
+    Create a new audio_buffer filled with silence.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">frames</span>
+            <span class="types"><span class="type">int</span></span>
+         The number of frames (sample length) of the buffer</li>
+        <li><span class="parameter">channels</span>
+            <span class="types">optional <span class="type">int</span></span>
+         The number of channels per frame</li>
+        <li><span class="parameter">samples</span>
+         An optional pointer to existing sample memory</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><span class="type">SNDFILE</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "load"></a>
+    <strong>load&nbsp;(filename)</strong>
+    </dt>
+    <dd>
+    Create a new audio_buffer from an audio file on disk.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filename</span>
+            <span class="types"><a class="type" href="../modules/string.html#">string</a></span>
+         The name or full path of a soundfile to load.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><span class="type">SNDFILE</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Class_audio_buffer"></a>Class audio_buffer </h2>
+        A sound file class.
+    <dl class="function">
+    <dt>
+    <a name = "buffer:write"></a>
+    <strong>buffer:write&nbsp;(func, start, dur)</strong>
+    </dt>
+    <dd>
+    Write values into a buffer
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+            <span class="types"><span class="type">function</span></span>
+         A function that will be called to set each frame of the buffer. For a multi-channel buffer, this function should return multiple values (one for each channel).</li>
+        <li><span class="parameter">start</span>
+            <span class="types">optional <span class="type">int</span></span>
+         The starting index to write data (default 0)</li>
+        <li><span class="parameter">dur</span>
+            <span class="types">optional <span class="type">int</span></span>
+         The number of frames to write (default all frames of the buffer)</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/audio.buffer.html#Class_audio_buffer">audio_buffer</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

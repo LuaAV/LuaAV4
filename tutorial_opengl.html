@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_opengl</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1><a name="opengl"></a>OpenGL</h1>
+
+<p>LuaAV provides a Lua-friendly wrapper of the <a href="http://www.khronos.org/opengl/">OpenGL programming API</a> in the <span class="identifier">gl</span> module. OpenGL is probably the most widely used graphics interfaces in use today, implemented by most graphics processing unit (GPU) hardware in personal computers and mobile devices. </p>
+
+<pre><span class="keyword">local</span> <span class="identifier">gl</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"gl"</span>
+</pre>
+
+
+<h2><a name="opengl_version"></a>OpenGL version</h2>
+
+<p>Currently this module is based on OpenGL version 2.1 (and GLSL 1.2), which is more compatible with the various operating systems on laptops today. It&rsquo;s worth nothing this, because a lot of tutorial material out there on the internet is for older or newer versions of OpenGL, and thus easily misleading. OpenGL 2.1 includes support for &ldquo;old-school&rdquo; immediate mode rendering (<span class="identifier">gl.Begin</span><span class="symbol">(</span><span class="symbol">)</span> etc.), as well as some of the more modern-style vertex buffers and shader pipelines.</p>
+
+<ul>
+<li><a href="tutorial_opengl_1.html">Read more about OpenGL 1 &ldquo;immedate mode&rdquo; geometry here</a></li>
+<li><a href="tutorial_opengl_2.html">Read more about OpenGL 2 buffer-style geometry here</a></li>
+</ul>
+
+
+<h2><a name="opengl_api"></a>OpenGL API</h2>
+
+<p>The main OpenGL bindings are low-level functions mapping directly to the OpenGL C API. These functions can be accessed via the gl module directly, or via shortened form. This makes it very easy to port OpenGL code written in C into LuaAV:</p>
+
+<p>For example:</p>
+
+<pre><span class="comment">-- raw C API:</span>
+<span class="identifier">gl.glClear</span><span class="symbol">(</span><span class="identifier">bit.bor</span><span class="symbol">(</span><span class="identifier">gl.GL_COLOR_BUFFER_BIT</span>, <span class="identifier">gl.GL_DEPTH_BUFFER_BIT</span><span class="symbol">)</span><span class="symbol">)</span>
+<span class="identifier">gl.glColor4f</span><span class="symbol">(</span><span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span><span class="symbol">)</span>
+
+<span class="comment">-- shorter form API:</span>
+<span class="identifier">gl.Clear</span><span class="symbol">(</span><span class="identifier">bit.bor</span><span class="symbol">(</span><span class="identifier">gl.COLOR_BUFFER_BIT</span>, <span class="identifier">gl.DEPTH_BUFFER_BIT</span><span class="symbol">)</span><span class="symbol">)</span>
+<span class="identifier">gl.Color4f</span><span class="symbol">(</span><span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span><span class="symbol">)</span>
+</pre>
+
+
+<p>It is in most cases very easy to translate OpenGL code from C to Lua. Any function prefix <span class="identifier">glxxx</span> becomes <span class="identifier">gl.xxx</span>, and any constant prefix <span class="identifier">GL_XXX</span> also becomes <span class="identifier">gl.XXX</span>. </p>
+
+<h2><a name="simplified_api"></a>Simplified API</h2>
+
+<p>In addition, many common functions have even simpler forms (avoiding the need for type suffixes) and useful defaults by leveraging Lua&rsquo;s dynamic typing support, making authoring OpenGL code in Lua a more pleasant experience:</p>
+
+<pre><span class="comment">-- friendly form:</span>
+<span class="identifier">gl.Clear</span><span class="symbol">(</span><span class="identifier">gl.COLOR_BUFFER_BIT</span>, <span class="identifier">gl.DEPTH_BUFFER_BIT</span><span class="symbol">)</span> <span class="comment">-- or just gl.Clear()</span>
+<span class="identifier">gl.Color</span><span class="symbol">(</span><span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span><span class="symbol">)</span>
+</pre> 
+
+
+<p>These friendly forms are documented in the <span class="identifier">gl</span> module reference; all other OpenGL calls should be derived from the OpenGL C API documentation.</p>
+
+<h2><a name="higher_level_wrappers"></a>Higher level wrappers</h2>
+
+<p>Some OpenGL objects can be complex to work with (such as textures, framebuffer objects, etc.). LuaAV provides several higher-level modules that &ldquo;wrap&rdquo; the OpenGL API in user-friendly forms for common use cases. </p>
+
+<h2><a name="resource_management"></a>Resource management</h2>
+
+<p>Some OpenGL objects (textures, buffers, displaylists etc.) need recreating whenever the OpenGL context is refreshed, such as when entering fullscreen on some platforms. When using LuaAV windows and high-level resource objects (such as <span class="identifier">texture</span>, <span class="identifier">displaylist</span> etc.), this is all handled automatically for you. </p>
+
+<p>If you create your own resource objects you may want to add them to the resource manager. To do so, your object should implement <span class="identifier">object</span><span class="symbol">:</span><span class="identifier">context_create</span><span class="symbol">(</span><span class="symbol">)</span> and <span class="identifier">object</span><span class="symbol">:</span><span class="identifier">context_destroy</span><span class="symbol">(</span><span class="symbol">)</span> methods to acquire/submit and release the resources respectively, and register itself with the context via <span class="identifier">gl.context_register</span><span class="symbol">(</span><span class="identifier">object</span><span class="symbol">)</span>. (Take a look at the displaylist.lua module for a simple example.)</p>
+
+<p>In addition, if you are <em>not</em> using LuaAV&rsquo;s window manager, then your window manager should call <span class="identifier">gl.context_create</span><span class="symbol">(</span><span class="symbol">)</span> when the OpenGL context becomes ready (e.g. the first frame), and <span class="identifier">gl.context_destroy</span><span class="symbol">(</span><span class="symbol">)</span> when the OpenGL context is destroyed (e.g. when the window is closed). </p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

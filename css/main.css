@@ -1,0 +1,137 @@
+/* deal with different browser css defaults by reseting here */
+@import url("reset.css");
+
+html {
+	height: 100%;
+}
+
+body {
+	/*background: #111 url("img/an_background_01.jpg") no-repeat fixed top left; #eee*/	
+	padding: 0;
+	margin:    0 auto;
+    height: 100%;
+    max-width: 720px;
+    
+	background: #eee;	
+
+	-webkit-font-smoothing: antialiased; 
+    font-family: Helvetica,  Arial, "Nimbus Sans L", sans-serif; 
+	font-size: .8em;
+	font-weight: lighter;
+	line-height: 1.5em;
+	color: #111;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Helvetica,  Arial, "Nimbus Sans L", sans-serif; 
+}
+h1              { font-size: 2.0em; line-height: 1.5em; margin: .67em 0 }
+h2              { font-size: 1.7em; line-height: 1.2em; margin: .75em 0 }
+h3              { font-size: 1.4em; line-height: 1.0em; margin: .83em 0 }
+h4              { font-size: 1.1em; line-height: 0.7em; margin: 1.0em 0 }
+
+pre {
+	/*font-family: "Courier 10 Pitch", Courier, monospace;*/
+	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+	background: #f6f6f6;	
+	padding: 10px;	
+	color: #333;
+	border: solid 1px #ccc;
+	border-radius: 5px;
+}
+
+hr {
+	margin: 20px 0px;
+	border: dotted 1px #ccc;
+}
+
+li {
+	list-style-type:circle;
+	list-style-position: inside;
+}
+
+blockquote {
+	border-left:5px solid #ddd;
+	margin:0;
+	padding:0 0 0 20px;
+	font-style: italic;	
+	color: #333;
+}
+
+a:link,
+a:visited {
+	/*color:#0066CC;*/
+	/*color: #000000;
+	color: #dc006c;*/
+	color: #2299dd;
+	/*font-weight: bold;*/
+	/*text-shadow: #dc006c 0px 1px 0px;*/
+	text-decoration: none;
+}
+/*a:visited {color:#743399;}*/
+a:active,
+a:hover {
+	/*color: #FF4B33;
+	color: #eeeeee;*/
+	color: #2299dd;
+	text-decoration: none;
+	/*background-color: #cccccc;*/
+	/*border-bottom: 1px dotted #FF4B33;*/
+	border-bottom: 1px dotted #2299dd;
+	
+}
+
+
+nav {
+	width: 720px;
+	margin: 0px 0px 0px 0px;
+	padding: 50px 0px 0px 0px;
+	
+	line-height: 1.2em;
+	font-size: 1.3em;
+	font-weight: 500;
+	
+	color: #666;
+}
+
+nav ul, li {margin: 0; padding: 0;}
+nav ul { list-style: none;  }
+nav li { display: inline; }
+
+nav li a { 
+	color: #333;
+	text-decoration: none; 
+	padding: 10px; 
+	border: 0px; }
+nav li a:hover {
+ 	background: #aaa;
+ 	color: #fff;
+	padding: 10px; 
+ 	text-decoration: none;
+ 	border: 0px;
+}
+
+#main {
+}
+
+#main .comment 		{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; color: #999; font-style: italic; }
+#main .string,
+#main .number 		{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; color: #d85; }
+/*#main .number 		{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; color: #366; }*/
+#main .keyword 		{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; color: #369; }
+#main .identifier 	{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; color: #633; }
+#main .bang 		{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; color:933; }
+#main .global 		{ font-size: .9em; font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; }
+
+footer {
+
+	height: 40px;
+	width: 720px;
+	
+	padding-top: 15px;
+	border-top: 1px dotted #444;
+	
+	font-size: .8em;
+	
+	background: #eee;
+}

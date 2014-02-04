@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_lua_part2</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1>Lua 5.1 / LuaJIT Quick Summary (part 2: advanced topics)</h1>
+
+<p>Back to <a href="tutorial_lua.html">part 1</a>.</p>
+
+<h2><a name="modules"></a>Modules</h2>
+
+<p>A module is (usually) just a table of functions, stored in a separate file. Modules act like external libraries: re-usable, encapsulated, <em>modular</em>. Load modules using <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span>:</p>
+
+<pre><span class="comment">-- load the foo module (foo.lua):</span>
+<span class="keyword">local</span> <span class="identifier">foo</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"foo"</span>
+
+<span class="comment">-- use a module function:</span>
+<span class="identifier">foo.this</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="identifier">foo.that</span><span class="symbol">(</span><span class="symbol">)</span>
+</pre>
+
+
+<p>To create a module, simply create a Lua script whose last action is to return a table. This table will typically have functions inside. Modules should not create any global variables, only locals. Modules can be placed next to the script, or in any of the locations specified by the <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-package.path" target="_blank">package.path</a></span> string. The name of the module file should match the module name.</p>
+
+<pre><span class="comment">-- this is the foo module, i.e. foo.lua</span>
+
+<span class="comment">-- create the module table</span>
+<span class="keyword">local</span> <span class="identifier">foo</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="comment">-- add some functions to the module:</span>
+<span class="identifier">foo.this</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">'this'</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+<span class="identifier">foo.that</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">'that'</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- return the module table</span>
+<span class="keyword">return</span> <span class="identifier">foo</span>
+</pre>
+
+
+<p>Lua guarantees a given module is only executed once. Additional calls to <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">&ldquo;foo&rdquo;</span> will always return the same table.</p>
+
+<h2><a name="coroutines"></a>Coroutines</h2>
+
+<p>Coroutines are a form of collaborative multi-tasking. You can think of them as functions that can be paused in mid execution, to be resumed at that position at a later time.</p>
+
+<blockquote><p>The C programmer can think of them as similar to threads, however they are explicitly paused and resumed from within a script (rather than by the operating system), and do not make use of CPU multithreading capabilities.</p></blockquote>
+
+<p>A coroutine is created from an existing function using <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.create" target="_blank">coroutine.create</a></span><span class="symbol">(</span><span class="symbol">)</span>, and is resumed using <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.resume" target="_blank">coroutine.resume</a></span><span class="symbol">(</span><span class="symbol">)</span>. It can pause itself with <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.yield" target="_blank">coroutine.yield</a></span><span class="symbol">(</span><span class="symbol">)</span>. In addition, values can be passed back and forth via the arguments to <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.resume" target="_blank">coroutine.resume</a></span><span class="symbol">(</span><span class="symbol">)</span> and <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.yield" target="_blank">coroutine.yield</a></span><span class="symbol">(</span><span class="symbol">)</span>.</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">resume</span>, <span class="identifier">yield</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.resume" target="_blank">coroutine.resume</a></span>, <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.yield" target="_blank">coroutine.yield</a></span>
+
+<span class="comment">-- this function will be used to create a coroutine:</span>
+
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="identifier">loop</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"hello!"</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">x</span> <span class="symbol">=</span> <span class="number">0</span>
+    <span class="keyword">while</span> <span class="keyword">true</span> <span class="keyword">do</span>
+        <span class="comment">-- pause function here:</span>
+        <span class="identifier">yield</span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span>
+        <span class="comment">-- continues here:</span>
+        <span class="identifier">x</span> <span class="symbol">=</span> <span class="identifier">x</span> <span class="symbol">+</span> <span class="number">1</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- create the coroutine:</span>
+<span class="keyword">local</span> <span class="identifier">c</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.create" target="_blank">coroutine.create</a></span><span class="symbol">(</span><span class="identifier">loop</span><span class="symbol">)</span>
+
+<span class="comment">-- the first resume runs from the start of the loop() function to the first yield():</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.resume" target="_blank">coroutine.resume</a></span><span class="symbol">(</span><span class="identifier">c</span><span class="symbol">)</span> <span class="comment">-- prints: hello!</span>
+
+<span class="comment">-- each subsequent resume runs from the last paused yield() to the next yield():</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.resume" target="_blank">coroutine.resume</a></span><span class="symbol">(</span><span class="identifier">c</span><span class="symbol">)</span> <span class="comment">-- prints: 1</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-coroutine.resume" target="_blank">coroutine.resume</a></span><span class="symbol">(</span><span class="identifier">c</span><span class="symbol">)</span> <span class="comment">-- prints: 2</span>
+</pre>
+
+
+<p>In LuaAV, coroutines are extended for accurate temporal scheduling, using the <span class="identifier">go</span>, <span class="identifier">wait</span> and <span class="identifier">now</span> functions.</p>
+
+<h2><a name="metatables"></a>Metatables</h2>
+
+<p>Lua does not provide a class-based object-oriented system by default; instead it provides the meta-mechanisms with which many different kinds of object-oriented programming styles can be implemented.</p>
+
+<p>There are several special events that can apply to objects (usually tables and userdata); the default behavior for these events can be overridden by means of a <em>metatable</em>. A metatable is just an ordinary table with some reserved key names bound to functions (metamethods) to specify this variant behavior. Any table or userdata can have its metatable set; some objects may share a metatable.</p>
+
+<p>For example, the <span class="identifier">__add</span> metamethod defines what happens when two objects are added to each other:</p>
+
+<pre><span class="comment">-- a metatable for pairs</span>
+<span class="keyword">local</span> <span class="identifier">pair_meta</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="comment">-- a metamethod function for how to add two pairs together:</span>
+<span class="identifier">pair_meta.__add</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="identifier">a</span>, <span class="identifier">b</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">p</span> <span class="symbol">=</span> <span class="symbol">{</span>
+  <span class="identifier">a</span>[<span class="number">1</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">b</span>[<span class="number">1</span><span class="symbol">]</span>,
+  <span class="identifier">a</span>[<span class="number">2</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">b</span>[<span class="number">2</span><span class="symbol">]</span>,
+<span class="symbol">}</span>
+<span class="comment">-- result is also a pair:</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-setmetatable" target="_blank">setmetatable</a></span><span class="symbol">(</span><span class="identifier">p</span>, <span class="identifier">pair_meta</span><span class="symbol">)</span>
+  <span class="keyword">return</span> <span class="identifier">p</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- a constructor for pairs:</span>
+<span class="keyword">function</span> <span class="identifier">make_pair</span><span class="symbol">(</span><span class="identifier">x</span>, <span class="identifier">y</span><span class="symbol">)</span>
+  <span class="keyword">local</span> <span class="identifier">p</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="identifier">x</span>, <span class="identifier">y</span> <span class="symbol">}</span>
+  <span class="comment">-- tell p to look in pair_meta for how to handle metamethod events:</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-setmetatable" target="_blank">setmetatable</a></span><span class="symbol">(</span><span class="identifier">p</span>, <span class="identifier">pair_meta</span><span class="symbol">)</span>
+  <span class="keyword">return</span> <span class="identifier">p</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- create two pairs:</span>
+<span class="keyword">local</span> <span class="identifier">p1</span> <span class="symbol">=</span> <span class="identifier">make_pair</span><span class="symbol">(</span><span class="number">2</span>, <span class="number">3</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">p2</span> <span class="symbol">=</span> <span class="identifier">make_pair</span><span class="symbol">(</span><span class="number">4</span>, <span class="number">5</span><span class="symbol">)</span>
+
+<span class="comment">-- add them (creates a new pair):</span>
+<span class="keyword">local</span> <span class="identifier">p3</span> <span class="symbol">=</span> <span class="identifier">p1</span> <span class="symbol">+</span> <span class="identifier">p2</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">p3</span>[<span class="number">1</span><span class="symbol">]</span>, <span class="identifier">p3</span>[<span class="number">2</span><span class="symbol">]</span><span class="symbol">)</span> <span class="comment">-- prints: 6 8</span>
+</pre>
+
+
+<p>Arithmetic operator metamethods also exist for <strong>__mul</strong>, <strong>__sub</strong>, <strong>__div</strong>, <strong>__mod</strong>, <strong>__pow</strong>, <strong>__unm</strong> (unary negation).</p>
+
+<p>The <strong>__index</strong> metamethod is important: if a key cannot be found in a given table, it will try again in whichever object the <strong>__index</strong> field points to; or call the function if <strong>__index</strong> points to a function. This is the principal way that inheritence (of both class data and methods) is supported:</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">animal</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="keyword">function</span> <span class="identifier">animal</span><span class="symbol">:</span><span class="identifier">isalive</span><span class="symbol">(</span><span class="symbol">)</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"yes!"</span><span class="symbol">)</span> <span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="identifier">dog</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+<span class="keyword">function</span> <span class="identifier">dog</span><span class="symbol">:</span><span class="identifier">talk</span><span class="symbol">(</span><span class="symbol">)</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"bark!"</span><span class="symbol">)</span> <span class="keyword">end</span>
+
+<span class="comment">-- create metatable for dog, that refers to animal for unknown keys:</span>
+<span class="keyword">local</span> <span class="identifier">dog_meta</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="identifier">__index</span> <span class="symbol">=</span> <span class="identifier">animal</span> <span class="symbol">}</span>
+
+<span class="comment">-- apply metatable to dog:</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-setmetatable" target="_blank">setmetatable</a></span><span class="symbol">(</span><span class="identifier">dog</span>, <span class="identifier">dog_meta</span><span class="symbol">)</span>
+
+<span class="comment">-- test it:</span>
+<span class="identifier">dog</span><span class="symbol">:</span><span class="identifier">talk</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: bark!</span>
+<span class="identifier">dog</span><span class="symbol">:</span><span class="identifier">isalive</span><span class="symbol">(</span><span class="symbol">)</span> <span class="comment">-- prints: yes!</span>
+
+<span class="identifier">animal</span><span class="symbol">:</span><span class="identifier">talk</span><span class="symbol">(</span><span class="symbol">)</span> <span class="comment">-- error!</span>
+</pre>
+
+
+<p>A corresponding <span class="identifier">__newindex</span> metamethod exists to handle assignments of new keys to an object.</p>
+
+<p>Other metamethods include <strong>__tostring</strong> to convert an object to a string (in the <strong>print()</strong> and <strong>tostring()</strong> functions), <strong><strong>eq, </strong>lt</strong> and <strong>__le</strong> for logical comparisons, <strong>__concat for</strong> the <strong>..</strong> operator, <strong>__len</strong> for the <strong>#</strong> operator, and <strong>__call</strong> for the <strong>()</strong> operator.</p>
+
+<p>By combining all of these metamethods, and smart use metatables, various forms of class based inheritance can be designed. Several examples can be found <a href="http://loop.luaforge.net/">here</a>.</p>
+
+<h2><a name="luajit_ffi"></a>LuaJIT FFI</h2>
+
+<p>The <a href="http://luajit.org/ext_ffi.html">Foreign-Function Interface (FFI)</a> allows LuaJIT to work with C language data types and functions, and even load and use pre-compiled C libraries. Working with FFI types is usually more difficult (and dangerous!) than plain Lua, but in certain cases it can run a lot faster. To use the ffi, first:</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">ffi</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"ffi"</span>
+</pre>
+
+
+<p>To create a new C-type object (&ldquo;cdata&rdquo;), use <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="symbol">)</span>. For example, to create C-style arrays of 64-bit floating point numbers (C-type <em>double</em>):</p>
+
+<pre><span class="comment">-- create an array of five numbers (initialized with zeroes by default):</span>
+<span class="keyword">local</span> <span class="identifier">arr</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"double[5]"</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">arr</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"double[?]"</span>, <span class="number">5</span><span class="symbol">)</span>
+
+<span class="comment">-- create an array of five numbers (initialized with 1, 2, 3, 4, 5):</span>
+<span class="keyword">local</span> <span class="identifier">arr</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"double[5]"</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">arr</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"double[?]"</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">arr</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"double[5]"</span>, <span class="symbol">{</span><span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span><span class="symbol">}</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">arr</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"double[?]"</span>, <span class="number">5</span>, <span class="symbol">{</span><span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span><span class="symbol">}</span><span class="symbol">)</span>
+</pre>
+
+
+<p>Arrays can be indexed just as in C. That means <em>it counts from zero</em>, unlike Lua tables that count from 1:</p>
+
+<pre><span class="identifier">arr</span>[<span class="number">2</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="number">4.2</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">arr</span>[<span class="number">2</span><span class="symbol">]</span><span class="symbol">)</span>     <span class="comment">--> prints 4.2</span>
+</pre>
+
+
+<p>The <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_cdef" target="_blank">ffi.cdef</a></span> function is used to define new aggregate C types (structs):</p>
+
+<pre><span class="comment">-- create declarations of C types in a long string:</span>
+<span class="keyword">local</span> <span class="identifier">cdefs</span> <span class="symbol">=</span> <span class="string">[[
+
+    typedef struct { 
+        int a;
+        double b;
+    } foo;
+
+    typedef struct {
+        foo first;
+        foo second;
+    } foopair;
+
+]]</span>
+<span class="comment">-- add these types the the FFI:</span>
+<span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_cdef" target="_blank">ffi.cdef</a></span><span class="symbol">(</span><span class="identifier">cdefs</span><span class="symbol">)</span>
+
+<span class="comment">-- create a new "foo" type with all members set to zero:</span>
+<span class="keyword">local</span> <span class="identifier">myfoo</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"foo"</span><span class="symbol">)</span>
+
+<span class="comment">-- create a new "foo" type with specific values:</span>
+<span class="keyword">local</span> <span class="identifier">myfoo</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"foo"</span>, <span class="symbol">{</span> <span class="number">100</span>, <span class="number">4.2</span> <span class="symbol">}</span><span class="symbol">)</span>
+
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">myfoo.a</span><span class="symbol">)</span>         <span class="comment">--> prints 100</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">myfoo.b</span><span class="symbol">)</span>        <span class="comment">--> prints 4.2</span>
+
+<span class="comment">-- create a new "foopair":</span>
+<span class="keyword">local</span> <span class="identifier">myfoopair</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_new" target="_blank">ffi.new</a></span><span class="symbol">(</span><span class="string">"foopair"</span>, <span class="symbol">{</span> <span class="symbol">{</span> <span class="number">100</span>, <span class="number">4.2</span> <span class="symbol">}</span>, <span class="symbol">{</span> <span class="number">200</span>, <span class="number">3.14</span> <span class="symbol">}</span> <span class="symbol">}</span><span class="symbol">)</span>
+
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">myfoo.second.a</span><span class="symbol">)</span>     <span class="comment">--> prints 200</span>
+</pre>
+
+
+<p>The <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_load" target="_blank">ffi.load</a></span> function is used to load a precompiled library of C code. It is usually coupled with a <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_cdef" target="_blank">ffi.cdef</a></span> to declare the functions and types the library contains:</p>
+
+<pre><span class="comment">-- load the "libsndfile" dynamic library:</span>
+<span class="keyword">local</span> <span class="identifier">lib</span> <span class="symbol">=</span> <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_load" target="_blank">ffi.load</a></span><span class="symbol">(</span><span class="string">"libsndfile-1.dll"</span><span class="symbol">)</span>
+
+<span class="comment">-- declare one of the functions exported by the library</span>
+<span class="comment">-- (usually we would declare them all at once, but here we just declare one for the example)</span>
+<span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_cdef" target="_blank">ffi.cdef</a></span> <span class="string">[[
+    const char * sf_version_string();
+]]</span>
+
+<span class="comment">-- use this function by indexing the library:</span>
+<span class="keyword">local</span> <span class="identifier">version</span> <span class="symbol">=</span> <span class="identifier">lib.sf_version_string</span><span class="symbol">(</span><span class="symbol">)</span>
+
+<span class="comment">-- version is a cdata of type "const char *"</span>
+<span class="comment">-- (i.e. an immutable array of bytes)</span>
+<span class="comment">-- we can turn it into a Lua string using ffi.string:</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_string" target="_blank">ffi.string</a></span><span class="symbol">(</span><span class="identifier">version</span><span class="symbol">)</span><span class="symbol">)</span>
+</pre>
+
+
+<p>Note that the special symbol <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_C" target="_blank">ffi.C</a></span> is a namespace for all the symbols exported by the application itself, including the basic C math library.</p>
+
+<blockquote><p>We can get the type of a cdata with <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_typeof" target="_blank">ffi.typeof</a></span>, check it with <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_istype" target="_blank">ffi.istype</a></span>, get the size of a type with <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_sizeof" target="_blank">ffi.sizeof</a></span> and <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_offsetof" target="_blank">ffi.offsetof</a></span>, cast cdata between types (e.g. pointer casts) using <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_cast" target="_blank">ffi.cast</a></span>, copy or set memory (akin to memcpy and memset) with <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_copy" target="_blank">ffi.copy</a></span> and <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_fill" target="_blank">ffi.fill</a></span>, all basically following the usual rules in C. We can get platform information using <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_os" target="_blank">ffi.os</a></span>, <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_arch" target="_blank">ffi.arch</a></span> and <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_abi" target="_blank">ffi.abi</a></span>. We can attach special behavior to a cdata <em>type</em> using <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_metatype" target="_blank">ffi.metatype</a></span>, similar to metatables for Lua types. We can add a callback to a cdata <em>object</em> when it is garbage collected using <span class="global"><a href="http://luajit.org/ext_ffi_api.html#ffi_gc" target="_blank">ffi.gc</a></span>. <a href="http://luajit.org/ext_ffi_api.html">See the FFI API here</a></p></blockquote>
+
+<p>With these features, we can interoperate with most C libraries directly from within Lua, without unduly compromising efficiency.</p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

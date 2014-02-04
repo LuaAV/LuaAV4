@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>AV</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/audio.html">audio</a></li>
+  <li><a href="../modules/audio.html">audio</a></li>
+  <li><a href="../modules/audio.buffer.html">audio.buffer</a></li>
+  <li><a href="../modules/audio.buffer.html">audio.buffer</a></li>
+  <li><a href="../modules/coroutine.html">coroutine</a></li>
+  <li><a href="../modules/coroutine.html">coroutine</a></li>
+  <li><strong>debug</strong></li>
+  <li><strong>debug</strong></li>
+  <li><a href="../modules/displaylist.html">displaylist</a></li>
+  <li><a href="../modules/draw2D.html">draw2D</a></li>
+  <li><a href="../modules/gl.html">gl</a></li>
+  <li><a href="../modules/global.html">global</a></li>
+  <li><a href="../modules/global.html">global</a></li>
+  <li><a href="../modules/io.html">io</a></li>
+  <li><a href="../modules/io.html">io</a></li>
+  <li><a href="../modules/math.html">math</a></li>
+  <li><a href="../modules/math.html">math</a></li>
+  <li><a href="../modules/os.html">os</a></li>
+  <li><a href="../modules/os.html">os</a></li>
+  <li><a href="../modules/package.html">package</a></li>
+  <li><a href="../modules/package.html">package</a></li>
+  <li><a href="../modules/string.html">string</a></li>
+  <li><a href="../modules/string.html">string</a></li>
+  <li><a href="../modules/table.html">table</a></li>
+  <li><a href="../modules/table.html">table</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>debug</code></h1>
+
+<p>getting runtime debug information.</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#debug">debug&nbsp;()</a></td>
+	<td class="summary">Enters an interactive mode with the user, running each string that
+
+ the user enters.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getfenv">getfenv&nbsp;(o)</a></td>
+	<td class="summary">Returns the environment of object `o`.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#gethook">gethook&nbsp;(thread)</a></td>
+	<td class="summary">Returns the current hook settings of the thread, as three values: the
+
+ current hook function, the current hook mask, and the current hook count
+
+ (as set by the `debug.sethook` function).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getinfo">getinfo&nbsp;(thread, function, what)</a></td>
+	<td class="summary">Returns a table with information about a function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getlocal">getlocal&nbsp;(thread, level, local)</a></td>
+	<td class="summary">This function returns the name and the value of the local variable with
+
+ index `local` of the function at level `level` of the stack.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getmetatable">getmetatable&nbsp;(object)</a></td>
+	<td class="summary">Returns the metatable of the given `object` or nil if it does not have
+
+ a metatable.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getregistry">getregistry&nbsp;()</a></td>
+	<td class="summary">Returns the registry table (see §3.5).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getupvalue">getupvalue&nbsp;(func, up)</a></td>
+	<td class="summary">This function returns the name and the value of the upvalue with index
+
+ `up` of the function `func`.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setfenv">setfenv&nbsp;(object, table)</a></td>
+	<td class="summary">Sets the environment of the given `object` to the given `table`.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#sethook">sethook&nbsp;(thread, hook, mask, count)</a></td>
+	<td class="summary">Sets the given function as a hook.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setlocal">setlocal&nbsp;(thread, level, local, value)</a></td>
+	<td class="summary">This function assigns the value `value` to the local variable with
+
+ index `local` of the function at level `level` of the stack.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setmetatable">setmetatable&nbsp;(object, table)</a></td>
+	<td class="summary">Sets the metatable for the given `object` to the given `table` (which
+
+ can be nil).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setupvalue">setupvalue&nbsp;(func, up, value)</a></td>
+	<td class="summary">This function assigns the value `value` to the upvalue with index `up`
+
+ of the function `func`.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+    <dl class="function">
+    <dt>
+    <a name = "debug"></a>
+    <strong>debug&nbsp;()</strong>
+    </dt>
+    <dd>
+    Enters an interactive mode with the user, running each string that
+
+ the user enters.  Using simple commands and other debug facilities,
+
+ the user can inspect global and local variables, change their values,
+
+ evaluate expressions, and so on. A line containing only the word `cont`
+
+ finishes this function, so that the caller continues its execution.
+
+ Note that commands for `debug.debug` are not lexically nested within any
+
+ function, and so have no direct access to local variables.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getfenv"></a>
+    <strong>getfenv&nbsp;(o)</strong>
+    </dt>
+    <dd>
+    Returns the environment of object `o`.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">o</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "gethook"></a>
+    <strong>gethook&nbsp;(thread)</strong>
+    </dt>
+    <dd>
+    Returns the current hook settings of the thread, as three values: the
+
+ current hook function, the current hook mask, and the current hook count
+
+ (as set by the `debug.sethook` function).
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">thread</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getinfo"></a>
+    <strong>getinfo&nbsp;(thread, function, what)</strong>
+    </dt>
+    <dd>
+    Returns a table with information about a function.  You can give the
+
+ function directly, or you can give a number as the value of `function`,
+
+ which means the function running at level `function` of the call stack
+
+ of the given thread: level 0 is the current function (`getinfo` itself);
+
+ level 1 is the function that called `getinfo`; and so on. If `function`
+
+ is a number larger than the number of active functions, then `getinfo`
+
+ returns nil.
+
+
+
+ `thread` and `what` are optional.
+
+
+
+ The returned table can contain all the fields returned by `lua_getinfo`,
+
+ with the string `what` describing which fields to fill in. The default for
+
+ `what` is to get all information available, except the table of valid
+
+ lines. If present, the option '`f`' adds a field named `func` with
+
+ the function itself. If present, the option '`L`' adds a field named
+
+ `activelines` with the table of valid lines.
+
+ For instance, the expression `debug.getinfo(1,"n").name` returns a table
+
+ with a name for the current function, if a reasonable name can be found,
+
+ and the expression `debug.getinfo(print)` returns a table with all available
+
+ information about the `print` function.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">thread</span>
+        </li>
+        <li><span class="parameter">function</span>
+        </li>
+        <li><span class="parameter">what</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getlocal"></a>
+    <strong>getlocal&nbsp;(thread, level, local)</strong>
+    </dt>
+    <dd>
+    This function returns the name and the value of the local variable with
+
+ index `local` of the function at level `level` of the stack.  (The first
+
+ parameter or local variable has index 1, and so on, until the last active
+
+ local variable.) The function returns nil if there is no local variable
+
+ with the given index, and raises an error when called with a `level` out
+
+ of range. (You can call `debug.getinfo` to check whether the level is valid.)
+
+ Variable names starting with '`(`' (open parentheses) represent internal
+
+ variables (loop control variables, temporaries, and C function locals).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">thread</span>
+        </li>
+        <li><span class="parameter">level</span>
+        </li>
+        <li><span class="parameter">local</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getmetatable"></a>
+    <strong>getmetatable&nbsp;(object)</strong>
+    </dt>
+    <dd>
+    Returns the metatable of the given `object` or nil if it does not have
+
+ a metatable.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getregistry"></a>
+    <strong>getregistry&nbsp;()</strong>
+    </dt>
+    <dd>
+    Returns the registry table (see §3.5).
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getupvalue"></a>
+    <strong>getupvalue&nbsp;(func, up)</strong>
+    </dt>
+    <dd>
+    This function returns the name and the value of the upvalue with index
+
+ `up` of the function `func`.  The function returns nil if there is no
+
+ upvalue with the given index.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+        </li>
+        <li><span class="parameter">up</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setfenv"></a>
+    <strong>setfenv&nbsp;(object, table)</strong>
+    </dt>
+    <dd>
+    Sets the environment of the given `object` to the given `table`.  Returns
+
+ `object`.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object</span>
+        </li>
+        <li><span class="parameter">table</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "sethook"></a>
+    <strong>sethook&nbsp;(thread, hook, mask, count)</strong>
+    </dt>
+    <dd>
+    Sets the given function as a hook.  The string `mask` and the number
+
+ `count` describe when the hook will be called. The string mask may have
+
+ the following characters, with the given meaning:
+
+
+
+   * `"c"`: the hook is called every time Lua calls a function;
+
+   * `"r"`: the hook is called every time Lua returns from a function;
+
+   * `"l"`: the hook is called every time Lua enters a new line of code.
+
+
+
+ With a `count` different from zero, the hook is called after every `count`
+
+ instructions.
+
+
+
+ When called without arguments, `debug.sethook` turns off the hook.
+
+
+
+ When the hook is called, its first parameter is a string describing
+
+ the event that has triggered its call: `"call"`, `"return"` (or `"tail
+
+ return"`, when simulating a return from a tail call), `"line"`, and
+
+ `"count"`. For line events, the hook also gets the new line number as its
+
+ second parameter. Inside a hook, you can call `getinfo` with level 2 to
+
+ get more information about the running function (level 0 is the `getinfo`
+
+ function, and level 1 is the hook function), unless the event is `"tail
+
+ return"`. In this case, Lua is only simulating the return, and a call to
+
+ `getinfo` will return invalid data.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">thread</span>
+        </li>
+        <li><span class="parameter">hook</span>
+        </li>
+        <li><span class="parameter">mask</span>
+        </li>
+        <li><span class="parameter">count</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setlocal"></a>
+    <strong>setlocal&nbsp;(thread, level, local, value)</strong>
+    </dt>
+    <dd>
+    This function assigns the value `value` to the local variable with
+
+ index `local` of the function at level `level` of the stack.  The function
+
+ returns nil if there is no local variable with the given index, and raises
+
+ an error when called with a `level` out of range. (You can call `getinfo`
+
+ to check whether the level is valid.) Otherwise, it returns the name of
+
+ the local variable.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">thread</span>
+        </li>
+        <li><span class="parameter">level</span>
+        </li>
+        <li><span class="parameter">local</span>
+        </li>
+        <li><span class="parameter">value</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setmetatable"></a>
+    <strong>setmetatable&nbsp;(object, table)</strong>
+    </dt>
+    <dd>
+    Sets the metatable for the given `object` to the given `table` (which
+
+ can be nil).
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object</span>
+        </li>
+        <li><span class="parameter">table</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setupvalue"></a>
+    <strong>setupvalue&nbsp;(func, up, value)</strong>
+    </dt>
+    <dd>
+    This function assigns the value `value` to the upvalue with index `up`
+
+ of the function `func`.  The function returns nil if there is no upvalue
+
+ with the given index. Otherwise, it returns the name of the upvalue.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">func</span>
+        </li>
+        <li><span class="parameter">up</span>
+        </li>
+        <li><span class="parameter">value</span>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

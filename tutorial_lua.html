@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_lua</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1><a name="lua_5_1___luajit_quick_summary__part_1__types__control_flow__and_scope_"></a>Lua 5.1 / LuaJIT Quick Summary (part 1: types, control flow, and scope)</h1>
+
+<p><a href="about_lua.html">Read about the Lua/LuaJIT language here</a>, including <a href="about_lua.html#documentation_and_resources">documentation and resource links</a>.</p>
+
+<p>Go to <a href="tutorial_lua_part2.html">part 2</a>.</p>
+
+<h2><a name="syntax"></a>Syntax</h2>
+
+<pre><span class="comment">-- Two dashes create a comment that ends at the line break</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"hello world"</span><span class="symbol">)</span>
+<span class="comment">-- Note: there is no need for semicolons to terminate statements.</span>
+</pre>
+
+
+<h3><a name="simple_types"></a>Simple types</h3>
+
+<p>All values in Lua are one of the following types; however unlike C, the type does not belong to the variable, but to the value itself. That means that a variable can change type (dynamic typing).</p>
+
+<pre><span class="comment">-- Unlike C, the type information is stored with the value, not the variable; </span>
+<span class="comment">-- this means that the type of a variable can change dynamically.</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="number">1</span>           <span class="comment">-- x now refers to a number</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="string">"foo"</span>       <span class="comment">-- x now refers to a string</span>
+
+<span class="comment">-- check types like this:</span>
+<span class="keyword">if</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-type" target="_blank">type</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span> <span class="symbol">==</span> <span class="string">"number"</span> <span class="keyword">then</span> 
+    <span class="comment">-- do stuff</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<h4><a name="numbers"></a>Numbers</h4>
+
+<p>All numbers in Lua are 64-bit floating point type (aka ‘double’ for C programmers). There is no distinction between integers and non-integers. </p>
+
+<pre><span class="comment">-- these lines are all equivalent</span>
+<span class="comment">-- they assign the number value 1 to the variable name x:</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="number">1</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="number">1.0</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="number">100e-2</span>  <span class="comment">-- e base10 format</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="number">0x1</span> <span class="comment">--hexadecimal format</span>
+<span class="comment">-- Note: all numbers in Lua are 64-bit doubles</span>
+</pre>
+
+
+<blockquote><p>The exception is FFI objects, which present any C type to Lua, including number types.</p></blockquote>
+
+<h4><a name="strings"></a>Strings</h4>
+
+<p>Lua strings are immutable: each string operation creates a new string. </p>
+
+<pre><span class="comment">-- strings:</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"a simple string"</span><span class="symbol">)</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">'a simple string'</span><span class="symbol">)</span>
+
+<span class="comment">-- embedding special characters and multi-line strings:</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="string">'escape the \' character, and write \n a new line'</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="string">[[
+The double square brackets are a simple way to write strings
+that span
+over several
+lines]]</span>
+</pre>
+
+
+<blockquote><p>Strings are hashed internally very efficiently, and garbage collected.</p></blockquote>
+
+<h4><a name="booleans_and_nil"></a>Booleans and nil</h4>
+
+<p>Boolean values are the keywords <span class="keyword">true</span> and <span class="keyword">false</span>. The <span class="keyword">nil</span> value indicates the absence of a value, and also counts as false for conditional tests.</p>
+
+<pre><span class="comment">-- Boolean values:</span>
+<span class="identifier">t</span> <span class="symbol">=</span> <span class="keyword">true</span>
+<span class="identifier">f</span> <span class="symbol">=</span> <span class="keyword">false</span>
+<span class="keyword">if</span> <span class="identifier">t</span> <span class="keyword">then</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"t!"</span><span class="symbol">)</span> <span class="keyword">end</span> <span class="comment">-- prints t!</span>
+<span class="keyword">if</span> <span class="identifier">f</span> <span class="keyword">then</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"f!"</span><span class="symbol">)</span> <span class="keyword">end</span> <span class="comment">-- prints nothing</span>
+
+<span class="comment">-- nil indicates the absence of value. </span>
+<span class="comment">-- Assigning nil to a variable marks the variable for garbage collection.</span>
+<span class="identifier">n</span> <span class="symbol">=</span> <span class="keyword">nil</span>
+<span class="comment">-- nil also evaluates to false for a predicate:</span>
+<span class="keyword">if</span> <span class="identifier">n</span> <span class="keyword">then</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"n!"</span><span class="symbol">)</span> <span class="keyword">end</span> <span class="comment">-- prints nothing</span>
+</pre>
+
+
+<blockquote><p>Assigning <span class="keyword">nil</span> to a variable removes a reference to the value; if the value is no longer accessibly referenced by code, it can be garbage collected. Assigning <span class="keyword">nil</span> to a table key effectively removes that key from the table.</p></blockquote>
+
+<h3><a name="tables__structured_data_"></a>Tables (structured data)</h3>
+
+<p>Lua provides only one data structure: the <em>table</em>. Tables in Lua are associative arrays, mapping <strong>keys</strong> to <strong>values</strong>. Both keys and values can be <em>any</em> valid Lua type except nil. However, the implementation makes sure that when used with continuous number keys, the table performs as a fast array. </p>
+
+<pre><span class="comment">-- creating an array-like table of strings, the quick way:</span>
+<span class="identifier">t</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span> <span class="symbol">}</span>
+
+<span class="comment">-- creating a dictionary-like table, the quick way:</span>
+<span class="identifier">t</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="identifier">one</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="identifier">two</span> <span class="symbol">=</span> <span class="number">2</span>, <span class="identifier">three</span> <span class="symbol">=</span> <span class="number">3</span> <span class="symbol">}</span>
+
+<span class="comment">-- creating a table with both array-like and dictionary-like parts:</span>
+<span class="identifier">t</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="string">"one"</span>, <span class="string">"two"</span>, <span class="string">"three"</span>, <span class="identifier">one</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="identifier">two</span> <span class="symbol">=</span> <span class="number">2</span>, <span class="identifier">three</span> <span class="symbol">=</span> <span class="number">3</span> <span class="symbol">}</span>
+
+<span class="comment">-- create an empty table:</span>
+<span class="identifier">t</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="comment">-- add or replace key-value pairs in the table:</span>
+<span class="identifier">t</span>[<span class="number">1</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="string">"one"</span>    <span class="comment">-- array-like</span>
+<span class="identifier">t</span>[<span class="string">"two"</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="number">2</span>    <span class="comment">-- dictionary-like</span>
+<span class="comment">-- a simpler way of saying that:</span>
+<span class="identifier">t.two</span> <span class="symbol">=</span> <span class="number">2</span>
+
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">t.two</span>, <span class="identifier">t</span>[<span class="string">"two"</span><span class="symbol">]</span><span class="symbol">)</span>    <span class="comment">--> 2 2</span>
+
+<span class="comment">-- special case of nil:</span>
+<span class="comment">-- remove a key-value pair by assigning the value nil:</span>
+<span class="identifier">t.two</span> <span class="symbol">=</span> <span class="keyword">nil</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">t.two</span><span class="symbol">)</span>          <span class="comment">--> <nil></span>
+
+<span class="comment">-- create a table with a sub-table:</span>
+<span class="identifier">t</span> <span class="symbol">=</span> <span class="symbol">{</span>
+    <span class="identifier">numbers</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> <span class="symbol">}</span>,
+    <span class="identifier">letters</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span> <span class="symbol">}</span>,
+<span class="symbol">}</span>
+
+<span class="comment">-- any Lua type (except nil) can be used as key or value</span>
+<span class="comment">-- (including functions, other tables, the table itself, ...)</span>
+<span class="identifier">t</span>[<span class="identifier">x</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">t</span>
+<span class="identifier">t</span>[<span class="keyword">function</span><span class="symbol">(</span><span class="symbol">)</span> <span class="keyword">end</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="keyword">false</span>
+<span class="identifier">t</span>[<span class="identifier">t</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span>
+<span class="comment">-- and other madness...</span>
+</pre>
+
+
+<p>It’s important to remember that a Lua table has two parts; an array-portion and a hash-table portion. The array portion is indexed with integer keys, starting from 1 upwards. All other keys are stored in the hash (or record) portion.</p>
+
+<p>The <strong>array</strong> portion gives Lua tables the capability to act as ordered lists, and can grow/shrink as needed (similar to C++ vectors). Sometimes the array portion is called the <strong>list</strong> portion, because it is useful for creating lists similarly to LISP. In particular, the table constructor will insert numeric keys in order for any values that are not explicitly keyed:</p>
+
+<pre><span class="comment">-- these two lines are equivalent</span>
+<span class="keyword">local</span> <span class="identifier">mylist</span> <span class="symbol">=</span> <span class="symbol">{</span> [<span class="number">1</span><span class="symbol">]</span><span class="symbol">=</span><span class="string">"foo"</span>, [<span class="number">2</span><span class="symbol">]</span><span class="symbol">=</span><span class="string">"bar"</span>, [<span class="number">3</span><span class="symbol">]</span><span class="symbol">=</span><span class="string">"baz"</span> <span class="symbol">}</span><span class="symbol">:</span>
+<span class="keyword">local</span> <span class="identifier">mylist</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="string">"foo"</span>, <span class="string">"bar"</span>, <span class="string">"baz"</span> <span class="symbol">}</span>
+
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">mylist</span>[<span class="number">2</span><span class="symbol">]</span><span class="symbol">)</span>          <span class="comment">--> bar</span>
+        
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-unpack" target="_blank">unpack</a></span><span class="symbol">(</span><span class="identifier">mylist</span><span class="symbol">)</span><span class="symbol">)</span>      <span class="comment">--> foo bar baz </span>
+</pre>
+
+
+<p><em>Remember that Lua expects most tables to count from 1, not from 0.</em></p>
+
+<h3><a name="iterating_a_table"></a>Iterating a table</h3>
+
+<p>To visit <strong>only</strong> array-portion of a table, use a numeric for loop or <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span>, like the following. The traversal follows the order of the keys, from 1 to the length of the table:</p>
+
+<pre><span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="symbol">#</span><span class="identifier">mytable</span> <span class="keyword">do</span>
+    <span class="keyword">local</span> <span class="identifier">v</span> <span class="symbol">=</span> <span class="identifier">mytable</span>[<span class="identifier">i</span><span class="symbol">]</span>
+    <span class="comment">-- do things with the index (i) and value (v)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">i</span>, <span class="identifier">v</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">v</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">mytable</span><span class="symbol">)</span> <span class="keyword">do</span>
+    <span class="comment">-- do things with the index (i) and value (v)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">i</span>, <span class="identifier">v</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>To visit <strong>all</strong> key-value pairs of a table, including the array-portion, use a for loop with <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-pairs" target="_blank">pairs</a></span>. Note that in this case, the order of traversal is undefined; it may be different each time.</p>
+
+<pre><span class="keyword">for</span> <span class="identifier">k</span>, <span class="identifier">v</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-pairs" target="_blank">pairs</a></span><span class="symbol">(</span><span class="identifier">mytable</span><span class="symbol">)</span> <span class="keyword">do</span>
+    <span class="comment">-- do things with the key (k) and value (v)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">k</span>, <span class="identifier">v</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<h3><a name="functions"></a>Functions</h3>
+
+<p>Functions can be declared in several ways:</p>
+
+<pre><span class="comment">-- these are equivalent:</span>
+<span class="identifier">sayhello</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="identifier">message</span><span class="symbol">)</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"hello"</span>, <span class="identifier">message</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="identifier">sayhello</span><span class="symbol">(</span><span class="identifier">message</span><span class="symbol">)</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"hello"</span>, <span class="identifier">message</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- using the function:</span>
+<span class="identifier">sayhello</span><span class="symbol">(</span><span class="string">"me"</span><span class="symbol">)</span>  <span class="comment">-- prints: hello me</span>
+<span class="identifier">sayhello</span><span class="symbol">(</span><span class="string">"you"</span><span class="symbol">)</span> <span class="comment">-- prints: hello you</span>
+
+<span class="comment">-- replacing the function</span>
+<span class="identifier">sayhello</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="identifier">message</span><span class="symbol">)</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"hi"</span>, <span class="identifier">message</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="identifier">sayhello</span><span class="symbol">(</span><span class="string">"me"</span><span class="symbol">)</span>  <span class="comment">-- prints: hi me</span>
+</pre>
+
+
+<p>Functions can zero or more arguments. In Lua, they can also have more than one return value:</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">minmax</span><span class="symbol">(</span><span class="identifier">a</span>, <span class="identifier">b</span><span class="symbol">)</span>
+  <span class="keyword">return</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.min" target="_blank">math.min</a></span><span class="symbol">(</span><span class="identifier">a</span>, <span class="identifier">b</span><span class="symbol">)</span>, <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.max" target="_blank">math.max</a></span><span class="symbol">(</span><span class="identifier">a</span>, <span class="identifier">b</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">minmax</span><span class="symbol">(</span><span class="number">42</span>, <span class="number">13</span><span class="symbol">)</span><span class="symbol">)</span> <span class="comment">-- prints: 13 42</span>
+</pre>
+
+
+<blockquote><p>In Lua, functions are first-class values, just like numbers, strings and tables. That means that functions can take functions as arguments, functions can return other functions as return values, functions can be keys and values in tables. It also means that functions can be created and garbage collected dynamically.</p></blockquote>
+
+<h4><a name="method_call_syntax"></a>Method-call syntax</h4>
+
+<p>A special syntax is available for a table’s member functions that are intended to be used as methods. The use of a colon (<span class="symbol">:</span>) instead of a period (<span class="symbol">.</span>) passes the table itself through as the first implicit argument <span class="identifier">self</span>. This is called <em>method-call syntax</em>:</p>
+
+<pre>
+<span class="comment">-- create a table</span>
+<span class="keyword">local</span> <span class="identifier">t</span> <span class="symbol">=</span> <span class="symbol">{</span> 
+    <span class="comment">-- with one value being a number:</span>
+    <span class="identifier">num</span> <span class="symbol">=</span> <span class="number">10</span>, 
+    <span class="comment">-- and another value being a function:</span>
+    <span class="comment">-- (note the use of the keyword "self")</span>
+    <span class="identifier">printvalue</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">self.num</span><span class="symbol">)</span>
+    <span class="keyword">end</span>,
+<span class="symbol">}</span>
+
+<span class="comment">-- or declare/modify it like this:</span>
+<span class="keyword">function</span> <span class="identifier">t</span><span class="symbol">:</span><span class="identifier">printvalue</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">self.num</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- use the method:</span>
+<span class="identifier">t.printvalue</span><span class="symbol">(</span><span class="identifier">t</span><span class="symbol">)</span> <span class="comment">-- prints: 10</span>
+</pre>
+
+
+<blockquote><p>There&rsquo;s nothing really special here except some fancy syntax for convenience; saying <span class="identifier">t</span><span class="symbol">:</span><span class="identifier">printvalue</span><span class="symbol">(</span><span class="symbol">)</span> is just the same as saying <span class="identifier">t.printvalue</span><span class="symbol">(</span><span class="identifier">t</span><span class="symbol">)</span>.</p></blockquote>
+
+<h3><a name="logic_and_control_flow"></a>Logic and control flow</h3>
+
+<pre><span class="comment">-- if blocks:</span>
+<span class="keyword">if</span> <span class="identifier">x</span> <span class="symbol">==</span> <span class="number">1</span> <span class="keyword">then</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"one"</span><span class="symbol">)</span>
+  <span class="comment">-- as many elseifs as desired can be chained</span>
+<span class="keyword">elseif</span> <span class="identifier">x</span> <span class="symbol">==</span> <span class="number">2</span> <span class="keyword">then</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"two"</span><span class="symbol">)</span>
+<span class="keyword">elseif</span> <span class="identifier">x</span> <span class="symbol">==</span> <span class="number">3</span> <span class="keyword">then</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"three"</span><span class="symbol">)</span>
+<span class="keyword">else</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"many"</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- while loops:</span>
+<span class="identifier">x</span> <span class="symbol">=</span> <span class="number">10</span>
+<span class="keyword">while</span> <span class="identifier">x</span> <span class="symbol">></span> <span class="number">0</span> <span class="keyword">do</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span>
+  <span class="identifier">x</span> <span class="symbol">=</span> <span class="identifier">x</span> <span class="symbol">-</span> <span class="number">1</span>
+<span class="keyword">end</span>
+
+<span class="keyword">repeat</span>
+  <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span>
+  <span class="identifier">x</span> <span class="symbol">=</span> <span class="identifier">x</span> <span class="symbol">+</span> <span class="number">1</span>
+<span class="keyword">until</span> <span class="identifier">x</span> <span class="symbol">==</span> <span class="number">10</span>
+
+<span class="comment">-- numeric for loop:</span>
+<span class="comment">-- count from 1 to 10</span>
+<span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="number">10</span> <span class="keyword">do</span> 
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">i</span><span class="symbol">)</span> 
+<span class="keyword">end</span>        
+<span class="comment">-- count 1, 3, 5, 7, 9:</span>
+<span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="number">10</span>, <span class="number">2</span> <span class="keyword">do</span> 
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">i</span><span class="symbol">)</span> 
+<span class="keyword">end</span>
+<span class="comment">-- count down from 10 to 1:</span>
+<span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">10</span>, <span class="number">1</span>, <span class="symbol">-</span><span class="number">1</span> <span class="keyword">do</span> 
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">i</span><span class="symbol">)</span> 
+<span class="keyword">end</span>
+
+<span class="comment">-- logical operators:</span>
+<span class="keyword">if</span> <span class="identifier">x</span> <span class="symbol">==</span> <span class="identifier">y</span> <span class="keyword">then</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"equal"</span><span class="symbol">)</span> <span class="keyword">end</span>
+<span class="keyword">if</span> <span class="identifier">x</span> <span class="symbol">~=</span> <span class="identifier">y</span> <span class="keyword">then</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"not equal"</span><span class="symbol">)</span> <span class="keyword">end</span>
+
+<span class="comment">-- combinators are "and", "or" and "not":</span>
+<span class="keyword">if</span> <span class="identifier">x</span> <span class="symbol">></span> <span class="number">12</span> <span class="keyword">and</span> <span class="keyword">not</span> <span class="identifier">x</span> <span class="symbol">>=</span> <span class="number">20</span> <span class="keyword">then</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"teen"</span><span class="symbol">)</span> <span class="keyword">end</span>
+</pre>
+
+
+<h3><a name="lexical_scoping"></a>Lexical scoping</h3>
+
+<p>If a variable is declared <span class="keyword">local</span>, it exists for any code that follows it, until the <span class="keyword">end</span> of that block. (You can tell what a block is by how the code is indented.) Local identifiers are not visible outside the block in which they were declared, but are visible inside sub-blocks. This is called <em>lexical scoping</em>.</p>
+
+<p>If a variable is not declared local, it becomes a global variable, belonging to the entire script. <strong>This is a very common cause of bugs</strong>, so it is better to use <span class="keyword">local</span> in nearly all cases. (Also, local variables are more efficient).</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">foo</span><span class="symbol">(</span><span class="identifier">test</span><span class="symbol">)</span>
+    <span class="comment">-- a function body is a new block</span>
+    <span class="keyword">local</span> <span class="identifier">y</span> <span class="symbol">=</span> <span class="string">"mylocal"</span>
+    <span class="keyword">if</span> <span class="identifier">test</span> <span class="keyword">then</span>
+        <span class="comment">-- this is a sub-block of the function</span>
+        <span class="comment">-- so "y" is still visible here</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">y</span><span class="symbol">)</span>  <span class="comment">-- prints: mylocal</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- this is outside the block in which "local y" occurred,</span>
+<span class="comment">-- so "y" is not visible here:</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">y</span><span class="symbol">)</span>    <span class="comment">-- prints: nil</span>
+</pre>
+
+
+<p>Assigning to a variable that has not been declared locally within the current block will search for that name in parent blocks, recursively, up to the top-level. If the name is found, the assignment is made to that variable. But if the name is still not found, Lua creates a new global instead. Mostly this does what you'd expect, so long as you use <span class="keyword">local</span> whenever you declare a new variable.</p>
+
+<pre><span class="comment">-- an outer variable:</span>
+<span class="keyword">local</span> <span class="identifier">x</span> <span class="symbol">=</span> <span class="string">"outside"</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span> <span class="comment">-- prints: outside</span>
+
+<span class="comment">-- sub-block uses "local", which does not affect the variable "x" outside:</span>
+<span class="keyword">function</span> <span class="identifier">safe</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">x</span> <span class="symbol">=</span> <span class="string">"inside"</span>
+<span class="keyword">end</span>
+<span class="identifier">safe</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span> <span class="comment">-- prints: outside</span>
+
+<span class="comment">-- sub-block does not use "local", so this updates the variable "x" outside:</span>
+<span class="keyword">function</span> <span class="identifier">unsafe</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="identifier">x</span> <span class="symbol">=</span> <span class="string">"inside"</span>
+<span class="keyword">end</span>
+<span class="identifier">unsafe</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span> <span class="comment">-- prints: inside</span>
+</pre>
+
+
+<h4><a name="closures"></a>Closures</h4>
+
+<p>Closures arise from the mixed use of lexically scoped local variables, and higher order functions. Any function that makes use of non-local variables effectively keeps those variable references alive within it. An example explains this better:</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">make_counter</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">count</span> <span class="symbol">=</span> <span class="number">0</span>
+    <span class="comment">-- notice that one function returns another</span>
+    <span class="comment">-- each call to "make_counter()" will allocate and return a newly defined function:</span>
+    <span class="keyword">return</span> <span class="keyword">function</span><span class="symbol">(</span><span class="symbol">)</span>
+        <span class="identifier">count</span> <span class="symbol">=</span> <span class="identifier">count</span> <span class="symbol">+</span> <span class="number">1</span>
+        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="identifier">count</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- call to make_counter() returns a function;</span>
+<span class="comment">-- and 'captures' the local count as an 'upvalue' specific to it</span>
+<span class="keyword">local</span> <span class="identifier">c1</span> <span class="symbol">=</span> <span class="identifier">make_counter</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="identifier">c1</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: 1</span>
+<span class="identifier">c1</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: 2</span>
+<span class="identifier">c1</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: 3</span>
+
+<span class="comment">-- another call to make_counter() creates a new function,</span>
+<span class="comment">-- with a new count upvalue</span>
+<span class="keyword">local</span> <span class="identifier">c2</span> <span class="symbol">=</span> <span class="identifier">make_counter</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="identifier">c2</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: 1</span>
+<span class="identifier">c2</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: 2</span>
+
+<span class="comment">-- the two function's upvalues are independent of each other:</span>
+<span class="identifier">c1</span><span class="symbol">(</span><span class="symbol">)</span>  <span class="comment">-- prints: 4</span>
+</pre>
+
+
+<h4><a name="garbage_collection"></a>Garbage collection</h4>
+
+<p>Objects are never explicitly deleted in Lua (though sometimes resources such as files might have explicit close() methods). When Lua gets to the end of a block, normally it can release any <span class="keyword">local</span> variables created with it. </p>
+
+<p>However they might still be referenced (e.g. by tables or closures), in which case Lua won&rsquo;t release the memory until those values are no longer accessible. Most of the time we don&rsquo;t even need to think about it.</p>
+
+<blockquote><p>Lua uses an fast incremental garbage collector that runs in the background, which silently recycles the memory for any values to which no more references remain. </p></blockquote>
+
+<hr />
+
+<p>Go to <a href="tutorial_lua_part2.html">part 2</a>.</p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>
