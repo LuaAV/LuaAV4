@@ -245,9 +245,9 @@
 	// run luajit from the resources folder:
 	task = [[NSTask alloc] init];
 	
-	[task setLaunchPath: [NSString stringWithFormat:@"%@/modules/osx/luajit", [[NSBundle mainBundle] resourcePath]]];
+	[task setLaunchPath: [NSString stringWithFormat:@"%@/modules/OSX/luajit", [[NSBundle mainBundle] resourcePath]]];
 	//[task setLaunchPath: [[NSBundle mainBundle] pathForAuxiliaryExecutable:@"luajit"]];
-	[task setArguments: [NSArray arrayWithObjects: [NSString stringWithFormat:@"%@/av.lua", [[NSBundle mainBundle] resourcePath]], posix_path, nil]];
+	[task setArguments: [NSArray arrayWithObjects: [NSString stringWithFormat:@"%@/modules/av.lua", [[NSBundle mainBundle] resourcePath]], posix_path, nil]];
 	
 	// set cwd to the source script
 	[task setCurrentDirectoryPath:[posix_path stringByDeletingLastPathComponent]];

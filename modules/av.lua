@@ -11,8 +11,6 @@ local is_module = argc == 1 and modulename == "av"
 -- else if loaded by executing av.lua, the script name is arg[1]:
 local script_filename = arg[is_module and 0 or 1]
 
-print(script_filename, arg[0], unpack(arg))
-
 --------------------------------------------------------------------------------
 -- utilities
 --------------------------------------------------------------------------------
@@ -86,7 +84,7 @@ else
 	-- extract path from filename
 	av.path = path_from_filename(av_filename)
 	-- add this to search paths:
-	add_module_path(av.path .. "modules" .. path_sep)
+	add_module_path(av.path)
 	
 	-- now extract path from filename
 	assert(script_filename, "missing argument (path of script to run)")
@@ -94,9 +92,6 @@ else
 	av.script.path, av.script.name = path_from_filename(script_filename)
 	-- also add this to package path:
 	add_module_path(av.script.path)
-	
-	print(av.path, av.script.path)
-	print(package.path)
 end
 
 --------------------------------------------------------------------------------
@@ -148,7 +143,6 @@ else
 	-- indicate that av is already loaded
 	-- so that require "av" now simply returns the local av:
 	package.loaded.av = av
-	print(arg[0], unpack(arg))
 	
 	-- modify the global arg table to trim off av.lua
 	-- (so that launching a script via luajit av.lua or ./av.lua or via hashbang is consistent)
@@ -165,9 +159,7 @@ else
 		print(err)
 		os.exit(-1)
 	end
-	
-	print(arg[0], unpack(arg))
-	
+
 	-- schedule this script to run as a coroutine, as soon as av.run() begins:
 	-- (passing arg as ... is strictly speaking redundant; should it be removed?)
 	--go(scriptfunc, unpack(arg))

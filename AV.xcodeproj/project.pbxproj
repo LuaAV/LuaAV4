@@ -18,7 +18,6 @@
 		363DBC7D1890EAB400603068 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 363DBC7C1890EAB400603068 /* icon.icns */; };
 		363DBC8D1890F86800603068 /* luaavApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 363DBC8C1890F86800603068 /* luaavApp.m */; };
 		363DBC8F189105A400603068 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 363DBC8E189105A400603068 /* WebKit.framework */; };
-		3676F1FD189D088E00E19E84 /* av.lua in Resources */ = {isa = PBXBuildFile; fileRef = 3676F1FC189D087500E19E84 /* av.lua */; };
 		3687AA1E18937F1600A906BB /* modules in Resources */ = {isa = PBXBuildFile; fileRef = 3687AA1D18937F1600A906BB /* modules */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 		363DBC8B1890F86800603068 /* luaavApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = luaavApp.h; sourceTree = "<group>"; };
 		363DBC8C1890F86800603068 /* luaavApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = luaavApp.m; sourceTree = "<group>"; };
 		363DBC8E189105A400603068 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		3676F1FC189D087500E19E84 /* av.lua */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lua; name = av.lua; path = AV/av.lua; sourceTree = "<group>"; };
 		3687AA1D18937F1600A906BB /* modules */ = {isa = PBXFileReference; lastKnownFileType = folder; path = modules; sourceTree = "<group>"; };
 		3687AA1F18937F6500A906BB /* example.lua */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lua; path = example.lua; sourceTree = "<group>"; };
 		36B6A5C11892689100869769 /* luajit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = luajit; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				3687AA1F18937F6500A906BB /* example.lua */,
-				3676F1FC189D087500E19E84 /* av.lua */,
 				3687AA1D18937F1600A906BB /* modules */,
 				36B6A5D31892746000869769 /* developer.md */,
 				363DBC4B1890EA3500603068 /* AV */,
@@ -254,7 +251,6 @@
 				363DBC561890EA3500603068 /* Credits.rtf in Resources */,
 				363DBC5C1890EA3500603068 /* luaavDocument.xib in Resources */,
 				363DBC5F1890EA3600603068 /* MainMenu.xib in Resources */,
-				3676F1FD189D088E00E19E84 /* av.lua in Resources */,
 				3687AA1E18937F1600A906BB /* modules in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
