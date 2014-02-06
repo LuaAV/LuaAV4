@@ -50,7 +50,6 @@
 		36B6A5C61892689100869769 /* luajit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = luajit.h; sourceTree = "<group>"; };
 		36B6A5C71892689100869769 /* lualib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lualib.h; sourceTree = "<group>"; };
 		36B6A5C91892689100869769 /* libluajit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libluajit.a; sourceTree = "<group>"; };
-		36B6A5D018926A2600869769 /* build_luajit_osx.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_luajit_osx.sh; sourceTree = "<group>"; };
 		36B6A5D31892746000869769 /* developer.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = developer.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,7 +74,6 @@
 				36B6A5D31892746000869769 /* developer.md */,
 				363DBC4B1890EA3500603068 /* AV */,
 				363DBC441890EA3500603068 /* Frameworks */,
-				36B6A5D018926A2600869769 /* build_luajit_osx.sh */,
 				36B6A5BF1892689100869769 /* osx */,
 				363DBC431890EA3500603068 /* Products */,
 			);

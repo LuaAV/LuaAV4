@@ -1,4 +1,4 @@
-
+#!/usr/bin/env luajit
 -- av.lua can be used as a regular Lua module, or as a launcher script
 -- (if it is used as a module, the main script must explicitly call av.run() at the end)
 -- To know whether av.lua is executed as a module or as a launcher script:
@@ -6,6 +6,8 @@
 local argc = select("#", ...)
 local modulename = ...
 local is_module = argc == 1 and modulename == "av"
+
+local debug_traceback = debug.traceback
 
 -- if loaded as module in luajit, the script name is arg[0]
 -- else if loaded by executing av.lua, the script name is arg[1]:
@@ -43,11 +45,13 @@ end
 -- av module
 --------------------------------------------------------------------------------
 
-local av = {
+av = {
 	-- the path to av.lua:
 	path = "",
 	-- general configuration
-	config = {},
+	config = {
+		maxtimercallbacks = 50,
+	},
 	-- data about the script being run:
 	script = {
 		-- the name of the script being run:	
@@ -86,7 +90,7 @@ else
 	-- add this to search paths:
 	add_module_path(av.path)
 	
-	print(arg[0], av.path)
+	--print(arg[0], av.path)
 	
 	-- now extract path from filename
 	assert(script_filename, "missing argument (path of script to run)")
@@ -101,33 +105,76 @@ end
 --------------------------------------------------------------------------------
 local scheduler = require "scheduler"
 local schedule = scheduler.create()
-now, go, wait, event = schedule.now, schedule.go, schedule.wait, schedule.event
+av.now, av.go, av.wait, av.event = schedule.now, schedule.go, schedule.wait, schedule.event
 
 -- TODO: remove this once we have core in place:
 ffi.cdef[[
+	// Windows
 	void Sleep(int ms);
+	
+	// unix
 	int poll(struct pollfd *fds, unsigned long nfds, int timeout);
+	struct timeval {
+		long int tv_sec;
+		long int tv_usec;
+	};
+	int gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 ]]
-local sleep
 if ffi.os == "Windows" then
-  function sleep(s)
-    ffi.C.Sleep(s*1000)
-  end
+	function av.sleep(s)
+		ffi.C.Sleep(s*1000)
+	end
+	
+	local glfw = require "glfw"
+	av.time = glfw.GetTime
 else
-  function sleep(s)
-    ffi.C.poll(nil, 0, s*1000)
-  end
+	function av.sleep(s)
+		ffi.C.poll(nil, 0, s*1000)
+	end
+	local tv = ffi.new("struct timeval[1]")
+	local function time()
+		ffi.C.gettimeofday(tv, nil)
+		return tonumber(tv[0].tv_sec) + (tonumber(tv[0].tv_usec) * 1.0e-6)
+	end
+	local t0 = time()
+	function av.time() return time() - t0 end
 end
 
 -- the main loop:
+-- (initially defined as no-op to prevent infinite loop in user script)
+function av.run() end
+
 local t = 0
-function av.run()
+function av.step()
+	local t1 = av.time()
+	local dt = t1 - t	-- dt is passed to the global update(dt) call
+	t = t1
+	
+	-- update scheduled routines:
+	schedule.update(t, av.config.maxtimercallbacks)
+	
+	-- call global update() if it exists:	
+	local f = _G.update
+	if f and type(f) == "function" then
+		local ok, err = xpcall(function() f(dt) end, debug_traceback)
+		if not ok then
+			print(err)
+			-- if an error was thrown, cancel the draw to prevent endless error spew:
+			_G.update = nil
+		end
+	end
+	
+	-- and repeat
+	return true
+end
+
+-- the actual implementation when used:
+local t = 0
+local function run()
 	-- avoid multiple invocations:
 	av.run = function() end
-	while true do
-		t = t + 1
-		schedule.update(t, config.maxtimercallbacks)
-		sleep(1)
+	while av.step() do 
+		av.sleep(1/120)
 	end
 end
 
@@ -139,7 +186,10 @@ end
 -- if loaded as a module, return here:
 if is_module then 
 	-- we're loaded as a module
-	-- just return the module:
+	-- allow av.run() to be called from the script:
+	av.run = run
+
+	-- return the module:
 	return av 
 else
 	-- indicate that av is already loaded
@@ -150,7 +200,9 @@ else
 	-- (so that launching a script via luajit av.lua or ./av.lua or via hashbang is consistent)
 	for i = 0, argc+1 do arg[i] = arg[i+1] end
 
-	-- TODO pre-load LuaAV globals
+	-- pre-load LuaAV globals:
+	Window = require "Window"
+	now, go, wait, event = schedule.now, schedule.go, schedule.wait, schedule.event
 
 	-- TODO resume as a coroutine in the av scheduler?
 	
@@ -164,10 +216,9 @@ else
 
 	-- schedule this script to run as a coroutine, as soon as av.run() begins:
 	-- (passing arg as ... is strictly speaking redundant; should it be removed?)
-	--go(scriptfunc, unpack(arg))
-	scriptfunc(unpack(arg))
+	go(scriptfunc, unpack(arg))
+	--scriptfunc(unpack(arg))
 	
-	-- Note that the script may try to call av.run(); we need a flag to suppress double-calls
-	-- start the main loop:
-	-- TODO av.run()
+	-- start the main loop manually here:
+	run()
 end
