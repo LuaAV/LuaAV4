@@ -171,11 +171,10 @@ end
 -- the actual implementation when used:
 local t = 0
 local function run()
-	-- avoid multiple invocations:
-	av.run = function() end
 	while av.step() do 
 		av.sleep(1/120)
 	end
+	print("done")
 end
 
 

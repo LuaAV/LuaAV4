@@ -4755,7 +4755,7 @@ local globjects = {}
 setmetatable(globjects, { __mode = 'k' })
 
 local function globject_destroy(o) 
-	print("globject_destroy", o)
+	--print("globject_destroy", o)
 	if o.context_destroy then o:context_destroy() end
 end
 

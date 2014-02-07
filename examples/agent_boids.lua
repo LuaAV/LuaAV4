@@ -151,7 +151,6 @@ local showview = true
 
 function draw()	
 	draw2D.blend()
-	draw2D.bounds(0, 0, 1, 1)
 	draw2D.color(0, 0.3, 0)
 	
 	-- draw lines between boids and the neighbors they can see:

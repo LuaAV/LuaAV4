@@ -103,8 +103,6 @@ end
 
 
 function draw()
-	g.bounds(0, 0, 1, 1)
-	
 	vehicle:draw()
 	
 	g.push()

@@ -99,6 +99,134 @@ for i = 1, 25 do
 	keynames[glfw["KEY_F"..i]] = "f"..i
 end
 
+-- TEMP: only makes sense for single window
+function Window.poll() 
+	glfw.PollEvents() 
+	--glfw.WaitEvents()
+end
+-- it can trigger callbacks, which are not safe for JIT:
+jit.off(Window.poll)
+
+local t0 = glfw.GetTime()
+local function step()
+	-- receive events
+	Window.poll()
+
+	local t = glfw.GetTime()
+	local dt = t - t0
+	t0 = t
+	for self in pairs(windows) do
+		if glfw.WindowShouldClose(self.ptr) == 0 then
+			glfw.MakeContextCurrent(self.ptr)
+			gl.Viewport(0, 0, self.width, self.height)
+			
+			-- on the first frame, call win:create()
+			if self.frame == 0 then
+			
+				gl.Enable(gl.MULTISAMPLE)	
+				gl.Enable(gl.POLYGON_SMOOTH)
+				gl.Hint(gl.POLYGON_SMOOTH_HINT, gl.NICEST)
+				gl.Enable(gl.LINE_SMOOTH)
+				gl.Hint(gl.LINE_SMOOTH_HINT, gl.NICEST)
+				gl.Enable(gl.POINT_SMOOTH)
+				gl.Hint(gl.POINT_SMOOTH_HINT, gl.NICEST)
+			
+				gl.Clear()
+				gl.context_create()
+				
+				local f = self.create
+				if f and type(f) == "function" then
+					local ok, err = xpcall(function() f(self) end, debug_traceback)
+					if not ok then
+						print(err)
+						-- if an error was thrown, cancel the draw to prevent endless error spew:
+						self.draw = nil
+					end
+				else
+					local f = _G.create
+					if f and type(f) == "function" then
+						local ok, err = xpcall(f, debug_traceback)
+						if not ok then
+							print(err)
+							-- if an error was thrown, cancel the draw to prevent endless error spew:
+							_G.draw = nil
+						end
+					end
+				end
+			end
+			self.frame = self.frame + 1
+			
+			if self.autoclear then
+				gl.Clear()
+			end
+			gl.MatrixMode(gl.PROJECTION)
+			gl.LoadIdentity()
+			gl.Ortho(0, 1, 0, 1, -1, 1)
+			gl.MatrixMode(gl.MODELVIEW)
+			gl.LoadIdentity()
+			
+			local f = self.draw
+			if f and type(f) == "function" then
+				local ok, err = xpcall(function() f(self) end, debug_traceback)
+				if not ok then
+					print(err)
+					-- if an error was thrown, cancel the draw to prevent endless error spew:
+					self.draw = nil
+				end
+			else
+				local f = _G.draw
+				if f and type(f) == "function" then
+					local ok, err = xpcall(f, debug_traceback)
+					if not ok then
+						print(err)
+						-- if an error was thrown, cancel the draw to prevent endless error spew:
+						_G.draw = nil
+					end
+				end
+			end
+
+			glfw.SwapBuffers(self.ptr)
+		else
+			windows[self] = nil
+		end
+	end
+
+	-- return true to keep looping if there is a window open:
+	if next(windows) == nil then
+		glfw.Terminate()
+		return false
+	else
+		return true
+	end
+end
+
+local wrap_av_run
+if av then
+	Window.title = av.script.name
+	Window.run = av.run
+	
+	wrap_av_run = function()	
+		-- wrap av.run:
+		local av_step = av.step
+		local t0 = glfw.GetTime()
+		av.step = function()
+			-- do the usual:
+			av_step()
+			-- and do GLFW:
+			return step()
+		end
+		
+		-- only do this once:
+		wrap_av_run = nil
+	end	
+else
+	-- create a function to serve as the main loop:
+	function Window.run()
+		while step() do end
+	end
+end
+
+
 local function new(title, w, h, x, y)
 	local self
 	if type(title) == "table" then
@@ -135,6 +263,8 @@ local function new(title, w, h, x, y)
 	
 	-- set (default) callbacks:
 	glfw.SetFramebufferSizeCallback(self.ptr, function(ptr, w, h)		
+		self.width = w
+		self.height = h
 		local f = self.resize
 		if f and type(f) == "function" then
 			local ok, err = xpcall(function() f(self, w, h) end, debug_traceback)
@@ -279,129 +409,11 @@ local function new(title, w, h, x, y)
 
 	windows[self] = true
 	
-	return self
-end
-
-
--- TEMP: only makes sense for single window
-function Window.poll() 
-	glfw.PollEvents() 
-	--glfw.WaitEvents()
-end
--- it can trigger callbacks, which are not safe for JIT:
-jit.off(Window.poll)
-
-local t0 = glfw.GetTime()
-local function step()
-	-- receive events
-	Window.poll()
-
-	local t = glfw.GetTime()
-	local dt = t - t0
-	t0 = t
-	for self in pairs(windows) do
-		if glfw.WindowShouldClose(self.ptr) == 0 then
-			glfw.MakeContextCurrent(self.ptr)
-			gl.Viewport(0, 0, self.width, self.height)
-			
-			-- on the first frame, call win:create()
-			if self.frame == 0 then
-			
-				gl.Enable(gl.MULTISAMPLE)	
-				gl.Enable(gl.POLYGON_SMOOTH)
-				gl.Hint(gl.POLYGON_SMOOTH_HINT, gl.NICEST)
-				gl.Enable(gl.LINE_SMOOTH)
-				gl.Hint(gl.LINE_SMOOTH_HINT, gl.NICEST)
-				gl.Enable(gl.POINT_SMOOTH)
-				gl.Hint(gl.POINT_SMOOTH_HINT, gl.NICEST)
-			
-				gl.Clear()
-				gl.context_create()
-				
-				local f = self.create
-				if f and type(f) == "function" then
-					local ok, err = xpcall(function() f(self) end, debug_traceback)
-					if not ok then
-						print(err)
-						-- if an error was thrown, cancel the draw to prevent endless error spew:
-						self.draw = nil
-					end
-				else
-					local f = _G.create
-					if f and type(f) == "function" then
-						local ok, err = xpcall(f, debug_traceback)
-						if not ok then
-							print(err)
-							-- if an error was thrown, cancel the draw to prevent endless error spew:
-							_G.draw = nil
-						end
-					end
-				end
-			end
-			self.frame = self.frame + 1
-			
-			if self.autoclear then
-				gl.Clear()
-			end
-			gl.MatrixMode(gl.PROJECTION)
-			gl.LoadIdentity()
-			gl.MatrixMode(gl.MODELVIEW)
-			gl.LoadIdentity()
-			
-			local f = self.draw
-			if f and type(f) == "function" then
-				local ok, err = xpcall(function() f(self) end, debug_traceback)
-				if not ok then
-					print(err)
-					-- if an error was thrown, cancel the draw to prevent endless error spew:
-					self.draw = nil
-				end
-			else
-				local f = _G.draw
-				if f and type(f) == "function" then
-					local ok, err = xpcall(f, debug_traceback)
-					if not ok then
-						print(err)
-						-- if an error was thrown, cancel the draw to prevent endless error spew:
-						_G.draw = nil
-					end
-				end
-			end
-
-			glfw.SwapBuffers(self.ptr)
-		else
-			windows[self] = nil
-		end
-	end
-
-	-- return true to keep looping if there is a window open:
-	if next(windows) == nil then
-		glfw.Terminate()
-		return false
-	else
-		return true
-	end
-end
-
-if av then
-	Window.title = av.script.name
-
-	-- wrap av.run:
-	local av_step = av.step
-	local t0 = glfw.GetTime()
-	av.step = function()
-		-- do the usual:
-		av_step()
-		-- and do GLFW:
-		return step()
+	if wrap_av_run then
+		wrap_av_run()
 	end
 	
-	Window.run = av.run
-else
-	-- create a function to serve as the main loop:
-	function Window.run()
-		while step() do end
-	end
+	return self
 end
 
 setmetatable(Window, {
