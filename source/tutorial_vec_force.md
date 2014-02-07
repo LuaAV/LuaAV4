@@ -83,7 +83,7 @@ Also known as *toroidal* space.
 	-- wrap at x boundaries:
 	if location.x > 1 then 
 		location.x = location.x - 2
-	elseif self.location < -1 then
+	elseif location.x < -1 then
 		location.x = location.x + 2
 	end
 	
@@ -135,6 +135,10 @@ agent.move = function(self)
 	self.velocity:add(self.acceleration)
 	-- integrate location:
 	self.location:add(self.velocity)
+	-- limit position:
+	location:min(1):max(-1)
+	-- clear forces:
+	self.force:set(0, 0)
 end
 
 agent.draw = function(self)
@@ -174,18 +178,26 @@ end
 	self.force:add(wind(self.location))
 ```
 
-Other forces a body interacts may be approximately instantaneous, rather than continuous. For example, if mouse is clicked, we could add an instantaneous "jump" force:
+Other forces a body interacts may be approximately instantaneous, rather than continuous. For example, if mousepad is scrolled, we could add an instantaneous "jump" force:
 
 ```
 function mouse(event, button, x, y)
-	if event == "down" then
-		print("jump")
-		agent.force:add(vec2(0, 4))
-	end
+	if event == "scroll" then
+        agent.force:sub(vec2(x, y))
+    end
 end
 ```
 
 ### Friction
+
+So far our agent moves in a perfect Newtonian world: until a force acts on it, the velocity remains constant. In the world we are familiar with this rarely occurs, and velocity gradually decreases due to friction.
+
+The simplest way we can model this is by scaling down the velocity on each frame:
+
+```lua
+	-- (in agent.move)
+	self.velocity:mul(0.9)
+```
 
 A crude simulation of air friction operates in the opposite direction to movement, with a constant magnitude. We can get the magnitude of a vector (it's length) by Pythagoras's theorem:
 

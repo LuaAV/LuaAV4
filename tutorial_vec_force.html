@@ -169,7 +169,7 @@
 <pre>   <span class="comment">-- wrap at x boundaries:</span>
     <span class="keyword">if</span> <span class="identifier">location.x</span> <span class="symbol">></span> <span class="number">1</span> <span class="keyword">then</span> 
         <span class="identifier">location.x</span> <span class="symbol">=</span> <span class="identifier">location.x</span> <span class="symbol">-</span> <span class="number">2</span>
-    <span class="keyword">elseif</span> <span class="identifier">self.location</span> <span class="symbol"><</span> <span class="symbol">-</span><span class="number">1</span> <span class="keyword">then</span>
+    <span class="keyword">elseif</span> <span class="identifier">location.x</span> <span class="symbol"><</span> <span class="symbol">-</span><span class="number">1</span> <span class="keyword">then</span>
         <span class="identifier">location.x</span> <span class="symbol">=</span> <span class="identifier">location.x</span> <span class="symbol">+</span> <span class="number">2</span>
     <span class="keyword">end</span>
     
@@ -221,6 +221,10 @@
     <span class="identifier">self.velocity</span><span class="symbol">:</span><span class="identifier">add</span><span class="symbol">(</span><span class="identifier">self.acceleration</span><span class="symbol">)</span>
     <span class="comment">-- integrate location:</span>
     <span class="identifier">self.location</span><span class="symbol">:</span><span class="identifier">add</span><span class="symbol">(</span><span class="identifier">self.velocity</span><span class="symbol">)</span>
+    <span class="comment">-- limit position:</span>
+    <span class="identifier">location</span><span class="symbol">:</span><span class="identifier">min</span><span class="symbol">(</span><span class="number">1</span><span class="symbol">)</span><span class="symbol">:</span><span class="identifier">max</span><span class="symbol">(</span><span class="symbol">-</span><span class="number">1</span><span class="symbol">)</span>
+    <span class="comment">-- clear forces:</span>
+    <span class="identifier">self.force</span><span class="symbol">:</span><span class="identifier">set</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span><span class="symbol">)</span>
 <span class="keyword">end</span>
 
 <span class="identifier">agent.draw</span> <span class="symbol">=</span> <span class="keyword">function</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
@@ -261,18 +265,26 @@
 </pre>
 
 
-<p>Other forces a body interacts may be approximately instantaneous, rather than continuous. For example, if mouse is clicked, we could add an instantaneous &ldquo;jump&rdquo; force:</p>
+<p>Other forces a body interacts may be approximately instantaneous, rather than continuous. For example, if mousepad is scrolled, we could add an instantaneous &ldquo;jump&rdquo; force:</p>
 
 <pre><span class="keyword">function</span> <span class="identifier">mouse</span><span class="symbol">(</span><span class="identifier">event</span>, <span class="identifier">button</span>, <span class="identifier">x</span>, <span class="identifier">y</span><span class="symbol">)</span>
-    <span class="keyword">if</span> <span class="identifier">event</span> <span class="symbol">==</span> <span class="string">"down"</span> <span class="keyword">then</span>
-        <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="string">"jump"</span><span class="symbol">)</span>
-        <span class="identifier">agent.force</span><span class="symbol">:</span><span class="identifier">add</span><span class="symbol">(</span><span class="identifier">vec2</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">4</span><span class="symbol">)</span><span class="symbol">)</span>
+    <span class="keyword">if</span> <span class="identifier">event</span> <span class="symbol">==</span> <span class="string">"scroll"</span> <span class="keyword">then</span>
+        <span class="identifier">agent.force</span><span class="symbol">:</span><span class="identifier">sub</span><span class="symbol">(</span><span class="identifier">vec2</span><span class="symbol">(</span><span class="identifier">x</span>, <span class="identifier">y</span><span class="symbol">)</span><span class="symbol">)</span>
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 </pre>
 
 
 <h3><a name="friction"></a>Friction</h3>
+
+<p>So far our agent moves in a perfect Newtonian world: until a force acts on it, the velocity remains constant. In the world we are familiar with this rarely occurs, and velocity gradually decreases due to friction.</p>
+
+<p>The simplest way we can model this is by scaling down the velocity on each frame:</p>
+
+<pre>   <span class="comment">-- (in agent.move)</span>
+    <span class="identifier">self.velocity</span><span class="symbol">:</span><span class="identifier">mul</span><span class="symbol">(</span><span class="number">0.9</span><span class="symbol">)</span>
+</pre>
+
 
 <p>A crude simulation of air friction operates in the opposite direction to movement, with a constant magnitude. We can get the magnitude of a vector (it&rsquo;s length) by Pythagoras&rsquo;s theorem:</p>
 

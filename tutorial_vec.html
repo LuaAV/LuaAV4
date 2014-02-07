@@ -97,6 +97,119 @@
 
 <p>Vectors are frequently used to manage <a href="tutorial_vec_force.html">velocities, forces and other behaviors</a>.</p>
 
+<h1><a name="_euclidean__vectors"></a>(Euclidean) Vectors</h1>
+
+<p>A <strong>vector</strong> is one way of describing a direction with a magnitude. Vectors can describe spatial properties such as locations, but also properties that change over time such as velocities, accelerations, forces of attraction and repulsion, local wind speed and direction, etc. A magnitude without direction (such as a regular number) is called a <strong>scalar</strong>.</p>
+
+<p>In a 2D space, a vector has two components (X, Y), in a 3D space, it has three (X, Y, Z). Programming with vectors is easier if these components are combined into a single abstraction of a <em>vector object</em>. We can also treat a position in space as a vector: <em>the vector from the origin (0, 0) to the position</em>. </p>
+
+<p>Adding two vectors is like applying their movements in series. </p>
+
+<p>The difference between two points can be obtained by subtraction; it also a vector. The <em>relative</em> position of B with respect to A is simply <span class="identifier">B</span> <span class="symbol">&ndash;</span> <span class="identifier">A</span>. So the position of agent B relative to agent A is <span class="identifier">B.position</span> <span class="symbol">&ndash;</span> <span class="identifier">A.position</span>. (For agent-oriented programming we often need to take the perspective <em>relative to an agent</em>, rather than the absolute, global perspective.)</p>
+
+<p>We can multiply (or divide) vectors by scalars to make them longer or shorter. So <span class="identifier">A</span> <span class="symbol">*</span> <span class="number">2</span> produces a copy of vector A which is twice as long.</p>
+
+<p>Using this, we can interpolate between two vectors A and B by interpolating their components according to an interpolation factor <span class="identifier">a</span> which varies between 0 (for A) and 1 (for B) like this: <span class="identifier">A</span> <span class="symbol">+</span> <span class="identifier">a</span> <span class="symbol"><em></span> <span class="symbol">(</span><span class="identifier">B</span> <span class="symbol">&ndash;</span> <span class="identifier">A</span><span class="symbol">)</span>. This is </em>linear interpolation<em>, or &ldquo;lerp&rdquo;. If a is 0.5, then it corresponds to the </em>mean* (average) of two vectors.</p>
+
+<p>The distance between two points is the length (<em>magnitude</em>) of the vector between them. We can use Pythagoras' theorem: <span class="identifier">distance</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sqrt" target="_blank">math.sqrt</a></span><span class="symbol">(</span><span class="identifier">v.x</span><span class="symbol"><em></span><span class="identifier">v.x</span> <span class="symbol">+</span> <span class="identifier">v.y</span><span class="symbol"></em></span><span class="identifier">v.y</span><span class="symbol">)</span>. </p>
+
+<p>A <em>unit vector</em> is a vector whose magnitude equals 1. The set of all unit vectors makes up the unit circle (a circle of radius 1). We can turn any vector into a unit vector by dividing by its length: </p>
+
+<pre><span class="keyword">local</span> <span class="identifier">len</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sqrt" target="_blank">math.sqrt</a></span><span class="symbol">(</span><span class="identifier">v.x</span><span class="symbol">*</span><span class="identifier">v.x</span> <span class="symbol">+</span> <span class="identifier">v.y</span><span class="symbol">*</span><span class="identifier">v.y</span><span class="symbol">)</span>
+<span class="identifier">v.x</span> <span class="symbol">=</span> <span class="identifier">v.x</span> <span class="symbol">/</span> <span class="identifier">len</span>
+<span class="identifier">v.y</span> <span class="symbol">=</span> <span class="identifier">v.y</span> <span class="symbol">/</span> <span class="identifier">len</span>
+</pre>
+
+
+<p>The angle between two points can be derived using the <em>arctangent</em> of Y over X. We can calculate it as <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.atan2" target="_blank">math.atan2</a></span><span class="symbol">(</span><span class="identifier">y</span>, <span class="identifier">x</span><span class="symbol">)</span>. (<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.atan" target="_blank">math.atan</a></span><span class="symbol">(</span><span class="identifier">y</span><span class="symbol">/</span><span class="identifier">x</span><span class="symbol">)</span> would work, except that it could be satisfied by two different angles; <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.atan2" target="_blank">math.atan2</a></span> is more explicit and usually gives us the angle we require.)</p>
+
+<p>The length and angle of a vector form the <em>polar</em> representation. We can convert back to <em>Cartesian</em> form again just as easily:</p>
+
+<pre><span class="comment">-- Cartesian to polar:</span>
+<span class="keyword">local</span> <span class="identifier">len</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sqrt" target="_blank">math.sqrt</a></span><span class="symbol">(</span><span class="identifier">v.x</span><span class="symbol">*</span><span class="identifier">v.x</span> <span class="symbol">+</span> <span class="identifier">v.y</span><span class="symbol">*</span><span class="identifier">v.y</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">angle</span> <span class="symbol">=</span> <span class="identifier">mat.atan2</span><span class="symbol">(</span><span class="identifier">y</span>, <span class="identifier">x</span><span class="symbol">)</span>
+<span class="comment">-- Polar to Cartesian:</span>
+<span class="keyword">local</span> <span class="identifier">x</span> <span class="symbol">=</span> <span class="identifier">len</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.cos" target="_blank">math.cos</a></span><span class="symbol">(</span><span class="identifier">angle</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">y</span> <span class="symbol">=</span> <span class="identifier">len</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sin" target="_blank">math.sin</a></span><span class="symbol">(</span><span class="identifier">angle</span><span class="symbol">)</span>
+</pre>
+
+
+<p>This is one way that we can rotate a vector: convert to polar form, add to (or subtract from) the angle, convert back to Cartesian form. Another way is to rotate the X and Y components individually, and sum them (the matrix form):</p>
+
+<pre><span class="identifier">x1</span> <span class="symbol">=</span> <span class="identifier">v.x</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.cos" target="_blank">math.cos</a></span><span class="symbol">(</span><span class="identifier">rotation</span><span class="symbol">)</span> <span class="symbol">+</span> <span class="identifier">v.y</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sin" target="_blank">math.sin</a></span><span class="symbol">(</span><span class="identifier">rotation</span><span class="symbol">)</span>
+<span class="identifier">y1</span> <span class="symbol">=</span> <span class="identifier">v.y</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.cos" target="_blank">math.cos</a></span><span class="symbol">(</span><span class="identifier">rotation</span><span class="symbol">)</span> <span class="symbol">-</span> <span class="identifier">v.x</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.cos" target="_blank">math.cos</a></span><span class="symbol">(</span><span class="identifier">rotation</span><span class="symbol">)</span>
+</pre>
+
+
+<p>The <em>dot product</em> (also known as <em>scalar product</em> or <em>inner product</em>) of two vectors v1 and v2 is defined as <span class="identifier">v1.x</span><span class="symbol"><em></span><span class="identifier">v2x</span> <span class="symbol">+</span> <span class="identifier">v1.y</span><span class="symbol"></em></span><span class="identifier">v2.y</span>. (Note the similarity with the Pythagorean theorem). In a way the dot product tells us how similar two vectors are (it is related to correlation). Geometrically it is defined as ||<span class="identifier">A</span>|| ||<span class="identifier">B</span>|| <span class="identifier">cos</span> <span class="identifier">t</span>, which means the length of A multiplied by the length of B multipled by the angle t between A and B. So we can re-arrange that to determine the angle between to vectors as  <span class="identifier">arccosine</span><span class="symbol">(</span> <span class="identifier">dot</span><span class="symbol">(</span><span class="identifier">A</span>, <span class="identifier">B</span><span class="symbol">)</span> <span class="symbol">/</span> <span class="symbol">(</span><span class="identifier">mag</span><span class="symbol">(</span><span class="identifier">A</span><span class="symbol">)</span> <span class="symbol"><em></span> <span class="identifier">mag</span><span class="symbol">(</span><span class="identifier">B</span><span class="symbol">)</span><span class="symbol">)</span><span class="symbol">)</span>. Of course, if A and B are </em>unit vectors*, this simplifies to <span class="identifier">arccosine</span><span class="symbol">(</span><span class="identifier">dot</span><span class="symbol">(</span><span class="identifier">A</span>, <span class="identifier">b</span><span class="symbol">)</span><span class="symbol">)</span>. </p>
+
+<blockquote><p>One useful result is that if the dot product is zero, then A and B are orthogonal (at right angles to each other). If it is positive, then the angle between is less than 90 degrees, and if negative, the vectors must face away from each other since the angle between them is greater than 90 degrees. (And since magnitudes are always positive, we can skip that part of the calculation too!)</p></blockquote>
+
+<pre><span class="comment">-- create a new 2D vector:</span>
+<span class="keyword">function</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="identifier">x</span>, <span class="identifier">y</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">v</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="identifier">v.x</span> <span class="symbol">=</span> <span class="identifier">x</span>
+    <span class="identifier">v.y</span> <span class="symbol">=</span> <span class="identifier">y</span>
+    <span class="keyword">return</span> <span class="identifier">v</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- multiply a vector by a number (modifies existing vector):</span>
+<span class="keyword">function</span> <span class="identifier">vec2_mul</span><span class="symbol">(</span><span class="identifier">self</span>, <span class="identifier">n</span><span class="symbol">)</span>
+    <span class="identifier">self.x</span> <span class="symbol">=</span> <span class="identifier">self.x</span> <span class="symbol">*</span> <span class="identifier">n</span>
+    <span class="identifier">self.y</span> <span class="symbol">=</span> <span class="identifier">self.y</span> <span class="symbol">*</span> <span class="identifier">n</span>
+    <span class="keyword">return</span> <span class="identifier">self</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>Agents have spatial locations (positions), which we can store as vectors (direciton and magnitude from the world origin):</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">agent</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">self</span> <span class="symbol">=</span> <span class="symbol">{</span>
+        <span class="identifier">pos</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span>, <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">)</span>
+    <span class="symbol">}</span>
+    <span class="keyword">return</span> <span class="identifier">self</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="identifier">agent_draw</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+    <span class="identifier">g.circle</span><span class="symbol">(</span><span class="identifier">self.pos.x</span>, <span class="identifier">self.pos.y</span>, <span class="number">0.01</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="identifier">A</span> <span class="symbol">=</span> <span class="identifier">agent</span><span class="symbol">(</span><span class="symbol">)</span>
+</pre>
+
+
+<p>New location = old location plus velocity: <span class="identifier">agent.pos</span> <span class="symbol">=</span> <span class="identifier">agent.pos</span> <span class="symbol">+</span> <span class="identifier">agent.velocity</span>. This is accumulation or <em>integration</em>, at the <em>first-order</em>. Velocity is the <em>rate of change</em> of position. Second-order integration could be expressed as <span class="identifier">agent.velocity</span> <span class="symbol">=</span> <span class="identifier">agent.velocity</span> <span class="symbol">+</span> <span class="identifier">agent.acceleration</span>, since acceleration is the <em>rate of change of velocity</em>. </p>
+
+<p>Going the other way, we can take the <em>difference</em> of current and previous location to infer the velocity: <span class="identifier">velocity</span> <span class="symbol">=</span> <span class="identifier">current_position</span> <span class="symbol">&ndash;</span> <span class="identifier">previous_position</span>, which is clearly a relative vector.</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">agent</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">self</span> <span class="symbol">=</span> <span class="symbol">{</span>
+        <span class="identifier">pos</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span>, <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">)</span>,
+        <span class="identifier">vel</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span><span class="symbol">)</span>,
+        <span class="identifier">acc</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span><span class="symbol">)</span>,
+    <span class="symbol">}</span>
+    <span class="keyword">return</span> <span class="identifier">self</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="identifier">agent_update</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+    <span class="comment">-- update velocity by acceleration:</span>
+    <span class="identifier">vec2_add</span><span class="symbol">(</span><span class="identifier">self.vel</span>, <span class="identifier">self.acc</span><span class="symbol">)</span>
+    <span class="comment">-- update location by velocity:</span>
+    <span class="identifier">vec2_add</span><span class="symbol">(</span><span class="identifier">self.pos</span>, <span class="identifier">self.vel</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="identifier">agent_draw</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+    <span class="identifier">g.push</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="identifier">g.translate</span><span class="symbol">(</span><span class="identifier">self.pos.x</span>, <span class="identifier">self.pos.y</span><span class="symbol">)</span>
+    <span class="identifier">g.rotate</span><span class="symbol">(</span><span class="identifier">vec2_angle</span><span class="symbol">(</span><span class="identifier">self.vel</span><span class="symbol">)</span><span class="symbol">)</span>
+    <span class="identifier">g.circle</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span>, <span class="number">0.01</span><span class="symbol">)</span>
+    <span class="identifier">g.line</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span>, <span class="number">0.02</span>, <span class="number">0</span><span class="symbol">)</span>
+    <span class="identifier">g.pop</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
 <h2><a name="quaternions"></a>Quaternions</h2>
 
 <p>A quaternion is a four-component complex number (with one real and three imaginary components). It is a very useful mathematical object for dealing with orientations and rotations.</p>

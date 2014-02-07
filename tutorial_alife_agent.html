@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_alife_agent</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1>Multi-agent systems (agent-based models)</h1>
+
+<h2><a name="what_is_an_agent_"></a>What is an agent?</h2>
+
+<p>An autonomous agent interacts within an environment populated by other agents, but behaves independently without taking direct commands from other agents nor a global planner or leader. Agent-based models typically operate in parallel within a spatial environment, in which agents are often (but not always) mobile, but interactions are usually limited to local distances. Because of this, with a few simple rules rather complex collective behavior can emerge.</p>
+
+<p>The agent abstraction has arisen somewhat independently in different fields, thus the definition of an agent can vary widely. However the following components are usually present:</p>
+
+<ul>
+<li><strong>Properties</strong>: Persistent but variable features of an agent, such as size, color, speed, direction, energy level, and so on. </li>
+<li><strong>Input</strong>: Limited capabilities of sensing (or receiving messages from) the environment</li>
+<li><strong>Output</strong>: Limited capabilities of performing actions on (or sending messages to) the environment, or its own properties. Typically this includes the ability to move through space.</li>
+<li><strong>Processing</strong>: An information processing capacity to select actions in response to inputs. This capacity may also include information storage (memory).</li>
+<li><strong>Motivations</strong>: The agent may also incorporate explicit goals or purposes in the form of self-evaluation and self-adaptation; or these may be implict in the design of the processing algorithm.</li>
+</ul>
+
+
+<p>As a biological approximation, an agent could refer to anything from individual proteins, viruses, cells, bacteria, organisms, or population groups. Agent systems also share similarities with particle systems.</p>
+
+<h3><a name="agents_in_luaav"></a>Agents in LuaAV</h3>
+
+<p>Like most things in Lua, we can represent an agent as a table. Similarly, we can represent a whole population of agents as a table!</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">vec2</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"vec2"</span>
+
+<span class="comment">-- a function to construct one new agent:</span>
+<span class="keyword">function</span> <span class="identifier">agent_make</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">self</span> <span class="symbol">=</span> <span class="symbol">{</span>
+        <span class="comment">-- insert properties of agent here:</span>
+        <span class="identifier">location</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span>, <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">)</span>,
+        <span class="identifier">orientation</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol">*</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.pi" target="_blank">math.pi</a></span> <span class="symbol">*</span> <span class="number">2</span>,
+        <span class="identifier">size</span> <span class="symbol">=</span> <span class="number">0.02</span>,
+    <span class="symbol">}</span>
+    <span class="keyword">return</span> <span class="identifier">self</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- a container for all the agents currently active:</span>
+<span class="keyword">local</span> <span class="identifier">agents</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="comment">-- initialize with 10 agents:</span>
+<span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="number">10</span> <span class="keyword">do</span>
+    <span class="identifier">agents</span>[<span class="identifier">i</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">agent_make</span><span class="symbol">(</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>Agents are dynamic, which means we need a function to update the state of all agents. We can trigger this from the global <span class="identifier">update</span><span class="symbol">(</span><span class="symbol">)</span> function in LuaAV:</p>
+
+<pre><span class="comment">-- update the state of one agent:</span>
+<span class="keyword">function</span> <span class="identifier">agent_update</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+    <span class="comment">-- update the state of agent 'self' here</span>
+    <span class="comment">-- use agent sensors, </span>
+    <span class="comment">-- perform information processing, </span>
+    <span class="comment">-- update motivations, </span>
+    <span class="comment">-- perform information processing, </span>
+    <span class="comment">-- produce output and behavior</span>
+    <span class="comment">-- e.g. random walk to the right:</span>
+    <span class="identifier">self.location.x</span> <span class="symbol">=</span> <span class="identifier">self.location.x</span> <span class="symbol">+</span> <span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol">*</span> <span class="number">0.01</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- In LuaAV, the update() function is called frequently to update simulation state</span>
+<span class="comment">-- (the dt argument is the seconds elapsed since the last frame)</span>
+<span class="keyword">function</span> <span class="identifier">update</span><span class="symbol">(</span><span class="identifier">dt</span><span class="symbol">)</span>
+    <span class="comment">-- update the state of all agents:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">a</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">agents</span><span class="symbol">)</span> <span class="keyword">do</span>
+        <span class="identifier">agent_update</span><span class="symbol">(</span><span class="identifier">a</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>We can use a similar mechanism to render agents visible. For convenience, we can use the <a href="tutorial_2D.html">draw2D</a> module to prepare a coordinate system centered on each agent:</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">draw2D</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"draw2D"</span>
+
+<span class="comment">-- update the state of one agent:</span>
+<span class="keyword">function</span> <span class="identifier">agent_draw</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+    <span class="comment">-- the center of the agent is at (0, 0), and it faces in the positive X direction</span>
+    <span class="comment">-- e.g. draw a box around the agent that is longer in X than Y:</span>
+    <span class="identifier">draw2D.rect</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- In LuaAV, the draw() function is called once per frame</span>
+<span class="keyword">function</span> <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- update the state of all agents:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">a</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">agents</span><span class="symbol">)</span> <span class="keyword">do</span>
+        <span class="comment">-- set up a new coordinate system</span>
+        <span class="identifier">draw2D.push</span><span class="symbol">(</span><span class="symbol">)</span>
+        <span class="comment">-- centered on the agent, in the agent's point of view, at the agent's size</span>
+        <span class="identifier">draw2D.translate</span><span class="symbol">(</span><span class="identifier">a.location.x</span>, <span class="identifier">a.location.y</span><span class="symbol">)</span>
+        <span class="identifier">draw2D.rotate</span><span class="symbol">(</span><span class="identifier">a.orientation</span><span class="symbol">)</span>
+        <span class="identifier">draw2D.scale</span><span class="symbol">(</span><span class="identifier">a.size</span><span class="symbol">)</span>
+        
+        <span class="comment">-- draw the agent:</span>
+        <span class="identifier">agent_draw</span><span class="symbol">(</span><span class="identifier">a</span><span class="symbol">)</span>
+        
+        <span class="comment">-- restore the previous coordinate system</span>
+        <span class="identifier">draw2D.pop</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<blockquote><p>If you may be randomly adding and removing agents to a population, it may be better to represent the population as a dictionary rather than a list. The important differences are that the agents become the <strong>keys</strong> rather than the <strong>values</strong> of the table. We can just use the boolean <span class="keyword">true</span> as the value. Removing an agent is then as simple assigning a value of <span class="keyword">nil</span> to the agent key. Iterating the dictionary of agents then will use <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-pairs" target="_blank">pairs</a></span> rather than <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span>. </p></blockquote>
+
+<p>For simple agent behaviors take a look <a href="tutorial_vec_force.html">at the tutorial on vectors and forces</a>.</p>
+
+<h2><a name="tortoises_and_vehicles"></a>Tortoises and Vehicles</h2>
+
+<p>In the 1950'sCyberneticist Grey Walter pioneered the engineering of agents, as early examples of autonomous robots, with his <em>&ldquo;tortoises&rdquo;</em>. Remarkably, this direction of research was largely forgotten as efforts in artificial intelligence concentrated on symbolic thinking. (Brief history <a href="http://www.rutherfordjournal.org/article020101.html">here</a>).</p>
+
+<p><a href="http://www.youtube.com/watch?v=lLULRlmXkKo"><img src="http://www.rutherfordjournal.org/images/020101-05.jpg" alt="Machina Speculatrix" /> >> video</a></p>
+
+<p>Nevertheless, Walter&rsquo;s tortoises inspired the turtle graphics of Logo, the situated robotics of Rodney Brooks, the flocking behaviors of Craig Reynolds, and Valentino Braitenberg&rsquo;s Vehicles.</p>
+
+<blockquote><p>A Braitenberg vehicle is an agent that can autonomously move around. It has primitive sensors (measuring some stimulus at a point) and wheels (each driven by its own motor) that function as actuators or effectors. A sensor, in the simplest configuration, is directly connected to an effector, so that a sensed signal immediately produces a movement of the wheel. Depending on how sensors and wheels are connected, the vehicle exhibits different behaviors (which can be goal-oriented).  <a href="http://en.wikipedia.org/wiki/Braitenberg_vehicle">wikipedia</a></p></blockquote>
+
+<p><img src="http://faculty.washington.edu/gmobus/AdaptiveAgents/B-vehicles.gif" alt="Vehicle" /></p>
+
+<p>Cyberneticist Valentino Braitenberg argues that his extraordinarily simple mechanical vehicles manifest behaviors that appear identifiable as fear, aggression, love, foresight, and optimism. The vehicle idea was a thought experiment conceived to show that complex, apparently purposive behaviour did not need to depend on complex representations of the environment inside a creature or agents brain. In fact simply by reacting to the environment in a consistent manner was more than enough to explain the low level reactive behaviours exhibited by many animals.</p>
+
+<blockquote><p>Braitenberg, V. (1984). Vehicles: Experiments in synthetic psychology. Cambridge, MA: MIT Press. </p></blockquote>
+
+<p>Casey Reas (co-author of Processing), Yanni Loukissas, and many others have used populations of Braitenberg-inspired vehicles to create artworks based on their combined paths.</p>
+
+<p><img src="http://reas.com/tissue_p/reas_tissue_p_13.jpg" alt="Reas' Tissue" /></p>
+
+<p>Vehicles have also been constructed in hardware of course &mdash; see examples <a href="http://www.ini.uzh.ch/%7Econradt/research/BraitenbergVehicle/">here</a>, <a href="http://blog.electricbricks.com/en/2010/05/vehiculos-braitenberg-nxt-g/">here</a>, <a href="http://tinkerlog.com/2009/06/07/mini-braitenberg-vehicle/">here</a>.</p>
+
+<h3><a name="vehicles_in_luaav"></a>Vehicles in LuaAV</h3>
+
+<p>See the <a href="https://github.com/LuaAV/LuaAV4/blob/master/examples/alife/agent_vehicles.lua">code example</a>. </p>
+
+<h2><a name="steering_behaviors"></a>Steering Behaviors</h2>
+
+<p>Craig Reynolds' work with robotics is strongly inspired by Braitenberg&rsquo;s and Walter&rsquo;s vehicles, and became famous for his work on simulating flocking behavior (see below). His work has been widely used in robotics, game design, special effects and simulation. Reynolds' paper <a href="http://www.red3d.com/cwr/steer/gdc99/">Steering Behaviors for Autonomous Characters</a> breaks agent movement into three layers:</p>
+
+<ul>
+<li><strong>Action Selection</strong>: selecting actions to perform according to environmental input and goals to achieve. </li>
+<li><strong>Steering</strong>: path determination according to the action selected. Many different behaviors can be used; the essential strategy is <span class="identifier">steering</span> <span class="identifier">force</span> <span class="symbol">=</span> <span class="identifier">desired_velocity</span> <span class="symbol">&ndash;</span> <span class="identifier">current_velocity</span>.</li>
+<li><strong>Locomotion</strong>: mechanisms of conversion of steering into actual movement.</li>
+</ul>
+
+
+<p>The paper is well worth exploring as a collection of patterns for autonomous agent movements; and presents the elements that make up his simulation of flocking behavior.</p>
+
+<h3><a name="boids__flocking__swarms"></a>Boids, flocking, swarms</h3>
+
+<p>In the late 1980s Reynolds proposed a model of animal motion to model flocks, herds and schools, which he named <em>boids</em>. Each boid follows a set of rules based on simple principles:</p>
+
+<ul>
+<li><strong>Avoidance</strong>: Move away from other boids that are too close (avoid collision)</li>
+<li><strong>Copy</strong>: Fly in the same general direction as other nearby boids</li>
+<li><strong>Center</strong>: Move toward the center of the flock (avoid exposure)</li>
+</ul>
+
+
+<p>To make this more realistic, we can consider that each boid can only perceive other boids within a certain distance and viewing angle. We should also restrict how quickly boids can change direction and speed (to account for momentum). Additionally, the avoidance rule may carry greater <em>weight</em> or take precedence over the other rules. Gary Flake also recommends adding an influence for <em>View</em>: to move laterally away from any boid blocking the view.</p>
+
+<p>In addition, if none of the conditions above apply, i.e. the boid cannot perceive any others, it may move by random walk. </p>
+
+<blockquote><p>A <strong>random walk</strong> involves small random deviations to steering. This produces a <strong>random walk</strong> or <strong>Brownian motion</strong>, a form of movement that is widely utilized by nature. In Reynolds' paper it is the <em>wander</em> steering strategy.</p></blockquote>
+
+<p>Evidently the <em>properties</em> of a boid (apart from location) include direction and speed. It could be assumed that viewing angle and range are shared by all boids, or these could also vary per individual. The <em>sensors</em> of a boid include an ability to detect the density of boids in different directions (to detect the center of the flock), as well as the average speed and direction of boids, within a viewable area. The <em>actions</em> of a boid principally are to alter the direction and speed of flight. </p>
+
+<h4><a name="boids_in_luaav"></a>Boids in LuaAV</h4>
+
+<p>The behavior of an agent depends on the other agents that it can perceive (the <em>neighborhood</em>). The simplest way to detect nearby agents is to simply iterate all agents and apply a distance condition (being careful to exclude the agent itself!). We can also include a view angle condition (easily calculated using vector dot product):</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">view_range</span> <span class="symbol">=</span> <span class="number">0.1</span>    <span class="comment">-- how far an agent can see</span>
+
+<span class="keyword">function</span> <span class="identifier">agent_update_sensors</span><span class="symbol">(</span><span class="identifier">self</span><span class="symbol">)</span>
+    <span class="comment">-- create a list of nearby agents:</span>
+    <span class="keyword">local</span> <span class="identifier">neighbors</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="comment">-- test all agents:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">near</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">agents</span><span class="symbol">)</span> <span class="keyword">do</span>
+        <span class="comment">-- don't compare with ourself!</span>
+        <span class="keyword">if</span> <span class="identifier">near</span> <span class="symbol">~=</span> <span class="identifier">self</span> <span class="keyword">then</span>      
+            <span class="comment">-- near enough?</span>
+            <span class="keyword">local</span> <span class="identifier">rel</span> <span class="symbol">=</span> <span class="identifier">near.location</span> <span class="symbol">-</span> <span class="identifier">self.location</span>
+            <span class="keyword">if</span> <span class="identifier">rel</span><span class="symbol">:</span><span class="identifier">length</span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol"><</span> <span class="identifier">view_range</span> <span class="keyword">then</span>
+                <span class="comment">-- is the neighbor in front of us?</span>
+                <span class="comment">-- (use dot product of my velocity to determine this)</span>
+                <span class="keyword">if</span> <span class="identifier">self.velocity</span><span class="symbol">:</span><span class="identifier">dot</span><span class="symbol">(</span><span class="identifier">rel</span><span class="symbol">)</span> <span class="symbol">></span> <span class="number">0</span> <span class="keyword">then</span>
+                    <span class="comment">-- add this to the set of neighbors:</span>
+                    <span class="identifier">neighbors</span>[<span class="symbol">#</span><span class="identifier">neighbors</span><span class="symbol">+</span><span class="number">1</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">near</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    
+    <span class="keyword">if</span> <span class="symbol">#</span><span class="identifier">neighbors</span> <span class="symbol">></span> <span class="number">0</span> <span class="keyword">then</span>
+        <span class="comment">-- now calculate steering influence according to visible neighbors:</span>
+        <span class="comment">-- ...</span>
+    <span class="keyword">else</span>
+        <span class="comment">-- no visible neighbors, so we can explore freely...</span>
+        <span class="comment">-- ...</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<blockquote><p>This isn&rsquo;t especially efficient, but for small populations it is quite reasonable; for larger populations we recommend using the <span class="identifier">hashspace</span> module. </p></blockquote>
+
+<p>Once a set of visible neighbors is calculated, it can be used to derive the steering influences of the agent. The center force depends on the average location of neighbors, relative to the agent. The copy force depends on the average velocity of neighbors. The avoidance force applies if a neighbor is too close.</p>
+
+<blockquote><p>Note that since the agents are dependent on each other, it also makes sense to perform movements and information processing in separate steps. Otherwise, the order in which the agent list is iterated may cause unwanted side-effects on the behavior. (This multi-pass approach is similar in motivation to the double buffering required in many cellular automata).</p></blockquote>
+
+<p>See the full <a href="https://github.com/LuaAV/LuaAV4/blob/master/examples/alife/agent_boids.lua">code example</a></p>
+
+<h3><a name="chemotaxis"></a>Chemotaxis</h3>
+
+<p>However, when we look at microbiology, we find even simpler modes of steering behavior.</p>
+
+<blockquote><p>Chemotaxis is the phenomenon whereby somatic cells, bacteria, and other single-cell or multicellular organisms direct their movements according to certain chemicals in their environment. This is important for bacteria to find food (for example, glucose) by swimming towards the highest concentration of food molecules, or to flee from poisons (for example, phenol). In multicellular organisms, chemotaxis is critical to early development (e.g. movement of sperm towards the egg during fertilization) and subsequent phases of development (e.g. migration of neurons or lymphocytes) as well as in normal function. <a href="https://en.wikipedia.org/wiki/Chemotaxis">wikipedia</a></p></blockquote>
+
+<p>A <a href="http://www.youtube.com/watch?v=ZV5CfOkV6ek">video example of chemotaxis in E. coli</a>.</p>
+
+<p>E. coli can use its flagella to move in just two modes (<em>locomotion</em>): </p>
+
+<ul>
+<li>Move forward more or less straight</li>
+<li>Tumble about randomly</li>
+</ul>
+
+
+<p>The <em>goal</em> is to find the highest sugar concentration. It can sense the local sugar concentration at its current location. However it cannot sense at a distance, and has no sense of direction, never mind which direction is best. </p>
+
+<p>Instead it uses chemical memory to detect sugar concentration <em>gradient</em>, that is, the differential of concentration at the current location compared to how it was just a few moments ago. This gradient tells the E. coli whether things are getting better or worse, which can be used to select between the swimming or tumbling patterns. </p>
+
+<p>With just a few tuning parameters, this can lead to a very rapid success in finding the higher concentrations of sugar (assuming the environment is smoothly varying).</p>
+
+<h4><a name="chemotaxis_in_luaav"></a>Chemotaxis in LuaAV</h4>
+
+<p>The first thing we need is an environment of varying sugar concentrations for the agents to explore. We can use the <span class="identifier">field2D</span> module for this purpose. The behavior of the agents will depend on the spatial distribution of sugar in the field; a totally random space is both unrealistic and will defeat chemotactic strategies; a smoothly distributed landscape is needed. For example, we can use the distance from the center:</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">field2D</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"field2D"</span>
+<span class="keyword">local</span> <span class="identifier">dim</span> <span class="symbol">=</span> <span class="number">128</span>
+<span class="keyword">local</span> <span class="identifier">sugar</span> <span class="symbol">=</span> <span class="identifier">field2D</span><span class="symbol">(</span><span class="identifier">dim</span>, <span class="identifier">dim</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">center</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="number">0.5</span>, <span class="number">0.5</span><span class="symbol">)</span>
+
+<span class="identifier">sugar</span><span class="symbol">:</span><span class="identifier">set</span><span class="symbol">(</span><span class="keyword">function</span><span class="symbol">(</span><span class="identifier">x</span>, <span class="identifier">y</span><span class="symbol">)</span>
+    <span class="comment">-- convert x, y in to 0..1 range:</span>
+    <span class="keyword">local</span> <span class="identifier">p</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="identifier">x</span> <span class="symbol">/</span> <span class="identifier">dim</span>, <span class="identifier">y</span> <span class="symbol">/</span> <span class="identifier">dim</span><span class="symbol">)</span>
+    <span class="comment">-- get distance from center:</span>
+    <span class="keyword">local</span> <span class="identifier">d</span> <span class="symbol">=</span> <span class="symbol">#</span><span class="symbol">(</span><span class="identifier">p</span> <span class="symbol">-</span> <span class="identifier">center</span><span class="symbol">)</span>
+    <span class="comment">-- make concentration higher at center, lower with increasing distance:</span>
+    <span class="keyword">return</span> <span class="number">1</span> <span class="symbol">-</span> <span class="identifier">d</span>
+<span class="keyword">end</span><span class="symbol">)</span>
+</pre>
+
+
+<p>Agents can then sample the local field during their update routine as follows:</p>
+
+<pre>   <span class="comment">-- in agent_update:</span>
+    <span class="keyword">local</span> <span class="identifier">sugar_concentration</span> <span class="symbol">=</span> <span class="identifier">sugar</span><span class="symbol">:</span><span class="identifier">sample</span><span class="symbol">(</span><span class="identifier">self.location.x</span>, <span class="identifier">self.location.y</span><span class="symbol">)</span>
+</pre>
+
+
+<p>See the <a href="https://github.com/LuaAV/LuaAV4/blob/master/examples/alife/agent_chemotaxis.lua">code example</a></p>
+
+<p>A variety of other <em>taxes</em> worth exploring can be found on the <a href="http://en.wikipedia.org/wiki/Taxis#Aerotaxis">wikipedia page</a>. Note how chemotaxis (and other taxes) can be divided into positive (attractive) and negative (repulsive) characters, just like forces (directly seen in steering forces). </p>
+
+<h3><a name="stigmergy"></a>Stigmergy</h3>
+
+<p><em>Stigmergy</em> is a mechanism of indirect coordination between agents by leaving traces in the environment as a mode of stimulating future action by agents in the same location. For example, ants (and some other social insects) lay down a trace of pheromones when returning to the nest while carrying food. Future ants are attracted to follow these trails, increasing the likelihood of encountering food. This environmental marking constitutes a shared external memory (without needing a map). However if the food source is exhausted, the pheromone trails will gradually fade away, leading to new foraging behavior. </p>
+
+<p>Traces evidently lead to self-reinforcement and self-organization: complex and seeminly intelligent structures without global planning or control. Since the term stigmergy focuses on self-reinforcing, task-oriented signaling, E. O. Wilson suggested a more general term <em>sematectonic communication</em> for environmental communication that is not necessarily task-oriented.</p>
+
+<p>Stigmergy has become a key concept in the field of <a href="http://en.wikipedia.org/wiki/Swarm_intelligence">swarm intelligence</a>, and the method of <em>ant colony optimization</em> in particular. In ACO, the landscape is a parameter space (possibly much larger than two or three dimensions) in which populations of virtual agents leave pheromone trails to high-scoring solutions.</p>
+
+<p>Related environmental communication strategies include social nest construction (e.g. termites) and territory marking.</p>
+
+<h4><a name="stigmergy_in_luaav"></a>Stigmergy in LuaAV</h4>
+
+<p>Being able to leave pheromones behind depends on the ability to write into as well as read from fields. This can be achieved using the <span class="identifier">splat</span> method of the field:</p>
+
+<pre>   <span class="comment">-- in agent update:</span>
+    <span class="identifier">pheromone_field</span><span class="symbol">:</span><span class="identifier">splat</span><span class="symbol">(</span><span class="identifier">intensity</span>, <span class="identifier">self.location.x</span>, <span class="identifier">self.location.y</span><span class="symbol">)</span>
+</pre>
+
+
+<p>To store different pheromones we might want to use different fields. These fields should also probably decay over time (using the <span class="identifier">field</span><span class="symbol">:</span><span class="identifier">decay</span><span class="symbol">(</span><span class="symbol">)</span> method), and possibly diffuse slightly (using the <span class="identifier">field</span><span class="symbol">:</span><span class="identifier">diffuse</span><span class="symbol">(</span><span class="symbol">)</span> method).</p>
+
+<p>To detect field intensites in different directions, we might want to sample with sensors further from the body center (similar to the sensors in the Vehicles model) and compare their results. </p>
+
+<p>See the <a href="https://github.com/LuaAV/LuaAV4/blob/master/examples/alife/agent_stigmergy.lua">code example</a></p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

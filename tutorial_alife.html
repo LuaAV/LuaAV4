@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_alife</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1><a name="artificial_life_and_generative_art"></a>Artificial Life and Generative Art</h1>
+
+<p>Can we create media artifacts that are as rich, adaptive, and fascinating as nature? How can we create media systems that respond continuously and creatively to an ever-changing environment? What does it mean to create art in the manner (rather than in the image) of nature?</p>
+
+<h1><a name="artificial_life"></a>Artificial Life</h1>
+
+<blockquote><p><strong>Artificial life</strong> (often abbreviated ALife or A-Life) is a field of study and an associated art form which examine systems related to life, its processes, and its evolution, through the use of simulations with computer models, robotics, and biochemistry. The discipline was named by Christopher Langton, an American computer scientist, in 1986. There are three main kinds of alife, named for their approaches: soft, from software; hard, from hardware; and wet, from biochemistry. Artificial life imitates traditional biology by trying to recreate some aspects of biological phenomena. The modeling philosophy of alife strongly differs from traditional modeling by studying not only “life-as-we-know-it” but also “life-as-it-might-be”. <em><a href="http://en.wikipedia.org/wiki/Artificial_life">wikipedia</a></em></p>
+
+<blockquote><p>&ldquo;&hellip;the study of artificial systems that exhibit behavior characteristic of natural living systems. It is the quest to explain life in any of its possible manifestations, without restriction to the particular examples that have evolved on earth&hellip; the ultimate goal is to extract the logical form of living systems.&rdquo; Christopher Langton, 1992.</p></blockquote></blockquote>
+
+<p>Although the field of <strong>Artificial Life</strong> was named by Christopher Langton in 1986, it can trace its origins back more than a century. In a sense, it reformulates an age-old motivation to create life from artifice, such as the Golem, early automatons, as well as puppetry and <em>anima</em>tion. Media computation is often presented in terms of isolated and narrow problem-solving tasks, yet from its origins computing and cybernetics has been inspired by nature, including aspects of intelligence, pattern formation, self-construction, reproduction, autonomy and collective behavior.</p>
+
+<p>A major hypothesis is that life is not a property of the specific matter we know, but rather a more general property of particular organizations and behaviors. Computing pioneer John von Neumann claimed that &ldquo;life is a process which can be abstracted away from any particular medium&rdquo;. If so, there is no reason to suppose that life cannot occur in systems that are not part of our natural evolution, including digital media. As a science, ALife thus studies not &ldquo;life as we know it&rdquo; but &ldquo;life as it could be&rdquo;. </p>
+
+<p>The core strategy differs from traditional sciences, which focus on a particular system is to capture the principal parameters, and instead investigate the principles of life through the capacity of simple rules to generate complex behaviors. This is known as the <em>bottom-up</em> approach. (At the birth of ALife this was a sharp departure from <em>top-down</em> symbolic AI, but today this is no longer a reliable distinction.)</p>
+
+<p>Hence the core method of research is simulation, which is broadly categorized according to the media used:</p>
+
+<ul>
+<li><em>Soft</em>: digital simulation</li>
+<li><em>Hard</em>: physical robotic</li>
+<li><em>Wet</em>: biochemical manipuation</li>
+</ul>
+
+
+<p>ALife is inherently trans-disciplinary. This is expected; it blends things that were previously distinct (born vs. made, nature vs. artifice). But it doesn&rsquo;t mean that related fields become merged. Indiviual simulations may differ signifiantly in their principal motivations and modes of evaluation, as elucidated in <a href="http://www.mitpressjournals.org/doi/abs/10.1162/002409402760105271">&ldquo;Artificial Evolution and Lifelike Creativity&rdquo;</a>:</p>
+
+<ul>
+<li>Scientific models: as analytical tools to propose and evaluate theories with respect to actual life phenomena, </li>
+<li>Engineering/design tools: a problem solving-strategy evaluated according to fit, efficiency, accuracy etc.,</li>
+<li>New ontologies and instantiations: evaluated for other criteria involving &lsquo;lifelikeness&rsquo;; including generative arts.</li>
+</ul>
+
+
+<p>ALife has been significant for philosophy: &ldquo;Artiﬁcial life’s computational methodology is a direct and natural extension of philosophy’s traditional methodology of a priori thought experiment.&rdquo; <a href="http://authors.library.caltech.edu/13564/1/BEDal00.pdf">Bedau, M. Open Problems in Artifical Life</a></p>
+
+<p>From the earliest papers in the Artificial Life conference proceedings and journals, examples of all three perspectives are present, along with acknowledgement of the difficult philosophical questions, and example projects demonstrating remarkable capacity for adaptation and emergent complexity despite their inherent simplicity.</p>
+
+<h2><a name="notable_contributions"></a>Notable contributions</h2>
+
+<ul>
+<li>Cellular automata among the oldest contributions, still widely used today. Read: <a href="http://www.stephenwolfram.com/publications/articles/ca/">Wolfram</a>.</li>
+<li>Evolutionary algorithms (genetic algorithm, evoluationary programming, swarm intelligence, ant colony optimization, &hellip;): wide applicability in engineering/design optimization. Read: Holland, Koza. </li>
+<li>Artificial chemistry: abstract chemical reactions to simulate the emergence of life. Read: Fontana.</li>
+<li>Agent-based systems: from scientific modeling to ubiquitous computing and robotics. </li>
+<li>L-systems, rewriting systems and developmental modeling have been heavily used in computer graphics. Read: Lindenmeyer, Prusinkiewicz.</li>
+</ul>
+
+
+<p><a href="http://www.karlsims.com/papers/siggraph94.pdf">Sims, K. Evolved Virtual Creatures</a>, <a href="https://www.youtube.com/watch?v=JBgG_VSP7f8">video</a>, and <a href="https://www.youtube.com/user/kjlg74?feature=watch">3DEVC examples</a></p>
+
+<p><a href="https://www.youtube.com/watch?v=fjNPUtwURpc">L-Systems (skip to 11:45)</a></p>
+
+<h2><a name="controversy"></a>Controversy</h2>
+
+<p>Artificial Life is not without controversy. Although it aims to dispel earlier <em>vitalism</em>, it remains deeply enmeshed in the controversies regarding <em>emergence</em> and <em>complexity</em> (see &ldquo;from complexity to perplexity&rdquo; (Horgan)), with similar challenges as AI and the study of consciousness. As a science it has been accused of being &ldquo;fact-free&rdquo; (Maynard Smith), yet its research has been published in <em>Science</em> and <em>Nature</em>. </p>
+
+<p>The question of artificial nature touches the nerve of creativity; an enticing opportunity for generative and algorithmic arts. Art/culture critic Edward Shanken suggests that ALife is grounded in theory and ideas more than in life itself. Simon Penny, N. Katharine Hayles and Rodney Brooks criticized both AI and ALife for being &lsquo;disembodied&rsquo;, priveling mind over body; though more contemporary ALife now involves greater interaction, immersion, robotics and biochemistry. </p>
+
+<p>The position of life as property of organization has been characterized as <strong>strong ALife</strong>. The <strong>weak ALife</strong> position on the other hand allows that we can simulate life in order to understand the mechanisms of real living entities, but we cannot actually synthesize life itself. In any case, to define a simulation as &lsquo;alive&rsquo; depends on having a widely agreed upon definition of &lsquo;life&rsquo; itself, which remains problematic. </p>
+
+<p>Soft ALife has also been frequently related to issues of computer security and viruses, and hard/wet ALife with cyborg and biological disaster, and warfare.</p>
+
+<p>We have found that life isn&rsquo;t always what we think it is: evolution is not necessarily progressive, nor gradual, survival is not often a question of fitness, large amounts of DNA are shared between incredibly different species, environmental nurture is essential to development, etc. Can we understand more deeply by creating autonomous life-like systems?</p>
+
+<p>Life is the best example we have of systems adapting to unpredictable environments while propagating complexity; of surpassing themselves. What we learn may inform adaptive, responsive (responsible? sustainable?) designs for present-day concerns: biotech, ubicomp, cloud &amp; device, robotics&hellip; </p>
+
+<blockquote><p><strong>Bio-inspired computing</strong> is the use of computers to model the living phenomena, and simultaneously the study of life to improve the usage of computers&hellip; It takes a more bottom-up, decentralised approach; bio-inspired techniques often involve the method of specifying a set of simple rules, a set of simple organisms which adhere to those rules, and a method of iteratively applying those rules. After several generations of rule application it is usually the case that some forms of complex behaviour arise.  <em><a href="http://en.wikipedia.org/wiki/Bio-inspired_computing">wikipedia</a></em></p></blockquote>
+
+<p>It may offer opportunities to raise new ethical issues. For example, the post-human / post-organic life discussions (see Hayles); away from &lsquo;essentialism&rsquo; toward &lsquo;cyborg subjects&rsquo; (Haraway). The future of <em>our</em> life is (and always has been) deeply connected with the future of machines.</p>
+
+<p>Art &amp; design are well-represented within Artificial Life research. Langton accorded importance to the creative and aesthetic aspects of ALife. Several works (notably Karl Sims') have been accoladed in both scientific and art communities. Furthermore, many scholars have noted the aesthetic nature of evaluation of ALife simulations, for their &lsquo;lifelikeness&rsquo; or &lsquo;interestingness&rsquo;.</p>
+
+<hr />
+
+<h1><a name="generative_art"></a>Generative Art</h1>
+
+<blockquote><p><strong>Generative art</strong> refers to art that in whole or in part has been created with the use of an autonomous system. &ldquo;Generative Art&rdquo; is often used to refer to computer generated artwork that is algorithmically determined. <em><a href="http://en.wikipedia.org/wiki/Generative_art">wikipedia</a></em></p>
+
+<blockquote><p>&ldquo;Generative art is a term given to work which stems from concentrating on the processes involved in producing an artwork, usually (although not strictly) automated by the use of a machine or computer, or by using mathematic or pragmatic instructions to define the rules by which such artworks are executed.&rdquo; Adrian Ward, 1999.</p></blockquote>
+
+<p><strong>Generative design</strong> is a design method in which the output – image, sound, architectural models, animation – is generated by a set of rules or an Algorithm, normally by using a computer program. <em><a href="http://en.wikipedia.org/wiki/Generative_Design">wikipedia</a></em></p>
+
+<blockquote><p>&ldquo;Generative Design is a morphogenetic process using algorithms structured as not-linear systems for endless unique and un-repeatable results performed by an idea-code, as in Nature&rdquo;. Celestino Soddu, 1992.</p></blockquote></blockquote>
+
+<p>Rules might include mechanical systems, materials with independent behaviors (such as water flow or chemical reactions), mathematical procedures, huge data-sets, geometries and symmetries, and of course randomization. </p>
+
+<p>Generative artworks have existed throughout human history. Before computing, composers used strict rule systems (the counterpoint of Bach, the serialism of Schoenberg) as well as chance (the dice-game of Mozart and chance operations of Cage). Pointilism, cubism, and other abstractions in painting are rule-based constraints. Many writers refer to Sol LeWitt&rsquo;s textual instructions, to be carried out by others; a direction more fully fleshed out with alternative approaches to scorewriting in music. One might also mention kinetic sculpture and generative texts (particularly the Oulipo group), or the pattern-based arts of Islamic tiling and weaving, Celtic knots, and other traditional arts. </p>
+
+<p>The more it is considered, the more it seems that all art is somewhat generative, and certainly technological. (It is worth noting that the Greek term <em>techné</em> is the origin of both <em>art</em> and <em>technology</em>.) However the term <em>generative</em> is usually used for art in which these systems play a major role in the work, with significant autonomy from the artist&rsquo;s urges. It thus invokes issues of distributed and non-human creativity. </p>
+
+<p>Computing media nevertheless revolutionize generative art. A great deal of early computer art is generative by necessity, since the machines were expensive and difficult to use.</p>
+
+<h2><a name="readings__"></a>Readings  </h2>
+
+<p><a href="http://www.tandfonline.com/doi/pdf/10.1080/14626268.2012.709940">Various. A Framework for understanding Generative Art</a></p>
+
+<p><a href="http://diotima.infotech.monash.edu.au/%7Ejonmc/sa/news/ten-questions-concerning-generative-computer-art/">Various. Ten Questions Concerning Generative Art</a></p>
+
+<p><a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.136.5399">Whitelaw, M. System Stories and Model Worlds: A Critical Approach to Generative Art.</a></p>
+
+<p><a href="http://research.it.uts.edu.au/creative/eae/intart/pdfs/generative-art.pdf">Boden, M., Edmonds, E. What is Generative Art?</a></p>
+
+<p><a href="http://www.csse.monash.edu.au/%7Ejonmc/research/Papers/OpenProblemsSV.pdf">McCormack, J. Open Problems in Evolutionary Music &amp; Art</a></p>
+
+<p><a href="http://books.google.co.kr/books/about/Metacreation.html?id=8o8CX6sPTKwC&amp;redir_esc=y">Whitelaw, M. Metacreation</a></p>
+
+<p><a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CDEQFjAA&amp;url=http%253A%252F%252Fwww.escholarship.org%252Fuc%252Fitem%252F1z07j77x.pdf&amp;ei=ImwsUZvDIeyuiQf8lYHADg&amp;usg=AFQjCNHxJ8u96VRDoxSXcdOXu7rQAvhsRg&amp;bvm=bv.42965579%2Cd.aGc">Penny, S. Art &amp; Artificial Life &ndash; a Primer</a></p>
+
+<p><a href="http://www.tandfonline.com/doi/pdf/10.1080/14626261003654640">Penny, S. 20 Years of Artificial Life Art</a></p>
+
+<p><a href="http://link.springer.com/article/10.1007%252FBF02471174?LI=true#page-1">Sommerer, C. and Mignonneau, L. The application of artificial life to interactive computer installations</a></p>
+
+<p><a href="http://books.google.co.kr/books?hl=en&amp;lr=&amp;id=0J8kQEjXe38C&amp;oi=fnd&amp;pg=PA167&amp;dq=Sommerer%2Band%2BMignonneau&amp;ots=nlWrCyeDV5&amp;sig=OgzhQf55zUmrtyGYjoSAcFCSqpw&amp;redir_esc=y#v=onepage&amp;q=Sommerer%2520and%2520Mignonneau&amp;f=false">Sommerer, C. and Mignonneau, L. A-Volve an evolutionary artificial life environment.</a></p>
+
+<p><a href="http://link.springer.com/chapter/10.1007%252F978-3-540-74111-4_7?LI=true#page-1">Driessens, E. and Verstappen, M. Natural Processes and Artificial Procedures.</a></p>
+
+<p><a href="http://download.springer.com/static/pdf/719/chp%25253A10.1007%25252F978-1-84882-285-6_14.pdf?auth66=1363162689_1efc6d54d6ee7c6e983d4150f2086f67&amp;ext=.pdf">Dorin, A. Enriching Aesthetics with Artiﬁcial
+Life</a></p>
+
+<p><a href="http://link.springer.com/chapter/10.1007%252F978-3-540-72877-1_14?LI=true#page-1">Dorin, A. A Survey of Virtual Ecosystems in Generative Electronic Art</a></p>
+
+<p><a href="http://www.csse.monash.edu.au/%7Ejonmc/research/Papers/TenQuestionsLJ-Preprint.pdf">Ten Questions Concerning Generative Computer Art. Jon McCormack, Oliver Bown,. Alan Dorin, Jonathan McCabe,. Gordon Monro and Mitchell Whitelaw. 2012</a></p>
+
+<p><a href="http://simonpenny.net/texts/Resources/a_life.pdf">Artificial Life &mdash; a Primer. Simon Penny, 2009</a></p>
+
+<p><a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=21&amp;ved=0CC8QFjAAOBQ&amp;url=http%253A%252F%252Fciteseerx.ist.psu.edu%252Fviewdoc%252Fdownload%253Fdoi%253D10.1.1.70.1101%2526rep%253Drep1%2526type%253Dpdf&amp;ei=p-U3UZqBI43ckgWg2YCwAQ&amp;usg=AFQjCNHDG_pHBeHBKPtfIZZvXu6HDeHlhw&amp;bvm=bv.43287494%2Cd.dGI">On Biologically Inspired Computation “a.k.a. The Field”. Jason Brownlee, 2005.</a></p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

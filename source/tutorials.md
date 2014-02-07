@@ -10,6 +10,7 @@
 ## LuaAV modules
 
 - Opening and using a [window](tutorial_window.html), including keyboard and mouse interaction
+- [Timing and scheduling](tutorial_scheduling.html)
 
 ### Graphics (OpenGL)
 
@@ -25,6 +26,11 @@
 ### Audio
 
 - Configuring and starting the [audio](tutorial_audio.html) driver
-- [Timing and scheduling](tutorial_scheduling.html)
 
-### Interaction
+## Artificial Life with LuaAV
+
+- [Introductory themes](tutorial_alife.html)
+- [Multi-agent systems](tutorial_alife_agent.html)
+- [Cellular systems](tutorial_alife_cellular.html)
+- [Symbol systems](tutorial_alife_symbol.html)
+- [Evolutionary systems](tutorial_alife_evo.html)

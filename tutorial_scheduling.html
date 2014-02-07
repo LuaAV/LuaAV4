@@ -87,16 +87,16 @@
 
 <p>The Lua language itself does not have means to control time, however this has been added in LuaAV via the <span class="identifier">scheduler</span> module. It allows us to schedule functions that can be paused and resumed in the process of generating audio. It is thus <strong>strongly timed</strong> in a similar manner to the ChucK live-coding language. </p>
 
+<blockquote><p>The main scheduler follows the cpu clock as closely as possible; however when slow functions are called (such as loading files and creating complex resources such as windows), the scheduler may experience a temporary drop-out, from which it will attempt to recover as soon as possible.</p></blockquote>
+
 <p>The scheduler preserves deterministic ordering and logical timestamps to high accuracy, and is used for many messages to the audio system (such as adding/removing synths). These functions are very useful for building up musical structures because of the temporal accuracy. </p>
 
-<blockquote><p>The main scheduler follows the cpu clock as closely as possible, usually within and accuracy of around 10 milliseconds; however when slow functions are called (such as loading files and creating complex resources such as windows), the scheduler may experience a temporary drop-out, from which it will attempt to recover as soon as possible.</p></blockquote>
-
-<p>When scripts are run within the LuaAV application, the main functions are already available as globals. When run from a LuaJIT command line console, they will need to be loaded manually:</p>
+<blockquote><p>When scripts are run within the LuaAV application, the main scheduler functions are already available as globals. When run from a LuaJIT command line console, they will need to be loaded manually:</p>
 
 <pre><span class="keyword">local</span> <span class="identifier">av</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-require" target="_blank">require</a></span> <span class="string">"av"</span>
 <span class="keyword">local</span> <span class="identifier">now</span>, <span class="identifier">go</span>, <span class="identifier">wait</span>, <span class="identifier">event</span> <span class="symbol">=</span> <span class="identifier">av.now</span>, <span class="identifier">av.go</span>, <span class="identifier">av.wait</span>, <span class="identifier">av.event</span>
 </pre>
-
+</blockquote>
 
 <h2><a name="the____now______function"></a>The <span class="identifier">now</span><span class="symbol">(</span><span class="symbol">)</span> function</h2>
 
@@ -235,7 +235,7 @@ An attempt to implement Steve Reich's "Clapping Music"
         <span class="comment">-- humanize:</span>
         <span class="keyword">local</span> <span class="identifier">jitter</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol">*</span> <span class="number">0.01</span>
         <span class="comment">-- run the clap sound as another sub-process independent of main time:</span>
-        <span class="identifier">go</span><span class="symbol">(</span><span class="identifier">jitter</span>, <span class="identifier">play</span>, <span class="identifier">sound</span><span class="symbol">)</span>
+        <span class="identifier">go</span><span class="symbol">(</span><span class="identifier">jitter</span>, <span class="identifier">sound</span><span class="symbol">)</span>
         <span class="comment">-- note length:</span>
         <span class="identifier">wait</span><span class="symbol">(</span><span class="identifier">dur</span><span class="symbol">)</span>
     <span class="keyword">end</span>

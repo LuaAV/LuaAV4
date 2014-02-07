@@ -328,7 +328,7 @@ end
 if action == "build" then
 	print("building site")
 	
-	fs.iter(config.path.doc_content, doc_from_file, true)
+	--fs.iter(config.path.doc_content, doc_from_file, true)
 	
 	-- iterate the content path (recursively):
 	fs.iter(config.path.content, job_from_file, true)

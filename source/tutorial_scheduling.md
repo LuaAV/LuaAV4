@@ -3,13 +3,13 @@
 
 The Lua language itself does not have means to control time, however this has been added in LuaAV via the ```scheduler``` module. It allows us to schedule functions that can be paused and resumed in the process of generating audio. It is thus **strongly timed** in a similar manner to the ChucK live-coding language. 
 
+> The main scheduler follows the cpu clock as closely as possible; however when slow functions are called (such as loading files and creating complex resources such as windows), the scheduler may experience a temporary drop-out, from which it will attempt to recover as soon as possible.
+
 The scheduler preserves deterministic ordering and logical timestamps to high accuracy, and is used for many messages to the audio system (such as adding/removing synths). These functions are very useful for building up musical structures because of the temporal accuracy. 
 
-> The main scheduler follows the cpu clock as closely as possible, usually within and accuracy of around 10 milliseconds; however when slow functions are called (such as loading files and creating complex resources such as windows), the scheduler may experience a temporary drop-out, from which it will attempt to recover as soon as possible.
+> When scripts are run within the LuaAV application, the main scheduler functions are already available as globals. When run from a LuaJIT command line console, they will need to be loaded manually:
 
-When scripts are run within the LuaAV application, the main functions are already available as globals. When run from a LuaJIT command line console, they will need to be loaded manually:
-
-```lua
+> ```lua
 local av = require "av"
 local now, go, wait, event = av.now, av.go, av.wait, av.event
 ```
@@ -152,7 +152,7 @@ function claps(sound, n)
 		-- humanize:
 		local jitter = math.random() * 0.01
 		-- run the clap sound as another sub-process independent of main time:
-		go(jitter, play, sound)
+		go(jitter, sound)
 		-- note length:
 		wait(dur)
 	end

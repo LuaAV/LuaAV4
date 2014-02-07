@@ -1,24 +1,41 @@
 
 # Window, keyboard and mouse
 
-Loading the module is necessary when used from a console command line, but is not needed when used within LuaaV. Similarly, from a console command line your script should end with ```av.run()```, but this is not necessary when run from the LuaAV application:
-
-```lua
--- these lines are not needed when run from the LuaAV application:
-local av = require "av"
-local Window = require "av.Window"
-
--- PUT YOUR SCRIPT CODE HERE
-
--- this lines is not needed when run from the LuaAV application:
-av.run()
-```
-
 ## Create/open a window
+
+If you are running in the LuaAV application, you can create a window like this:
 
 ```lua
 -- create and open a new window:
 local win = Window()
+```
+
+The ```Window()``` constructor can take arguments to set the title and size:
+
+```lua
+local win = Window("example", 512, 512)
+```
+
+Or it can receive a table to set more attributes. For example, the ```autoclear``` attribute tells the window whether to clear the screen between each frame. It is enabled by default, but can be disabled in order to support gradual painting effects:
+
+```lua
+local win = Window {
+	title = "foo",
+	-- tell this window to *not* clear between frames:
+	autoclear = false,
+}
+```
+
+> If you are running from a console command line, some additional lines are required to set up the modules and start running the main loop:
+
+> ```lua
+-- load the Window module:
+local Window = require "Window"
+-- create and open a new window:
+local win = Window()
+-- PUT YOUR SCRIPT CODE HERE
+-- the last line of the script should enter the main loop:
+win.run()
 ```
 
 Every window has an associated [OpenGL](tutorial_opengl.html) context with which we can render graphics. It also handles mouse and keyboard interactions.
@@ -35,34 +52,18 @@ The ```draw()``` function (or ```win:draw()``` method) handles requests to re-dr
 
 ```lua
 -- define a rendering handler for all windows:
-function draw(dt)
-	-- the "dt" argument is the time (in seconds) since the last draw()
-	-- (so 1/dt gives an estimate of the actual frame rate)
-	
-	-- if you don't use the "dt" argument, 
-	-- you don't need to include it in the definition of "draw()".
-
+function draw()
 	-- all rendering code should go here
 end
 
 -- define a rendering handler for one specific window:
 -- (note that the argument implicit "self" in the "object:method" syntax is the window)
-function win:draw(dt)
+function win:draw()
 	-- drawing code goes here
 end
 ```
 
 > Note that the default coordinate system of ```draw()``` runs from x == -1 (left side) to x == 1 (right side), and y == -1 (bottom) to y == 1 (top). However this can be changed by means of ```gl``` matrix transformations (or ```draw2D``` transformations). 
-
-### The ```resize()``` callback
-
-The ```resize()``` callback happens whenever the window is resized:
-
-```lua
-function win:resize(width, height)
-	-- width and height are in pixels
-end
-```
 
 ### The ```mouse()``` callback
 
@@ -73,19 +74,21 @@ Several types of event can trigger a call to ```mouse()```:
 - **move**: the mouse was moved
 - **drag**: the mouse was moved with a button held down
 - **scroll**: the mouse scroll wheel was moved
+- **enter**: the mouse entered the window frame
+- **exit**: the mouse exited the window frame
 
 ```lua
-function win:mouse(event, button, x, y, dx, dy)
+function mouse(event, button, x, y)
 	-- event is a string, e.g. "down", "up", etc.
 	-- button is "left", "right" or "middle"
 	-- x and y are the mouse location (in pixels)
-	-- dx and dy are the delta positions (for "drag" and "move" events) or scroll delta (for "scroll" event)
+	-- unless the event is "scroll", in which case x and y are the scroll deltas
 	
 	-- for example:
 	if event == "down" then
 		print("click at", x, y)
 	elseif event == "scroll" then
-		print("scroll by", dx, dy)
+		print("scroll by", x, y)
 	end
 end
 ```
@@ -97,11 +100,11 @@ end
 These callbacks handle keyboard events. Modifiers are special "meta" keys shift, ctrl, alt and cmd. 
 
 ```lua
-function win:key(event, k)
+function key(event, k)
 	-- event is either "down" for a keypress, or "up" for key release
-	-- k is either a modifier string (one of "shift", "ctrl", "alt" or "cmd"),
-	-- or an ASCII/unicode character number
-	-- (keycodes can be converted to strings via string.char(keycode))
+	-- k is either a single character (such as "a", "B" etc.) for the key,
+	-- a key name (such as "shift", "ctrl", "alt", "escape" etc),
+	-- or a numeric keycode
 	
 	-- for example:
 	if event == "down" and k == "shift" then
@@ -112,4 +115,16 @@ function win:key(event, k)
 end
 ```
 
-> Note that keycodes for some special keys might not be consistent between different operating systems.
+> Note that the single character versions of keys only report key down events, not key up events. If you want key up events, test for the keycode number instead.
+
+### Other callbacks
+
+The ```resize()``` callback happens whenever the window is resized:
+
+```lua
+function win:resize(width, height)
+	-- width and height are in pixels
+end
+```
+
+The window will also trigger a ```create()``` callback before the first frame is rendered (a chance to initialize OpenGL resources), a ```closing()``` callback when it is closed (a chance to release resources), and a ```focused(bool)``` callback when it gains or loses focus.

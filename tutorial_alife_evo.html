@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_alife_evo</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1><a name="evolutionary_systems"></a>Evolutionary systems</h1>
+
+<p>There have been more than four decades of computational systems inspired by natural evolution. It has become a major field of machine learning and optimization. Beyond AI, it has been used in hardware and circuit design, robotics, and more recently in industrial design and architecture. It has of course also been deeply explored in art and music.</p>
+
+<h2><a name="natural_and_artificial_evolution"></a>Natural and artificial evolution</h2>
+
+<p>The theory of natural evolution combines <strong>population, diversity, heredity and selection</strong>. Evolution requires a <strong>population</strong> of individuals that exhibit <strong>diversity</strong> (both similarities and variations between each other, both within and between species). These individuals can produce new individuals; offspring that exhibit similarites with the parent(s) through <strong>heredity</strong>. However not all of the population can successfully reproduce. Any factor that affects the possibility of an individual reproducing, thus also affects what characteristics are inherited in the population as a whole. Charles Darwin&rsquo;s theory of natural <strong>selection</strong>, proposed in 1859, is that the section of the population that can reproduce is not entirely random, but rather is regulated by interactions between inherited characteristics and environmental constraints (such as available food, populations of symbionts, predators and parasites, and so on). Accordingly, the characteristics of a species may change over time (<strong>evolution</strong>), forming a history that can be investigated through the fossil records.</p>
+
+<p><img src="img/origin_of_the_species.jpg" alt="Origin of the Species" /></p>
+
+<p><strong>Artificial evolution</strong> is a form of computational simulation whose process mirrors the abstract structure of natural evolution:</p>
+
+<ul>
+<li>Maintain a population of finite individuals (which can reproduce)</li>
+<li>Support variation (including new characteristics) in the population</li>
+<li>Provide a mechanism of heredity between generations</li>
+<li>Provide a mechanism of selection </li>
+</ul>
+
+
+<p>The main systematic differences are that the underlying mechanisms specified by us in advance, as are the initial populations and environmental conditions (if any). Most importantly, <em>the mechanism of selection is usually predetermined</em>. </p>
+
+<p>This underscores a fundamental difference between <em>artificial</em> and <em>natural</em> evolution: most artificial systems are used toward a particular goal (<em>teleological</em>, even in artistic pursuits), natural evolution is adaptive in an open-ended, undirected, goal-less (<em>non-teleological</em>). In contrast, <em>natural evolution does not imply progress</em>, since the environmental conditions (and selective criteria) evolve along with each species. Since there is no absolute goal or progress, the most we can measure in natural evolution is the changing frequencies over time of individual species, or of individual characteristics of a population.</p>
+
+<h3><a name="viability_and_ecosystemic_evolution"></a>Viability and ecosystemic evolution</h3>
+
+<p>The survival of a natural species depends on its <em>viability</em>; the ability of enough individuals to live long enough to reproduce within an unpredictable environment. There is no pre-defined (<em>a priori</em>) fitness measure. Most artificial evolutionary systems however impose a <em>fitness</em> measure that is extremely unnatural, gearing evolution toward a desired, fixed metric (some critics compare it more to <em>selective breeding</em>). Such artificial evolution will not match the creative diversity of natural evolution.</p>
+
+<p>Nevertheless, an artificial, viability-oriented form of evolution may be used for more theoretical and aesthetic branches of artificial life research. In these cases the viability measure arises as an emergent property of underlying laws of the world, such as the requirement to maintain energetic/metabolic balance or to maintain structural integrity, as well as the collective effects of multiple species and non-living dynamics within the environment. For this reason a viability-oriented approach is sometimes referred to as <em>ecosystemic selection</em>. <a href="http://link.springer.com/chapter/10.1007%252F978-3-540-78761-7_42">See discussion here</a></p>
+
+<h3><a name="survival_of_the_viable"></a>Survival of the viable</h3>
+
+<p>Darwin&rsquo;s theory is sometimes misrepresented as &ldquo;survival of the fittest&rdquo; or even the competitive &ldquo;law of the jungle&rdquo;. We have already seen that the notion of &ldquo;fittest&rdquo; is misguided, since it implies a static absolute measure for something that is both dynamic and highly contextual. An individual or species does not need to be the fittest, merely fit enough to be viable. Nor is competition the prime mode of interaction between species; most species are relatively independent, and the ones that do closely interact are more likely to be collaborative (symbiotic, parasitic, etc.) than competitive.</p>
+
+<blockquote><p>Evolution does not imply that individuals display selfish, competitive behavior. When Dawkins described evolution in terms of <a href="http://en.wikipedia.org/wiki/The_Selfish_Gene">selfish genes</a>, it indicates a gene-centric perspective on evolution that implies selfless and sometimes altruistic behavior in organisms. </p></blockquote>
+
+<h3><a name="neutral_drift"></a>Neutral drift</h3>
+
+<p>There is no reason to suppose that every variation affects viability (neither positively nor negatively). If a variation occurs that does not negatively or positively affect the reproductive capability of an individual in the environment, this variation is called <strong>neutral</strong>. Such neutral variations can tend to be accumulated over time (since there is a chance of variation at each reproduction), whose overall effect is to spread the gene pool of a population. If small changes can be accumulated in this way, over time the gene pool may even move quite far from the origin without major changes in selective fitness; this is called <strong>neutral drift</strong>. </p>
+
+<blockquote><p>It may be an important mechanism to escape evolutionary dead-ends (local minima in the fitness landscape). This is certainly true for many artificial evolutionary systems. It has also been hypothesized as an explanation for the long chunks of apparently unused DNA in our own genome. </p></blockquote>
+
+<p>Furthermore, natural evolution apperas to progress not in a smooth movement, but rather with periods of intense diversity and instability followed by extended periods of relative stability (a <strong>&ldquo;punctuated equilibrium&rdquo;</strong>). Neutral drift has also been proposed as a possible explanation for this behavior.</p>
+
+<h2><a name="heredity_and_variation__genetics"></a>Heredity and variation: genetics</h2>
+
+<p>A continuous generation of novel diversity, new characteristics, is essential to the theory of natural selection. However the theory does not account for how diversity arises, simply that there must be a mechanism, which usually operates during reproduction. </p>
+
+<p>In 1865 Mendel proposed that characteristics are transmitted to offspring through particles of matter (which we now call <strong>genetic material</strong>). Schroedinger conjectured that these materials must be aperiodic crystals, and the actual structure of DNA was identified several years later. The <em>&ldquo;modern synthesis&rdquo;</em> in biology today has integrated genetics with natural evolution, through the interaction of genotypes and phenotypes:</p>
+
+<ul>
+<li>The <strong>phenotype</strong> is the manifestation of the genotype, the individual organism in the population. It is physical and dynamic. Natural selection only operates on the phenotypic level.</li>
+<li>The <strong>genotype</strong> is the genetic material that is transmitted during reproduction. It encodes information that is usually static during a lifetime. Different information leads to different phenotypic variations, or even different species. Heritable variation and the creation of new characteristics operates only at the genotypic level. </li>
+</ul>
+
+
+<p>Hence the modern synthesis requires not only a model for how variation is introduced, but also how genetic material is transfered, how the phenotype accordingly emerges from the genotype (<em>developmental models</em>), and what other roles it plays. These mechanisms are complex and not yet fully understood, but much progress has been made.</p>
+
+<blockquote><p>Briefly: a biological cell contains a vast array of different proteins, whose concentrations determine structures and behaviors of the cell. The proteins are specifed by information in the DNA genetic material (grouped physically into <strong>chromosomes</strong>). When a cell reproduces by <strong>mitosis</strong>, a copy of the DNA is made in the new cell. The sections of a DNA chromosome that code for behavior are called <strong>genes</strong>. These regions are constantly being <strong>transcribed</strong>, producing a specific RNA strand for each coding gene region which is in turn used to produce a specific protein; the protein string immediately folds up (in a way we cannot yet simulate) into a particular reactive shape which specifies the protein&rsquo;s behavioral role in the cell. This is a one-directional flow of information: Coding DNA &ndash;> RNA &ndash;> folding &ndash;> active protein. In addition to coding regions genes may also have  <strong>regulatory region</strong> which can react with specific proteins to activate or inhibit the coding-protein system, forming a complex <strong>regulatory network</strong> of interactions by which one gene can activate or inhibit another, and also specify changes of behavior of a cell according to environmental conditions such as chemical signals. These networks can be fantastically complex even in very simple organisms, according to the scientific results of <strong>functional genomics</strong>. Between the coding and regulatory regions of DNA, there are huge sections of <strong>nongenic</strong> DNA, whose role (or lack thereof) is not yet understood.</p></blockquote>
+
+<p><img src="img/transcription.jpg" alt="Rendering" /></p>
+
+<p><a href="http://www.youtube.com/watch?v=WFCvkkDSfIU">The current theory of cell replication and DNA transcription been beautifully illustrated by Drew Berry</a>; and <a href="http://www.youtube.com/watch?v=yKW4F0Nu-UY&amp;list=PL3DB3C131CBCD2A0F&amp;index=5">more of his animations here</a></p>
+
+<p>Genetic variation can occur during replication of the genome, such as copying-error <em>mutations</em> (reversals of segments, insertion &amp; removal of segments, changing individual elements in the sequence, and pair-wise substitution over whole sections) and <em>recombination</em> (taking sections from two different parent genes to construct a new child gene). </p>
+
+<hr />
+
+<h2><a name="artificial_evolution"></a>Artificial evolution</h2>
+
+<p>An artificial evolutionary system thus requires:</p>
+
+<ol>
+<li>A representation of genotypes.</li>
+<li>A mechanism to produce phenotypes from genotypes (development).</li>
+<li>A mechanism to evaluate the fitness (or viability) of phenotypes.</li>
+<li>Mechanisms to introduce diversity to a genotype.</li>
+</ol>
+
+
+<p>The system is then run by these steps:</p>
+
+<ol>
+<li><strong>Initialization</strong> of a &lsquo;seed&rsquo; population of genotypes</li>
+<li><strong>Development</strong> of phenotypes from the genotypes </li>
+<li>Evaluation and <strong>selection</strong> of best/viable candidates of phenotypes, according to fitness criteria or ongong viability conditions. Note that simply taking the best candidate alone is not necessarily the ideal strategy; selecting randomly by proportion to fitness (&ldquo;roulette wheel&rdquo; selection) may better overcome local maxima.</li>
+<li><strong>Reproduction</strong>, creating new genotypes (applying <strong>mutation</strong> and <strong>recombination</strong> for creative variety), according to variation rates/probabilities.</li>
+<li>Repeat from step (2) or terminate if a terminating condition is satisfied (such as sufficient fitness). </li>
+</ol>
+
+
+<p>Steps 2-5 may be run in lock-step, or asynchronously with overlapping individual life-spans.</p>
+
+<h3><a name="caveats"></a>Caveats</h3>
+
+<p>Artificial evolution generates results with randomness, without formal proofs. It may take a long time or a lot of processing power to find a satisfactory result, or may not reach a result at all. </p>
+
+<h3><a name="genetic_representation"></a>Genetic representation</h3>
+
+<p>The representation of the genotype, and mechanisms of development, genetic transfer and variation, must be provided by the author. Many systems represent genetic information as a sequence of data, such as a string of characters, integers or binary digits. </p>
+
+<pre><span class="comment">-- a genome will contain 10 genes, each having 8 possible values:</span>
+<span class="keyword">local</span> <span class="identifier">genome_size</span> <span class="symbol">=</span> <span class="number">10</span>
+<span class="keyword">local</span> <span class="identifier">genome_range</span> <span class="symbol">=</span> <span class="number">8</span>
+
+<span class="comment">-- generate a random "seed" genotype:</span>
+<span class="keyword">function</span> <span class="identifier">genome_make</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">g</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="identifier">genome_size</span> <span class="keyword">do</span>
+        <span class="identifier">g</span>[<span class="identifier">i</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="identifier">genome_range</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="identifier">g</span>
+<span class="keyword">end</span>
+</pre> 
+
+
+<p>Some systems use more elaborate structures (trees, networks), though it can be shown that these are reducible to sequences. </p>
+
+<h3><a name="development"></a>Development</h3>
+
+<p>In artificial evolution an obvious analogy of the genotype-as-code and phenotype-as-running-program underlies most systems. In the simplest cases the developmental process is a linear <em>interpretation</em> of genome values to phenotype properties:</p>
+
+<pre>
+<span class="comment">-- the semantics of each gene (a mixture of numbers and math operators)</span>
+<span class="keyword">local</span> <span class="identifier">encoding</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="string">"+"</span>, <span class="string">"-"</span>, <span class="string">"*"</span>, <span class="string">"%"</span>, <span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span> <span class="symbol">}</span>
+
+<span class="comment">-- develop the genome into a list of characters:</span>
+<span class="keyword">function</span> <span class="identifier">develop</span><span class="symbol">(</span><span class="identifier">genome</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">pheno</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="comment">-- intepret genes as characters:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">gene</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">genome</span><span class="symbol">)</span>
+        <span class="identifier">pheno</span>[<span class="identifier">i</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">encoding</span>[<span class="identifier">i</span><span class="symbol">]</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="identifier">pheno</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- utility to view the phenotype:</span>
+<span class="keyword">function</span> <span class="identifier">pheno_print</span><span class="symbol">(</span><span class="identifier">pheno</span><span class="symbol">)</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-print" target="_blank">print</a></span><span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-table.concat" target="_blank">table.concat</a></span><span class="symbol">(</span><span class="identifier">pheno</span><span class="symbol">)</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>Fewer systems provide full models of development and genetic transfer, in which complex feedback processes interpret the genome, possibly in environmental context, although this would be far more biologically realistic, not to mention far more creative! </p>
+
+<h3><a name="variation"></a>Variation</h3>
+
+<p>The mechanisms of variation possible partly depend on the representation chosen. The two most common principles of variation in artificial evolution are naturally inspired:</p>
+
+<ul>
+<li>Random <strong>mutation</strong>; akin to errors copying DNA. If the genome is represented as a binary string, then random locations in the string may be replaced by new random characters. For example, a parent &ldquo;dog&rdquo; could produce children such as &ldquo;fog&rdquo;, &ldquo;dqg&rdquo;, and so on. Obviously some mutations will not create viable individuals.</li>
+</ul>
+
+
+<pre><span class="comment">-- chance of a gene being mutated</span>
+<span class="keyword">local</span> <span class="identifier">mutation_rate</span> <span class="symbol">=</span> <span class="number">0.1</span> 
+
+<span class="keyword">function</span> <span class="identifier">genome_mutate</span><span class="symbol">(</span><span class="identifier">genome</span><span class="symbol">)</span>
+    <span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">gene</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">genome</span><span class="symbol">)</span> <span class="keyword">do</span>
+        <span class="comment">-- mutate?</span>
+        <span class="keyword">if</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol"><</span> <span class="identifier">mutation_rate</span> <span class="keyword">then</span>
+            <span class="comment">-- mutate plus or minus 1:</span>
+            <span class="keyword">if</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol"><</span> <span class="number">0.5</span> <span class="keyword">then</span>
+                <span class="identifier">gene</span> <span class="symbol">=</span> <span class="identifier">gene</span> <span class="symbol">+</span> <span class="number">1</span>
+            <span class="keyword">else</span> 
+                <span class="identifier">gene</span> <span class="symbol">=</span> <span class="identifier">gene</span> <span class="symbol">-</span> <span class="number">1</span>
+            <span class="keyword">end</span>
+            <span class="comment">-- keep within valid range:</span>
+            <span class="identifier">gene</span> <span class="symbol">=</span> <span class="symbol">(</span><span class="symbol">(</span><span class="identifier">gene</span> <span class="symbol">-</span> <span class="number">1</span><span class="symbol">)</span> <span class="symbol">%</span> <span class="identifier">gene_range</span><span class="symbol">)</span> <span class="symbol">+</span> <span class="number">1</span>
+            <span class="comment">-- store:</span>
+            <span class="identifier">genome</span>[<span class="identifier">i</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">gene</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<ul>
+<li>Sexual <strong>cross-over</strong> (or <strong>recombination</strong>): akin to sexual reproduction in biology. As a binary string, the child takes the first fraction from one parent, and the remainder from the other. For example, breeding the strings &ldquo;dog&rdquo; and &ldquo;cat&rdquo; could generate children such as &ldquo;dot&rdquo;, &ldquo;dat&rdquo;, &ldquo;cag&rdquo; and &ldquo;cog&rdquo;. A more flexible system might also permit &ldquo;doat&rdquo;, &ldquo;caog&rdquo;, &ldquo;dt&rdquo;, etc. </li>
+</ul>
+
+
+<pre><span class="keyword">function</span> <span class="identifier">genome_crossover</span><span class="symbol">(</span><span class="identifier">parent1</span>, <span class="identifier">parent2</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">child</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="comment">-- the crossover point:</span>
+    <span class="keyword">local</span> <span class="identifier">cross</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="identifier">genome_size</span><span class="symbol">)</span>
+        <span class="comment">-- copy first part from parent1</span>
+        <span class="keyword">for</span> <span class="identifier">j</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="identifier">cross</span> <span class="keyword">do</span>
+            <span class="identifier">child</span>[<span class="identifier">j</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">parent1</span>[<span class="identifier">j</span><span class="symbol">]</span>
+        <span class="keyword">end</span>
+        <span class="comment">-- copy second part from parent2</span>
+        <span class="keyword">for</span> <span class="identifier">j</span> <span class="symbol">=</span> <span class="identifier">cross</span><span class="symbol">+</span><span class="number">1</span>, <span class="identifier">genome_size</span> <span class="keyword">do</span>
+            <span class="identifier">child</span>[<span class="identifier">j</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">parent2</span>[<span class="identifier">j</span><span class="symbol">]</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="identifier">child</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<ul>
+<li>Other variations (insertion, deletion, inversion) are less common, but have been used.</li>
+</ul>
+
+
+<p>Why use reproduction for evolution? In the face of an unpredictable environment, we cannot know which strategy will be best; we can try small variations, and hedge our bets by making very many of them (population diversity). An individual loss is not catastrophic, but a few successes can be learned from. Furthermore, the face of unpredictibility implies that what was true today may not be tomorrow, so the flexibility to avoid timeless commitment is also a good strategy; but the inheritance of choices is a useful option when the environment retains some stability. If the world were fully predictable, a rational, teleological, monothematic strategy would be preferable. But the world isn&rsquo;t totally random either (if it was, there would be no valid strategy worth pursuing.) </p>
+
+<p>See the <a href="http://en.wikipedia.org/wiki/Red_Queen_hypothesis">red queen</a> problem.</p>
+
+<h3><a name="selection_by_fitness"></a>Selection by fitness</h3>
+
+<p>One of the central problems in evolutionary art and music is how to implement selection.</p>
+
+<ul>
+<li>A predefined fitness function. This is easy if the task is formally measurable (such as computing a value, shown below). But for this to be possible in art or music, a formal measure of aesthetic quality is required; can we really do that?</li>
+</ul>
+
+
+<pre><span class="comment">-- evaluate a phenotype according to how closely it computes a target value:</span>
+<span class="keyword">local</span> <span class="identifier">target</span> <span class="symbol">=</span> <span class="number">10</span>
+<span class="keyword">function</span> <span class="identifier">pheno_eval</span><span class="symbol">(</span><span class="identifier">pheno</span><span class="symbol">)</span>
+    <span class="comment">-- convert phenotype to string and run it as Lua code:</span>
+    <span class="keyword">local</span> <span class="identifier">f</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-loadstring" target="_blank">loadstring</a></span><span class="symbol">(</span><span class="string">"return "</span><span class="symbol">..</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-table.concat" target="_blank">table.concat</a></span><span class="symbol">(</span><span class="identifier">pheno</span><span class="symbol">)</span><span class="symbol">)</span>
+    <span class="keyword">local</span> <span class="identifier">result</span> <span class="symbol">=</span> <span class="identifier">f</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- compute absolute error from target:</span>
+    <span class="keyword">local</span> <span class="identifier">err</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.abs" target="_blank">math.abs</a></span><span class="symbol">(</span><span class="identifier">target</span> <span class="symbol">-</span> <span class="identifier">result</span><span class="symbol">)</span>
+    <span class="comment">-- convert to a fitness socre:</span>
+    <span class="keyword">local</span> <span class="identifier">fitness</span> <span class="symbol">=</span> <span class="number">1</span> <span class="symbol">/</span> <span class="symbol">(</span><span class="number">1</span> <span class="symbol">+</span> <span class="identifier">err</span><span class="symbol">)</span>
+    <span class="keyword">return</span> <span class="identifier">fitness</span>
+<span class="keyword">end</span>
+</pre>`
+
+
+<ul>
+<li>Interactive selection. Pioneered by Dawkins' Biomorphs program and Karl Sims' evolved images, in which several candidates are presented to human observers, who apply the selection manually. Also known as aesthetic selection. A problem here is that the human becomes the bottleneck of evolution, constraining population sizes and rates of evolution to very small scales. It may arguably also tend toward selecting for the aesthetic average rather than the remarkable.
+
+<ul>
+<li>An interesting variation is to make the selection continuous and implicit. Jon McCormack&rsquo;s Eden measured fitness globally according to how long gallery visitors remained in front of a particular evolving sub-population.</li>
+</ul>
+</li>
+<li>First evolve a population of artificial art critics, trained from human-evaluated examples, and then use these to apply selection criteria to a population of candidate artworks.</li>
+<li>Some projects have also proposed a form of artificial co-evolution, where one population represents the candidate products, and the other population represents artificial critics. This more closely approaches &ldquo;art as it could be&rdquo;, since the bias of the artificial critics may be rather different than human biases.</li>
+<li>Take an ecosystemic approach, in which fitness is measured as viability to reproduce in an unpredictable and dangerous environment. For example, a multi-agent system in which agents must maintain a positive energy balance, and possibly also meet mates, in order to reproduce. In this case evolution is not being used to evolve better art, but as a material of art construction.</li>
+</ul>
+
+
+<h3><a name="populations_and_generations"></a>Populations and generations</h3>
+
+<p>To glue this together we need to define a population of individuals, and a process to create new generations.</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">population_size</span> <span class="symbol">=</span> <span class="number">40</span>
+
+<span class="comment">-- store the population as a list:</span>
+<span class="keyword">local</span> <span class="identifier">population</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="comment">-- seed the population:</span>
+<span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="identifier">population_size</span> <span class="keyword">do</span>
+    <span class="comment">-- create genome:</span>
+    <span class="keyword">local</span> <span class="identifier">g</span> <span class="symbol">=</span> <span class="identifier">genome_make</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- develop into phenotype:</span>
+    <span class="keyword">local</span> <span class="identifier">p</span> <span class="symbol">=</span> <span class="identifier">genome_develop</span><span class="symbol">(</span><span class="identifier">g</span><span class="symbol">)</span>
+    <span class="comment">-- store genome in phenotype:</span>
+    <span class="identifier">p.genome</span> <span class="symbol">=</span> <span class="identifier">g</span>
+    <span class="comment">-- store phenotype in population:</span>
+    <span class="identifier">population</span>[<span class="identifier">i</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">p</span>
+<span class="keyword">end</span>
+
+<span class="comment">-- run one step for the whole generation:</span>
+<span class="keyword">function</span> <span class="identifier">population_regenerate</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- first evaluate fitness:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span>, <span class="identifier">pheno</span> <span class="keyword">in</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-ipairs" target="_blank">ipairs</a></span><span class="symbol">(</span><span class="identifier">population</span><span class="symbol">)</span> <span class="keyword">do</span>
+        <span class="identifier">pheno.fitness</span> <span class="symbol">=</span> <span class="identifier">pheno_eval</span><span class="symbol">(</span><span class="identifier">pheno</span><span class="symbol">)</span>
+    <span class="keyword">end</span>
+    <span class="comment">-- next, sort by fitness:</span>
+    <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-table.sort" target="_blank">table.sort</a></span><span class="symbol">(</span><span class="identifier">population</span>, <span class="keyword">function</span><span class="symbol">(</span><span class="identifier">a</span>, <span class="identifier">b</span><span class="symbol">)</span>
+        <span class="keyword">return</span> <span class="identifier">a.fitness</span> <span class="symbol">></span> <span class="identifier">b.fitness</span>
+    <span class="keyword">end</span><span class="symbol">)</span>
+    
+    <span class="comment">-- now create a new generation:</span>
+    <span class="keyword">local</span> <span class="identifier">newpop</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="identifier">population_size</span> <span class="keyword">do</span>
+        <span class="comment">-- note that this biases parent selection to higher-scoring individuals:</span>
+        <span class="keyword">local</span> <span class="identifier">parent1</span> <span class="symbol">=</span> <span class="identifier">population</span>[<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="identifier">i</span><span class="symbol">)</span><span class="symbol">]</span>
+        <span class="keyword">local</span> <span class="identifier">parent2</span> <span class="symbol">=</span> <span class="identifier">population</span>[<span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.random" target="_blank">math.random</a></span><span class="symbol">(</span><span class="identifier">i</span><span class="symbol">)</span><span class="symbol">]</span>
+        <span class="comment">-- do crossover and mutation:</span>
+        <span class="keyword">local</span> <span class="identifier">child</span> <span class="symbol">=</span> <span class="identifier">genome_crossover</span><span class="symbol">(</span><span class="identifier">parent1</span>, <span class="identifier">parent2</span><span class="symbol">)</span>
+        <span class="identifier">genome_mutate</span><span class="symbol">(</span><span class="identifier">child</span><span class="symbol">)</span>
+        <span class="comment">-- store in new population:</span>
+        <span class="identifier">newpop</span>[<span class="identifier">i</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">child</span>
+    <span class="keyword">end</span>
+    
+    <span class="comment">-- replace old generation:</span>
+    <span class="identifier">population</span> <span class="symbol">=</span> <span class="identifier">newpop</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>Obviously <span class="identifier">population_regenerate</span><span class="symbol">(</span><span class="symbol">)</span> is a synchronous sweep over all individuals, which is also far from realistic. An asynchronous approach would replace population members one at once, spread over time. A yet more realistic model would allow the population size to vary.</p>
+
+<h2><a name="genetic_programming"></a>Genetic Programming</h2>
+
+<p>Genetic Programming was invented by Nigel Cramer in 1985, but greatly expanded through the work of John Koza. GP evolves programs; it is an example of <strong>metaprogramming</strong>.</p>
+
+<p>GP has been used to generate programs to solve hard problems, and to evolve control systems for artificial agents and robots. The central concept is that the generating a phenotype is a process of generating <em>code</em>. Populations of generated programs can then be selected and evolved as usual. </p>
+
+<p>Typically the programs for GP follow a tree-like structure. The leaves of the tree are <em>terminals</em> and the branches are <em>functions</em>. Terminals have no inputs; typical terminals are constant numbers and global variable names. Non-terminal functions are specified according to their operator (such as mathematical addition, multiplication, cosine, etc.); they have one or more inputs, which maybe terminals or other functions. This structure is natural to LISP programs:</p>
+
+<pre><span class="symbol">(</span><span class="symbol">*</span> <span class="number">6</span> <span class="symbol">(</span><span class="identifier">sin</span> <span class="symbol">(</span><span class="symbol">+</span> <span class="identifier">x</span> <span class="number">2</span><span class="symbol">)</span><span class="symbol">)</span><span class="symbol">)</span>
+</pre>
+
+
+<p>The above would be represented in Lua code as follows:</p>
+
+<pre><span class="keyword">return</span> <span class="number">6</span> <span class="symbol">*</span> <span class="symbol">(</span><span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sin" target="_blank">math.sin</a></span><span class="symbol">(</span><span class="identifier">x</span> <span class="symbol">+</span> <span class="number">2</span><span class="symbol">)</span><span class="symbol">)</span>
+</pre>
+
+
+<p>The <strong>Linear Genetic Programming</strong> variant which represents programs as sequences of instructions rather than trees. It more closely resembles the procedural nature of widely-used programming languages, virtual machines, assembly and machine code. Each instruction uses a single function, with zero or more arguments (constants or registers), and assigns to a register. </p>
+
+<p>The above program could be linearized to normal form in Lua as follows:</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">r1</span> <span class="symbol">=</span> <span class="number">2</span>
+<span class="keyword">local</span> <span class="identifier">r2</span> <span class="symbol">=</span> <span class="identifier">x</span>
+<span class="keyword">local</span> <span class="identifier">r3</span> <span class="symbol">=</span> <span class="identifier">r1</span> <span class="symbol">+</span> <span class="identifier">r2</span>
+<span class="keyword">local</span> <span class="identifier">r4</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.sin" target="_blank">math.sin</a></span><span class="symbol">(</span><span class="identifier">r3</span><span class="symbol">)</span>
+<span class="keyword">local</span> <span class="identifier">r5</span> <span class="symbol">=</span> <span class="number">6</span>
+<span class="keyword">local</span> <span class="identifier">r6</span> <span class="symbol">=</span> <span class="identifier">r5</span> <span class="symbol">*</span> <span class="identifier">r4</span>
+<span class="keyword">return</span> <span class="identifier">r6</span>
+</pre>
+
+
+<p>The linear structure may appear more flexible, since it allows branches to reconnect; however the functional programming interpretation of the tree is provably equivalent. Ultimately the choice depends on practical rather than theoretical questions.</p>
+
+<h3><a name="genetic_representation"></a>Genetic representation</h3>
+
+<p>It is convenient to represent these programs as a data structure, from which the phenotype code is generated. Doing so makes crossover and mutation much easier.</p>
+
+<p>For example, integers can be used to specify which function or terminal type a node contains, and which nodes are used as arguments. Tree structures can nest their data directly, while linear structures can refer to nodes by integer register id (or register stack offset). </p>
+
+<p>For example, here is the above program as a list of instruction codes:</p>
+
+<pre><span class="comment">-- operator IDs: { [1] = "constant", [2] = "global", [3] = "add", [4] = "mul", [5] = "sin" }</span>
+<span class="comment">-- global IDs: { [1] = "x", }</span>
+
+<span class="keyword">local</span> <span class="identifier">geno</span> <span class="symbol">=</span> <span class="symbol">{</span>
+    <span class="symbol">{</span> <span class="number">1</span>, <span class="number">2</span> <span class="symbol">}</span>,
+    <span class="symbol">{</span> <span class="number">2</span>, <span class="number">1</span> <span class="symbol">}</span>,
+    <span class="symbol">{</span> <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span> <span class="symbol">}</span>,
+    <span class="symbol">{</span> <span class="number">5</span>, <span class="number">3</span> <span class="symbol">}</span>,
+    <span class="symbol">{</span> <span class="number">1</span>, <span class="number">6</span> <span class="symbol">}</span>,
+    <span class="symbol">{</span> <span class="number">4</span>, <span class="number">5</span>, <span class="number">4</span> <span class="symbol">}</span>,
+<span class="symbol">}</span>
+</pre>
+
+
+<h3><a name="initialization_"></a>Initialization </h3>
+
+<p>Generating a seed tree can follow a recursive structure, starting from the root at depth 0, up to a maximum depth <span class="identifier">m</span>:</p>
+
+<ul>
+<li>If depth equals <span class="identifier">m</span> choose a terminal at random,</li>
+<li>Else select a function or terminal at random.
+
+<ul>
+<li>If the node type is a function, choose a random function. Each function has a specific number of children (e.g. the + function has two children); for each child node, repeat the algorithm with depth increased by one.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>An alternative algorithm for linear GP, with <span class="identifier">n</span> operations:</p>
+
+<ul>
+<li>Loop from 1 to <span class="identifier">n</span>:
+
+<ul>
+<li>If <span class="identifier">n</span> is less than the maximum number of arguments (typically 2 or 3), create a random terminal node.</li>
+<li>Else create a random terminal or a random function.
+
+<ul>
+<li>If the node type is a function, use a randomly selected previous node for each of the function arguments.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>The root (result) node is node <span class="identifier">n</span>. </li>
+</ul>
+
+
+<h3><a name="variation"></a>Variation</h3>
+
+<p>For a linearized genotype representation, the genetic mutations and crossover operators are similar to other sequence-based evolutionary systems. </p>
+
+<p>For tree-like representations it becomes more complex and interesting: Mutations on a tree can include modifcation of instruction arguments, replacement of sub-trees, function mutation, etc. Cross-over can be implemented as swapping sub-trees of parents. </p>
+
+<h3><a name="discussion"></a>Discussion</h3>
+
+<p>Karl Sims used GP for his genetic images, and for his evolving virtual creaturs.</p>
+
+<p>Jurgen Schmidhuber proposed using GP to evolve GP (Meta-GP), since things like chromosomes, crossover etc. are themselves phenomena that have evolved. </p>
+
+<p><a href="http://dces.essex.ac.uk/staff/rpoli/gp-field-guide/A_Field_Guide_to_Genetic_Programming.pdf">A field guide to GP</a>
+<a href="http://www.cs.montana.edu/%7Ebwall/cs580/introduction_to_gp.pdf">An overview paper</a>
+<a href="http://www.geneticalgorithms.com/Tutorial/index.html">Very short tutorial</a></p>
+
+<p><a href="http://www.pawfal.org/Software/fastbreeder/">An example for audio</a></p>
+
+<hr />
+
+<h2><a name="discussion_examples"></a>Discussion examples</h2>
+
+<p><img src="http://www.karlsims.com/papers/ksf11.gif" alt="Karl Sims" /></p>
+
+<p>See <a href="http://www.karlsims.com/genetic-images.html">Karl Sims' Genetic Images</a>.
+<a href="http://www.karlsims.com/papers/siggraph91.html">1991 Siggraph Paper</a></p>
+
+<p>Scott Draves, “Evolution and Collective Intelligence of the Electric Sheep,” The Art of Artificial Evolution, 2008.</p>
+
+<p><a href="http://boxcar2d.com/">Evolving 2D cars</a></p>
+
+<p><a href="https://www.youtube.com/watch?feature=player_embedded&amp;v=z9ptOeByLA4">Evolving soft robots</a></p>
+
+<p>An excellent discussion of <a href="http://www.youtube.com/watch?v=50-d_J0hKz0">the genetic algorithm in art and its relation to Deleuze, by Manuel Delanda</a></p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>

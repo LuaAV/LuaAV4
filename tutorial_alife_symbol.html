@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- for IE HTML5 compatibility -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+	<title>LuaAV: tutorial_alife_symbol</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+	<![endif]-->
+	<!--[if lte IE 6]>
+		<link rel="stylesheet" href="http://universal-ie6-css.googlecode.com/files/ie6.1.1.css" media="screen, projection">
+	<![endif]-->
+	
+	<!--
+	<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+	<script src="js/lightbox.js" type="text/javascript"></script>
+	<script src="js/jquery.js" type="text/javascript"></script>
+	-->
+</head>
+
+<body>
+<nav>
+	<table border="0">
+		<tr valign="bottom">
+			<td><img src="img/logo.png" border="0" /></td>	
+			<td>
+				<ul>
+					<li><a href="index.html">LuaAV</a></li>
+					<li><a href="download.html">Download/Source</a></li>
+					<li><a href="tutorials.html">Tutorials</a></li>
+					<li><a href="doc/index.html">Reference</a></li>
+					<li><a href="http://sonic.mat.ucsb.edu/mailman/listinfo/lua-av">Mailing List</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</nav>	
+
+<!-- side
+<div id="side">
+
+	<p><a href="endless_current.html" title="Endless Current">
+	<img src="img/endless1_192_108.jpg" alt="Endless Current" />
+	Endless Current</a></p>
+
+	<p><a href="archipelago.html" title="Archipelago">
+	<img src="img/archipelago1_192_108.jpg" alt="Archipelago" />
+	Archipelago</a></p>
+
+	<p><a href="chronoforms.html" title="Chronophotography">
+	<img src="img/chrono_render_192_108.jpg" alt="Chronophotography Study" />
+	Chronophotography</a></p>
+
+	<p><a href="flux.html" title="Flux">
+	<img src="img/flux_allosphere_192.jpg" alt="Flux" />
+	Flux</a></p>
+
+	<p><a href="city_life.html" title="City Life">
+	<img src="img/city_life_192.jpg" alt="City Life" />
+	City Life</a></p>
+
+	<p><a href="time_of_doubles.html" title="Time of Doubles">
+	<img src="img/tod_soma_192.jpg" alt="TYPE:WALL, SOMA Museum 2011" />
+	Time of Doubles</a></p>
+
+	<p><a href="fluid_space.html" title="Fluid Space">
+	<img src="img/translab2_192.jpg" width="192" height="108" alt="Fluid Space @TransLAB" />
+	Fluid Space</a></p>
+
+	<p><a href="infinite_game.html" title="Infinite Game">
+	<img src="img/tmca1_192.jpg" alt="Infinite Game @Total Museum of Contemporary Art" />
+	Infinite Game</a></p>
+
+</div>  -->
+
+<div id="main"><!-- @main -->
+<h1><a name="symbol_systems"></a>Symbol systems</h1>
+
+<h2><a name="development_and_l_systems"></a>Development and L-systems</h2>
+
+<p>The structure of a multi-cellular organisms develops in a gradual process from a single fertilized cell (the <em>zygote</em>) through progressive steps of cell duplication and specialization in a process called <em>development</em>; an active area of scientific research today. We know that each cell responds to chemical signals from its neighbors and other environmental conditions in order to know how to <em>differentiate</em> (to become a specific kind of cell in the body), according to the processes of the genome. The zygote does not contain a blueprint for the final organism, simply genotypic instructions for responding to environmental stimuli, which happen (in most cases) to produce the fully developed phenotype. </p>
+
+<p>A compact developmental representation can result in a more complex developed organism by relying on the self-organizing tendencies of the chemical substrate (such as the chemical pattern formation we saw with reaction-diffusion systems), the creative re-use of instructions (leading to the <em>modularity</em> and <em>symmetry</em> widely found in biology), and careful control over the ordering, when and for how long particular instructions operate (<em>heterochrony</em>). Development is clearly <em>parallel</em>, <em>decentralized</em>, granting some <em>robustness</em>, and yet it is also <em>context dependent</em>. It is also <em>self-limiting</em>, such that most developmental processes halt after the embryonic phase (though some may continue through the organism&rsquo;s lifetime, such as the <em>regeneration</em> of lost limbs).</p>
+
+<p>In 1968 biologist Astrid Lindenmeyer proposed to model several aspects of developmental systems (cell division, cell differentiation and cell death) using rewriting systems on symbolic strings. The analogy is that each symbol represents a cell in a particular state, and the rules of transformation represent the processes of differentiating from one state to another, dividing into two cells, or of programmed cell death.</p>
+
+<h2><a name="rewriting_systems"></a>Rewriting systems</h2>
+
+<p>A rewriting system defines rules for the transformation of structures, typically strings of symbols. It is closely related to the formal notion of grammar. A system comprises:</p>
+
+<ul>
+<li>A set of possible symbols (A), called the <em>alphabet</em></li>
+<li>An initial symbol (S), called the <em>axiom</em></li>
+<li>A set (P) of <em>rewriting</em> or <em>production rules</em> to specify how each symbol is transformed to other symbols, at each production step. A rule converts a <em>predecessor</em> symbol into <em>successor</em> symbols.</li>
+<li>A process of applying these rules in parallel, step by step until no more productions can be applied.</li>
+</ul>
+
+
+<p>For example, if the alphabet comprises <span class="symbol">{</span> <span class="string">&ldquo;B&rdquo;</span>, <span class="string">&ldquo;F&rdquo;</span>, <span class="string">&ldquo;+&rdquo;</span>, <span class="string">&ldquo;&ndash;&rdquo;</span>, <span class="string">&ldquo;[&rdquo;</span>, <span class="string">&ldquo;]&rdquo;</span> <span class="symbol">}</span>, the rules include <span class="identifier">F</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">FF</span> and <span class="identifier">B</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">F</span>[<span class="symbol">&ndash;</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span>, and the start symbol is <span class="identifier">B</span> then a sequence of productions could proceed as follows:</p>
+
+<pre>   <span class="identifier">B</span>                       
+    <span class="comment">-- apply rule 1:</span>
+    <span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span>                 
+    <span class="comment">-- apply rule 1 (twice), and rule 2:</span>
+    <span class="identifier">FF</span>[<span class="symbol">-</span><span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span>        
+    <span class="comment">-- apply rule 1 three times, rule 1 four times:</span>
+    <span class="identifier">FFFF</span>[<span class="symbol">-</span><span class="identifier">FF</span>[<span class="symbol">-</span><span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">FF</span>[<span class="symbol">-</span><span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">F</span>[<span class="symbol">-</span><span class="identifier">B</span><span class="symbol">]</span><span class="symbol">+</span><span class="identifier">B</span>        
+    <span class="comment">-- etc.</span>
+</pre>
+
+
+<p>Notice that any symbol that is not a predecessor of a production rule is passed through unchanged (it is not removed). </p>
+
+<h3><a name="turtle_graphics"></a>Turtle graphics</h3>
+
+<p>One of the simplest ways to use rewriting sytems for art and design is to interpret the produced strings as instructions for another program. The classic example is using them as instructions for a &ldquo;turtle graphics&rdquo; interpreter. </p>
+
+<p>For example, using the following system:</p>
+
+<pre>   <span class="comment">-- just one rule: replace "F" with "F+F--F+F"</span>
+    <span class="identifier">rules</span>[<span class="string">"F"</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="string">"F+F--F+F"</span>
+    <span class="comment">-- start with:</span>
+    <span class="identifier">S</span> <span class="symbol">=</span> <span class="string">"F"</span>
+</pre>
+
+
+<p>If we interpret the &ldquo;F&rdquo; symbol to mean &ldquo;move forward&rdquo;, and the &ldquo;+&rdquo; and &ldquo;&ndash;&rdquo; symbols to mean turn left and right by 60 degrees, then each successive application of this rule generates a successive iteration of the Koch curve fractal:</p>
+
+<p><img src="img/koch.jpg" alt="Iterations of the Koch curve fractal" /></p>
+
+<h4><a name="turtle_graphic_koch_curve_in_luaav"></a>Turtle graphic Koch curve in LuaAV</h4>
+
+<p>Setting up the start symbol and rules is straightforward:</p>
+
+<pre><span class="comment">-- start pattern:</span>
+<span class="keyword">local</span> <span class="identifier">S</span> <span class="symbol">=</span> <span class="string">"F"</span>
+
+<span class="comment">-- production rules:</span>
+<span class="keyword">local</span> <span class="identifier">rules</span> <span class="symbol">=</span> <span class="symbol">{</span>
+    <span class="identifier">F</span> <span class="symbol">=</span> <span class="string">"F+F--F+F"</span>,
+<span class="symbol">}</span>
+</pre>
+
+
+<p>The process to apply rules will need to construct a new string from an existing string, by working through and attempting to match any of the existing rules. For a simple, single-character grammar like this, the implementation is not too difficult:</p>
+
+<pre><span class="comment">-- apply production rules:</span>
+<span class="keyword">function</span> <span class="identifier">apply_production_rules</span><span class="symbol">(</span><span class="identifier">input</span><span class="symbol">)</span>
+    <span class="comment">-- create a list to store the output results:</span>
+    <span class="keyword">local</span> <span class="identifier">result</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+    <span class="comment">-- work through each character of the input string:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="symbol">#</span><span class="identifier">input</span> <span class="keyword">do</span>
+        <span class="comment">-- get the i'th character:</span>
+        <span class="keyword">local</span> <span class="identifier">c</span> <span class="symbol">=</span> <span class="identifier">input</span><span class="symbol">:</span><span class="identifier">sub</span><span class="symbol">(</span><span class="identifier">i</span>, <span class="identifier">i</span><span class="symbol">)</span>
+        <span class="comment">-- is there a corresponding rule?</span>
+        <span class="keyword">if</span> <span class="identifier">rules</span>[<span class="identifier">c</span><span class="symbol">]</span> <span class="keyword">then</span>
+            <span class="comment">-- append the result of the rule:</span>
+            <span class="identifier">result</span>[<span class="symbol">#</span><span class="identifier">result</span><span class="symbol">+</span><span class="number">1</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">rules</span>[<span class="identifier">c</span><span class="symbol">]</span>
+        <span class="keyword">else</span>
+            <span class="comment">-- append the unchanged character:</span>
+            <span class="identifier">result</span>[<span class="symbol">#</span><span class="identifier">result</span><span class="symbol">+</span><span class="number">1</span><span class="symbol">]</span> <span class="symbol">=</span> <span class="identifier">c</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="comment">-- now convert the result list into a single string:</span>
+    <span class="keyword">return</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-table.concat" target="_blank">table.concat</a></span><span class="symbol">(</span><span class="identifier">result</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>Interpreting a string for turtle graphics is a little more complex, as we first need to create a turtle with state. The state is the location of the turtle, and the direction it is facing:</p>
+
+<pre><span class="keyword">function</span> <span class="identifier">turtle_make</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="keyword">return</span> <span class="symbol">{</span>
+        <span class="identifier">location</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="number">0</span>, <span class="number">0</span><span class="symbol">)</span>,
+        <span class="identifier">direction</span> <span class="symbol">=</span> <span class="identifier">vec2</span><span class="symbol">(</span><span class="number">0.01</span>, <span class="number">0</span><span class="symbol">)</span>,
+    <span class="symbol">}</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<p>Then we can create a function to interpret a string by a turtle. Again, this is fairly easy here since we can simply progress character by character:</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">angle</span> <span class="symbol">=</span> <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-math.pi" target="_blank">math.pi</a></span> <span class="symbol">/</span> <span class="number">3</span>
+
+<span class="keyword">local</span> <span class="identifier">turtle</span> <span class="symbol">=</span> <span class="identifier">turtle_make</span><span class="symbol">(</span><span class="symbol">)</span>
+
+<span class="keyword">function</span> <span class="identifier">turtle_interpret</span><span class="symbol">(</span><span class="identifier">input</span><span class="symbol">)</span>
+    <span class="comment">-- work through each character of the input string:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="symbol">#</span><span class="identifier">input</span> <span class="keyword">do</span>
+        <span class="comment">-- get the i'th character:</span>
+        <span class="keyword">local</span> <span class="identifier">c</span> <span class="symbol">=</span> <span class="identifier">input</span><span class="symbol">:</span><span class="identifier">sub</span><span class="symbol">(</span><span class="identifier">i</span>, <span class="identifier">i</span><span class="symbol">)</span>
+        <span class="keyword">if</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"F"</span> <span class="keyword">then</span>
+            <span class="comment">-- move & draw turtle:</span>
+            <span class="keyword">local</span> <span class="identifier">p</span> <span class="symbol">=</span> <span class="identifier">turtle.location</span> <span class="symbol">+</span> <span class="identifier">turtle.direction</span>
+            <span class="identifier">draw2D.line</span><span class="symbol">(</span><span class="identifier">turtle.location.x</span>, <span class="identifier">turtle.location.y</span>, <span class="identifier">p.x</span>, <span class="identifier">p.y</span><span class="symbol">)</span>
+            <span class="identifier">turtle.location</span> <span class="symbol">=</span> <span class="identifier">p</span>
+        <span class="keyword">elseif</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"+"</span> <span class="keyword">then</span>
+            <span class="comment">-- turn turtle:</span>
+            <span class="identifier">turtle.direction</span><span class="symbol">:</span><span class="identifier">rotate</span><span class="symbol">(</span><span class="identifier">angle</span><span class="symbol">)</span>
+        <span class="keyword">elseif</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"-"</span> <span class="keyword">then</span>
+            <span class="comment">-- turn turtle:</span>
+            <span class="identifier">turtle.direction</span><span class="symbol">:</span><span class="identifier">rotate</span><span class="symbol">(</span><span class="symbol">-</span><span class="identifier">angle</span><span class="symbol">)</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<h3><a name="bracketed_systems"></a>Bracketed systems</h3>
+
+<p>By adding push <span class="string">&ldquo;[&rdquo;</span> and pop <span class="string">&ldquo;]&rdquo;</span> symbols to save/restore graphics state (position, orientation etc.), the graphics interpreter can render branched structures such as trees and ferns. The result is further improved by reducing the length of each line according to the bracketed recursion depth.</p>
+
+<p>To implement this in our script, we can create a new turtle when the &ldquo;[&rdquo; symbol appears, and return back to the previous turtle when the &ldquo;]&rdquo; symbol appears. We can do this via a stack of turtles. Remember, a stack is just a list to which we always add and remove at the end (the top).</p>
+
+<pre><span class="keyword">local</span> <span class="identifier">turtle_stack</span> <span class="symbol">=</span> <span class="symbol">{</span><span class="symbol">}</span>
+
+<span class="keyword">function</span> <span class="identifier">turtle_interpret</span><span class="symbol">(</span><span class="identifier">input</span><span class="symbol">)</span>
+    <span class="comment">-- work through each character of the input string:</span>
+    <span class="keyword">for</span> <span class="identifier">i</span> <span class="symbol">=</span> <span class="number">1</span>, <span class="symbol">#</span><span class="identifier">input</span> <span class="keyword">do</span>
+        <span class="comment">-- get the i'th character:</span>
+        <span class="keyword">local</span> <span class="identifier">c</span> <span class="symbol">=</span> <span class="identifier">input</span><span class="symbol">:</span><span class="identifier">sub</span><span class="symbol">(</span><span class="identifier">i</span>, <span class="identifier">i</span><span class="symbol">)</span>
+        <span class="comment">-- get the top-most turtle:</span>
+        <span class="keyword">local</span> <span class="identifier">turtle</span> <span class="symbol">=</span> <span class="identifier">turtle_stack</span>[<span class="symbol">#</span><span class="identifier">turtle_stack</span><span class="symbol">]</span>
+        <span class="keyword">if</span> <span class="identifier">turtle</span> <span class="symbol">==</span> <span class="keyword">nil</span> <span class="keyword">then</span> 
+            <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-error" target="_blank">error</a></span><span class="symbol">(</span><span class="string">"we ran out of turtles! maybe there are too many ']' symbols in "</span> <span class="symbol">..</span> <span class="identifier">input</span><span class="symbol">)</span> 
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"F"</span> <span class="keyword">then</span>
+            <span class="comment">-- move & draw turtle:</span>
+            <span class="keyword">local</span> <span class="identifier">p</span> <span class="symbol">=</span> <span class="identifier">turtle.location</span> <span class="symbol">+</span> <span class="identifier">turtle.direction</span>
+            <span class="identifier">draw2D.line</span><span class="symbol">(</span><span class="identifier">turtle.location.x</span>, <span class="identifier">turtle.location.y</span>, <span class="identifier">p.x</span>, <span class="identifier">p.y</span><span class="symbol">)</span>
+            <span class="identifier">turtle.location</span> <span class="symbol">=</span> <span class="identifier">p</span>
+        <span class="keyword">elseif</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"+"</span> <span class="keyword">then</span>
+            <span class="comment">-- turn turtle:</span>
+            <span class="identifier">turtle.direction</span><span class="symbol">:</span><span class="identifier">rotate</span><span class="symbol">(</span><span class="identifier">angle</span><span class="symbol">)</span>
+        <span class="keyword">elseif</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"-"</span> <span class="keyword">then</span>
+            <span class="comment">-- turn turtle:</span>
+            <span class="identifier">turtle.direction</span><span class="symbol">:</span><span class="identifier">rotate</span><span class="symbol">(</span><span class="symbol">-</span><span class="identifier">angle</span><span class="symbol">)</span>
+        <span class="keyword">elseif</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"["</span> <span class="keyword">then</span>
+            <span class="comment">-- push a new turtle:</span>
+            <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-table.insert" target="_blank">table.insert</a></span><span class="symbol">(</span><span class="identifier">turtle_stack</span>, <span class="identifier">turtle_make</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">)</span>
+        <span class="keyword">elseif</span> <span class="identifier">c</span> <span class="symbol">==</span> <span class="string">"]"</span> <span class="keyword">then</span>
+            <span class="comment">-- remove top-most turtle:</span>
+            <span class="global"><a href="http://www.lua.org/manual/5.1/manual.html#pdf-table.remove" target="_blank">table.remove</a></span><span class="symbol">(</span><span class="identifier">turtle_stack</span><span class="symbol">)</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> <span class="identifier">draw</span><span class="symbol">(</span><span class="symbol">)</span>
+    <span class="comment">-- re-initialize the stack of turtles with just one turtle:</span>
+    <span class="identifier">turtle_stack</span> <span class="symbol">=</span> <span class="symbol">{</span> <span class="identifier">turtle_make</span><span class="symbol">(</span><span class="symbol">)</span> <span class="symbol">}</span>
+    
+    <span class="identifier">turtle_interpret</span><span class="symbol">(</span><span class="identifier">lsystem_string</span><span class="symbol">)</span>
+<span class="keyword">end</span>
+</pre>
+
+
+<h3><a name="context_sensitive_formal_languages"></a>Context-sensitive formal languages</h3>
+
+<p>An alphabet and production rules specify a formal language. In 1959 Noam Chomsky identified a hierarchy of four types of formal languages. They rest on the concept of <em>terminal</em> and <em>non-terminal</em> symbols, where a symbol is terminal if it cannot be further rewritten. Nonterminal symbols, which can be further rewritten, are normally indicated using upper case letters (A, B, C) and terminal symbols by lowercase letters (a, b, c). </p>
+
+<p>Each set in the hierarchy contains those above it:</p>
+
+<ol>
+<li><strong>Regular (Type-3):</strong> the predecessors of rules are a single nonterminal, the successors are a single terminal possibly followed by a single nonterminal, e.g. A &ndash;> Ab or A &ndash;> B.</li>
+<li><strong>Context-free (Type-2):</strong> the predecessors are a single nonterminal, and the sucessors can be any string of terminals and nonterminals. </li>
+<li><strong>Context-sensitive (Type-1):</strong> the predecessors contain multiple symbols (including at least one nonterminal), and the sucessor is a copy with the nonterminal replaced by an arbitrary string of nonterminals. E.g. aBc &ndash;> aBbc, Ab &ndash;> aaab, abcD &ndash;> abcF, etc. They are therefore akin to Type-2 rules except with additional conditions regarding neighboring symbols (which remain unchanged).</li>
+<li><strong>Unrestricted (Type-0):</strong> predecessors and successors can both be any finite sequence of symbols without restriction.</li>
+</ol>
+
+
+<p>So far we have considered only regular and context-free formal languages, since we have been restricted to single nonterminal symbols on the left-hand side (predecessors). Clearly, as a biological model (where the string is the phenotype and the production rules are genotype), our system should be context sensitive. Context would imply environmental conditions as well as neighbor cell signaling. </p>
+
+<p>In order to support context-sensitive languages, we will need more powerful pattern-matching capabilities, and need extra care to handle ambiguous situations. E.g. we must be careful to consider longer patterns before shorter ones, to ensure that e.g. <span class="identifier">aba</span> matches a rule <span class="identifier">aba</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">abba</span> rather than the rule <span class="identifier">a</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">b</span>. That is, our set of rules must now form a list (rather than a set), which is ordered by <em>priority</em>. </p>
+
+<h3><a name="parametric_systems"></a>Parametric systems</h3>
+
+<p>A <strong>parametric</strong> L-system embeds parameters (such as line length and rotation angle) into the symbols, and sucessors may modify these parameter values. For example, the rule <span class="identifier">F</span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">)</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">F</span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">*</span><span class="number">2</span><span class="symbol">)</span> transforms a forward step into a forward step of twice the length.</p>
+
+<p>A <strong>conditional parametric</strong> L-system extends this to incorporate conditions, such that the subsitution only occurs if the condition is true. For example, <span class="identifier">F</span><span class="symbol">(</span><span class="identifier">x</span> <span class="symbol">:</span> <span class="identifier">x</span> <span class="symbol">&lt;</span> <span class="number">10</span><span class="symbol">)</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">F</span><span class="symbol">(</span><span class="identifier">x</span><span class="symbol">*</span><span class="number">2</span><span class="symbol">)</span> transforms a forward step into a forward step of twice the length, only if the initial length was less than 10. </p>
+
+<p>In both cases, our pattern matching system now needs to be able to handle classes of symbols (or at least, ignore anything between parentheses). </p>
+
+<h3><a name="stochastic_systems"></a>Stochastic systems</h3>
+
+<p>So far our systems are deterministic, and will always reproduce the same results after a fixed number of steps. To create a more natural-looking result, we can introduce non-determinism:</p>
+
+<ul>
+<li>Into the interpreter (by adding small deviations to the turtle, for example). This will remove the stark repetition, but still preserves topological symmetry.</li>
+<li>Into the production rules. This can generate new topologies. </li>
+</ul>
+
+
+<p>A <strong>stochastic</strong> L-system does the latter: for a given non-terminal predecessor, there may be several successor strings which are selected at random (possibly according to weights). Or, if the rules are listed by priority, each rule can have a probablity of being ignored.</p>
+
+<h2><a name="evo_devo"></a>Evo-Devo</h2>
+
+<p>L-Systems are difficult to predict and control: it is difficult to infer from an L-system definition and interpreter what the results will be, since (like cellular systems) the interactions are local but the consequences are global. Note that nature faces the same challenge: it cannot predict what changes to a genotype will result is viable or better phenotypes, and must proceed by trial and error (within the scope offered by development). Biologists exploring the mechanisms of development and generation of variation within it, and the relationship with evolutionary selection, work within the relatively new discipline of <em>evolutionary development</em> or &ldquo;evo-devo&rdquo;. </p>
+
+<p>The role of development in the generation of variation is equally important for artificial evolution, however it has been less thoroughly explored. Two lessons from the biologists:</p>
+
+<ul>
+<li>Development is not just a compact representation of a phenotype, but can be crucial to the generation of complex systems.</li>
+<li>The recent discovery that widely different species re-use the same developmental genes and mechanisms. This perhaps suggests that finding a good set of re-usable mechanisms for long-term evolvability (continuous generation of selectable novelty) is not an easy task. </li>
+<li>Development is not a one-way process, under command of the genome: factors in the environment can activate or inhibit parts of the genome (and parts of a genome can activate and inhibit other parts) in a complex <em>regulatory network</em>, and the state of the environment can affect the results of actions of the genome. In some cases the genome itself may not even be fixed. In part this environment is also inherited from an organisms' parents. </li>
+<li>Development is ultimately working within the limits of a physical, chemical system, with entropic tendencies, self-organizing potential, noisy behavior, etc.</li>
+</ul>
+
+
+<p>Artificial Evo-Devo systems could be categorized as follows:</p>
+
+<ul>
+<li>The developmental process is hand-written, and evolution only works on parameters for this system. This is amounts to a simple genotype-phenotype map. </li>
+<li>Mechanims of development are encoded in the genotype, but in a fixed sequence (a fixed order with a fixed number of applications). This is suitable for evolving optimal L-systems for a given pattern, for example.</li>
+<li>The genotype encodes the sequence of applications of hand-written development mechanisms, as used for example in genetic programming.</li>
+<li>Both the basic mechanisms and the sequence of applications are encoded in the genotype and are therefore subject to evolution. Obviously the space of exploration is much larger and less predictable, but the challenge of finding suitable primitives and representations is difficult.</li>
+</ul>
+
+
+<p>Whether it is parameters, sequence, mechanisms (or several) that are to be evolved, they must all be represented in the genome in forms that can be inherited, with additional mechanisms for generating variation (e.g. mutations). That is, each one of these elements must be represented symbolically as data (e.g. as strings, trees or matrices of symbols, which may be as low-level as binary form or as high-level as readable text). </p>
+
+<hr />
+
+<h2><a name="artificial_chemistries_and_programmable_media"></a>Artificial chemistries and programmable media</h2>
+
+<p>One of the most enduring questions facing biology (and artificial life) regards how life itself emerged from non-life, and how that boundary continues to be bridged (&ldquo;protobiology&rdquo;). The emergence of life has not yet been observed in physical materials, however there are many hypotheses offered. In general the problem is how life-like behavior and organization emerges from simpler physical chemical systems; or at the very least, how new orders of structure emerge from simpler chemical models. Artificial chemistries (AC) are systems with similarities to models of physics and chemistry which can be used to explore these speculative models with more rigor.</p>
+
+<p>AC&rsquo;s were proposed by John McCaskill, but probably the best known example (&ldquo;AlChemy&rdquo;) was created by Walter Fontana and Leo Buss, presented at the second Artificial Life conference. Hideaki Suzuki and Takashi Ikegami pursued the concept in Japan (with &ldquo;systems of machines and tapes&rdquo;, referencing von Neumann&rsquo;s early work). <a href="http://www.cs.mun.ca/%7Ebanzhaf/papers/alchemistry_review_MIT.pdf">Banzhaf, Dittrich and Ziegler present an excellent review here</a>. See also <a href="http://www.mitpressjournals.org/doi/abs/10.1162/artl.2009.15.1.15100?journalCode=artl">Artificial Chemistry. Hideaki Suzuki, Peter Dittrich. Artificial Life 2009, Vol. 15, No. 1.</a></p>
+
+<p>Typical an AC includes:</p>
+
+<ul>
+<li>A set <strong>S</strong> of possible molecule types. This set could be finite or infinite (as far as we know, the set of possible molecules in the universe is infinite.) Molecules could be represented in the program as symbols, character strings, numbers, lambda-expressions, trees, etc.</li>
+<li>A set <strong>R</strong> of possible reaction rules, in which input combinations of input molecules produce combinations of output molecules; e.g. <span class="identifier">A</span> <span class="symbol">+</span> <span class="identifier">B</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="number">2</span><span class="identifier">C</span> or <span class="identifier">A</span> <span class="symbol">+</span> <span class="number">2</span><span class="identifier">B</span> <span class="symbol">&ndash;</span><span class="symbol">></span> <span class="identifier">A</span> <span class="symbol">+</span> <span class="identifier">D</span>. Note that the second example is a <em>catalytic</em> reaction, since one of the inputs (<span class="identifier">A</span>) is preserved unchanged. A reaction may also have other conditions, such as ambient temperature; and may have an associated probability (&ldquo;rate constant&rdquo;) and energetic cost. </li>
+<li>A population <strong>P</strong> of molecules (drawn from <strong>S</strong>) that exist at any moment. </li>
+<li>An algorithm <strong>A</strong> specifying how to apply rules <strong>R</strong> to population <strong>P</strong> and thus update to the population of the next instant (<strong>P'</strong>). The algorithm could take into account spatial proximity, or it could assume that all chemicals rapidly disperse (the &ldquo;well-stirred reactor&rdquo; model), in which reactions are selected stochastically. On the other hand, if concentrations of molecules are represented as continuous numbers, differential equations may be used. </li>
+</ul>
+
+
+<p>The algorithm may also include a source and sink: the source is a continuous input of new (base) molecules, and a sink is a gradual removal of molecules to maintain population size. In addition, certain reactions may be filtered to make the whole system more interesting (e.g. discarding reactions that produce nothing more than one of their inputs).</p>
+
+<blockquote><p>There are clearly similarities with rewriting systems (where the active population is the item being rewritten, made of molecule <em>terms</em> and reaction <em>productions</em>). There can also be similarities found with evolutionary, cellular and dynamical systems. Alternatively, AC&rsquo;s can be viewed as a special case of agent systems, in which each agent belongs to a molecule-class, and reactions are a result of agent interacitons (in which interactions usually lead to the creation and destruction of agents). </p></blockquote>
+
+<p>The kinds of structures that can emerge include self-maintaining populations, auto-catalytic cycles, adaptive cycles, and so on. Artificial chemistries are also one possible attractive option to overcome the &lsquo;over-specified&rsquo; nature of most artificial evolutionary and / or developmental systems: a mechanism by which new features come into being, new behaviors, new sensors, new evolutionary pathways, even new modes of evolution. They have also been applied to optimization problems, and to the modeling of social systems. </p>
+
+<p>An important design choice is how to define the reaction rules. For a finite system these could be designed by hand (or to model a well-known physical system). For an infinite system they must be derived on demand; this could be done programatically according to reactant structures, in an approximation to molecule bonding mechanisms (or protein folding). For example, a simple demonstration AC uses integer division to define reactions: each molecule type is an integer (greater than one), and two molecules can react if they leave no remainder after division (the long-term behavior of this system tends to increase the concentration of prime numbers). Another possibility is to generate reactions and rates randomly as needed. </p>
+
+<p>Like artificial life, in artificial chemistries the assumption holds that organization (information) is the most essential component. One of the central insights stems from a clear analogy between life and computation: organisms are created by organisms, just as programs can create programs. Underlying this is the ease of mapping of code and data, mirroring a relationship between physical structure and behavior (form and function). Fontana exploited this directly by representing chemicals as LISP expressions, which react by processing other LISP expressions. Other authors have mapped binary strings into machine instructions for a virtual machine.</p>
+
+<h3><a name="virtual_machines_as_byte_code_ecosystems"></a>Virtual machines as byte-code ecosystems</h3>
+
+<p>The equivalence of code and data underlies the theory of computation itself. It is used widely today by any language <strong>interpreter</strong> (such as the Lua console program), which parses input code into a series of instructions, and interprets these instructions one by one to produce output behavior. As a result is behaves as if it was itself a computer. Programs such as these are called <strong>virtual machines</strong>. Even a turtle-graphics interpreter is a virtual machine.</p>
+
+<p>Since at least the early 1980&rsquo;s people have enjoyed creating virtual machines to explore the possibility of programs competing for control of the virtual machine processors and memory (see <a href="http://en.wikipedia.org/wiki/Core_War">Core War</a>). Ecologist Tom Ray was inspired to create a virtual machine in which the programs can evolve and modify each other, and found behaviors of symbiosis and parasitism. <a href="http://www.youtube.com/watch?v=Wl5rRGVD0QI">Documentary video</a></p>
+
+<p>Although byte-code systems are older, it has also been suggested that they are also a form of artificial chemistry, in which organisms are molecules (structured as binary sequences). </p>
+
+<p>Virus and anti-virus systems have been modeled in these terms, although they also draw upon theories of immune systems.</p>
+
+<!-- main@ --></div>
+
+
+
+<footer>
+&copy; 2008-2014 Graham Wakefield &amp; Wesley Smith. 
+</footer>
+
+</body>
+</html>
