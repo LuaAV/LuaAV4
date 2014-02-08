@@ -38,31 +38,17 @@
 
 <h2>Modules</h2>
 <ul>
-  <li><a href="../modules/audio.html">audio</a></li>
-  <li><a href="../modules/audio.html">audio</a></li>
-  <li><a href="../modules/audio.buffer.html">audio.buffer</a></li>
-  <li><a href="../modules/audio.buffer.html">audio.buffer</a></li>
-  <li><a href="../modules/coroutine.html">coroutine</a></li>
-  <li><a href="../modules/coroutine.html">coroutine</a></li>
-  <li><a href="../modules/debug.html">debug</a></li>
-  <li><a href="../modules/debug.html">debug</a></li>
+  <li><a href="../modules/Window.html">Window</a></li>
+  <li><a href="../modules/av.html">av</a></li>
   <li><a href="../modules/displaylist.html">displaylist</a></li>
   <li><strong>draw2D</strong></li>
+  <li><a href="../modules/field2D.html">field2D</a></li>
   <li><a href="../modules/gl.html">gl</a></li>
-  <li><a href="../modules/global.html">global</a></li>
-  <li><a href="../modules/global.html">global</a></li>
-  <li><a href="../modules/io.html">io</a></li>
-  <li><a href="../modules/io.html">io</a></li>
-  <li><a href="../modules/math.html">math</a></li>
-  <li><a href="../modules/math.html">math</a></li>
-  <li><a href="../modules/os.html">os</a></li>
-  <li><a href="../modules/os.html">os</a></li>
-  <li><a href="../modules/package.html">package</a></li>
-  <li><a href="../modules/package.html">package</a></li>
-  <li><a href="../modules/string.html">string</a></li>
-  <li><a href="../modules/string.html">string</a></li>
-  <li><a href="../modules/table.html">table</a></li>
-  <li><a href="../modules/table.html">table</a></li>
+  <li><a href="../modules/shader.html">shader</a></li>
+  <li><a href="../modules/vbo.html">vbo</a></li>
+  <li><a href="../modules/vec2.html">vec2</a></li>
+  <li><a href="../modules/vec3.html">vec3</a></li>
+  <li><a href="../modules/vec4.html">vec4</a></li>
 </ul>
 
 </div>
@@ -77,6 +63,15 @@
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#bounds">bounds&nbsp;(left, bottom, right, top)</a></td>
+	<td class="summary">Define the coordinate space of the window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#blend">blend&nbsp;(mode)</a></td>
+	<td class="summary">Enable or disable blending
+ call blend(false) to disable blending</td>
+	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#push">push&nbsp;()</a></td>
 	<td class="summary">Store the current transformation until the next pop()
@@ -150,6 +145,49 @@
 
     <h2><a name="Functions"></a>Functions</h2>
     <dl class="function">
+    <dt>
+    <a name = "bounds"></a>
+    <strong>bounds&nbsp;(left, bottom, right, top)</strong>
+    </dt>
+    <dd>
+    Define the coordinate space of the window
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">left</span>
+         the X-coordinate value of the left edge of the window (default -1)</li>
+        <li><span class="parameter">bottom</span>
+         the Y-coordinate value of the bottom edge of the window (default -1)</li>
+        <li><span class="parameter">right</span>
+         the X-coordinate value of the right edge of the window (default 1)</li>
+        <li><span class="parameter">top</span>
+         the Y-coordinate value of the top edge of the window (default 1)</li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "blend"></a>
+    <strong>blend&nbsp;(mode)</strong>
+    </dt>
+    <dd>
+    Enable or disable blending
+ call blend(false) to disable blending
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">mode</span>
+         blend mode (optional, default true)</li>
+    </ul>
+
+
+
+
+
+</dd>
     <dt>
     <a name = "push"></a>
     <strong>push&nbsp;()</strong>

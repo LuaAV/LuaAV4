@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>AV</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_shader">Class shader </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/Window.html">Window</a></li>
+  <li><a href="../modules/av.html">av</a></li>
+  <li><a href="../modules/displaylist.html">displaylist</a></li>
+  <li><a href="../modules/draw2D.html">draw2D</a></li>
+  <li><a href="../modules/field2D.html">field2D</a></li>
+  <li><a href="../modules/gl.html">gl</a></li>
+  <li><strong>shader</strong></li>
+  <li><a href="../modules/vbo.html">vbo</a></li>
+  <li><a href="../modules/vec2.html">vec2</a></li>
+  <li><a href="../modules/vec3.html">vec3</a></li>
+  <li><a href="../modules/vec4.html">vec4</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>shader</code></h1>
+
+<p>shader: Friendly wrapper for OpenGL GLSL shaders</p>
+<p></p>
+
+
+<h2><a href="#Class_shader">Class shader </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#shader:vertex">shader:vertex&nbsp;(code)</a></td>
+	<td class="summary">Add another chunk of GLSL code to the vertex shader:</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:fragment">shader:fragment&nbsp;(code)</a></td>
+	<td class="summary">Add another chunk of GLSL code to the fragment shader:</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:bind">shader:bind&nbsp;()</a></td>
+	<td class="summary">Bind the shader program (gl.UseProgram)
+ will compile/link the shader if required
+ will throw an error of shader fails to compile/link</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:unbind">shader:unbind&nbsp;()</a></td>
+	<td class="summary">Stop using this shader program (gl.UseProgram(0))</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:context_destroy">shader:context_destroy&nbsp;()</a></td>
+	<td class="summary">Release the shader program
+ (it will be recreated when next used)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:GetAttribLocation">shader:GetAttribLocation&nbsp;(k)</a></td>
+	<td class="summary">Get the attribute location (GLuint) for a shader attribute</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:uniform">shader:uniform&nbsp;(k, ...)</a></td>
+	<td class="summary">Set a shader uniform</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shader:attribute">shader:attribute&nbsp;(k, ...)</a></td>
+	<td class="summary">Set a shader attribute</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Class_shader"></a>Class shader </h2>
+        A shader program
+    <dl class="function">
+    <dt>
+    <a name = "shader:vertex"></a>
+    <strong>shader:vertex&nbsp;(code)</strong>
+    </dt>
+    <dd>
+    Add another chunk of GLSL code to the vertex shader:
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:fragment"></a>
+    <strong>shader:fragment&nbsp;(code)</strong>
+    </dt>
+    <dd>
+    Add another chunk of GLSL code to the fragment shader:
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:bind"></a>
+    <strong>shader:bind&nbsp;()</strong>
+    </dt>
+    <dd>
+    Bind the shader program (gl.UseProgram)
+ will compile/link the shader if required
+ will throw an error of shader fails to compile/link
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:unbind"></a>
+    <strong>shader:unbind&nbsp;()</strong>
+    </dt>
+    <dd>
+    Stop using this shader program (gl.UseProgram(0))
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:context_destroy"></a>
+    <strong>shader:context_destroy&nbsp;()</strong>
+    </dt>
+    <dd>
+    Release the shader program
+ (it will be recreated when next used)
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:GetAttribLocation"></a>
+    <strong>shader:GetAttribLocation&nbsp;(k)</strong>
+    </dt>
+    <dd>
+    Get the attribute location (GLuint) for a shader attribute
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">k</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         attribute name</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><span class="type">GLuint</span></span>
+        attribute location
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:uniform"></a>
+    <strong>shader:uniform&nbsp;(k, ...)</strong>
+    </dt>
+    <dd>
+    Set a shader uniform
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">k</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         uniform name</li>
+        <li><span class="parameter">...</span>
+         uniform values (numbers)</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shader:attribute"></a>
+    <strong>shader:attribute&nbsp;(k, ...)</strong>
+    </dt>
+    <dd>
+    Set a shader attribute
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">k</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         attribute name</li>
+        <li><span class="parameter">...</span>
+         attribute values (numbers)</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="../modules/shader.html#">shader</a></span>
+        self
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
